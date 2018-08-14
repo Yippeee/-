@@ -1,0 +1,211 @@
+<template>
+  <div class="index-page">
+    <div class="left-header">
+      <span class="header-name">系统运行情况</span>
+      <div class="card">
+        <el-progress type="circle" :percentage="75" color="#8e71c7" stroke-width="10" width="100"></el-progress>
+        <div class="card-content">
+          <p class="percent">75%</p>
+          <p>内存使用占比</p>
+        </div>
+      </div>
+      <div class="card">
+        <i class="icon-upload"></i>
+        <div class="card-content">
+          <p><span class="percent">1</span> M/s</p>
+          <p>平均上传速度</p>
+        </div>
+      </div>
+      <div class="card">
+        <i class="icon-domnload"></i>
+        <div class="card-content">
+          <p><span class="percent">1</span> M/s</p>
+          <p>平均下发速度</p>
+        </div>
+      </div>
+    </div>
+    <div class="right-header">
+      <div class="header">
+        <span class="header-name">事件提醒</span>
+        <span class="more">更多
+          <i class="el-icon-arrow-right"></i>
+        </span>
+      </div>
+      <div class="right-content">
+        <ul>
+          <li><el-badge is-dot class="item"><i class="icon-message"></i></el-badge><span class="li-info">如果说这就是在浪费时间的话</span><span class="li-time">06:33</span></li>
+          <li><el-badge is-dot class="item"><i class="icon-message"></i></el-badge><span class="li-info">如果说这就是在浪费时间的话</span><span class="li-time">06:33</span></li>
+          <li><el-badge is-dot class="item"><i class="icon-message"></i></el-badge><span class="li-info">如果说这就是在浪费时间的话</span><span class="li-time">06:33</span></li>
+        </ul>
+      </div>
+      <div class="right-controler">
+        <i class="el-icon-arrow-left" @click="turnLeft"></i>
+        <i class="el-icon-arrow-right" @click="turnRight"></i>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <span>内容商运行情况</span>
+      <el-table 
+      :data="dataList"
+      style="height:100%;"
+      height="100%">
+      <el-table-column
+          label="内容商"
+          width="260">
+      </el-table-column>
+      <el-table-column
+          label="容量使用占比"
+          width="260">
+      </el-table-column>
+      <el-table-column
+          label="上线平台数量"
+          prop="title"
+          width="260">
+      </el-table-column>
+      <el-table-column
+          label="日上线视频数"
+          prop="author_name"
+          width="260">
+      </el-table-column>
+      <el-table-column 
+          label="日发布视频量"
+          width="260">
+      </el-table-column>
+      <el-table-column
+          label="操作权限"
+          width="160">
+      </el-table-column>
+  </el-table>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {}
+  },
+  methods: {
+    turnLeft() {},
+    turnRight() {}
+  }
+};
+</script>
+<style lang="less" scoped>
+.index-page {
+  padding: 30px 20px 20px 20px;
+  .left-header {
+    position: relative;
+    display: inline-block;
+    width: 890px;
+    height: 140px;
+    padding: 60px 30px 30px 30px;
+    border: 1px solid #aaa;
+    background-color: #f9fafc;
+    .header-name {
+      position: absolute;
+      top: 20px;
+      font-weight: 700;
+      color: gray;
+    }
+    .card {
+      height: 100px;
+      background-color: #fff;
+      width: 246px;
+      padding: 20px;
+      display: inline-block;
+      border: 1px solid #aaa;
+      vertical-align: top;
+      .el-progress-circle {
+        width: 100px;
+        height: 100px;
+      }
+      .card-content {
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        left: 20px;
+        line-height: 48px;
+        .percent {
+          font-size: 48px;
+        }
+      }
+      i {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        background-size: 100px;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+  .right-header {
+    position: relative;
+    display: inline-block;
+    height: 230px;
+    width: 475px;
+    vertical-align: top;
+    margin-left: 10px;
+    border: 1px solid #aaa;
+    .header {
+      background-color: #f9fafc;
+      display: inline-block;
+      height: 45px;
+      width: 100%;
+      line-height: 45px;
+      .header-name {
+        font-size: 16px;
+        padding-left: 10px;
+        font-weight: 700;
+        color: gray;
+      }
+      .more {
+        position: absolute;
+        right: 15px;
+        cursor: pointer;
+      }
+    }
+    .right-content {
+      position: relative;
+      .el-badge {
+        margin-right: 10px;
+        display: inline-block;
+        height: 20px;
+        i {
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          background-size: 20px;
+          background-repeat: no-repeat;
+          position: relative;
+        }
+      }
+      li {
+        vertical-align: top;
+        height: 24px;
+        padding: 10px 20px;
+        .li-time {
+          position: absolute;
+          right: 15px;
+        }
+      }
+      span {
+        line-height: 24px;
+        font-size: 16px;
+      }
+    }
+    .right-controler {
+      position: absolute;
+      bottom: 10px;
+      text-align: center;
+      display: inline-block;
+      width: 100%;
+      i {
+        cursor: pointer;
+      }
+    }
+  }
+  .table-wrap {
+    padding-top: 20px;
+  }
+}
+</style>
