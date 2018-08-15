@@ -27,7 +27,7 @@
     <div class="right-header">
       <div class="header">
         <span class="header-name">事件提醒</span>
-        <span class="more">更多
+        <span class="more" @click="showMore">更多
           <i class="el-icon-arrow-right"></i>
         </span>
       </div>
@@ -45,54 +45,115 @@
     </div>
     <div class="table-wrap">
       <span>内容商运行情况</span>
-      <el-table 
-      :data="dataList"
-      style="height:100%;"
-      height="100%">
-      <el-table-column
-          label="内容商"
-          width="260">
-      </el-table-column>
-      <el-table-column
-          label="容量使用占比"
-          width="260">
-      </el-table-column>
-      <el-table-column
-          label="上线平台数量"
-          prop="title"
-          width="260">
-      </el-table-column>
-      <el-table-column
-          label="日上线视频数"
-          prop="author_name"
-          width="260">
-      </el-table-column>
-      <el-table-column 
-          label="日发布视频量"
-          width="260">
-      </el-table-column>
-      <el-table-column
-          label="操作权限"
-          width="160">
-      </el-table-column>
-  </el-table>
+      <div class="table-content">
+             <el-table
+              :data="dataList"
+              style="height:100%;"
+              height="100%">
+              <el-table-column
+                  label="内容商"
+                  width="260"
+                  prop="a"
+                  >
+              </el-table-column>
+              <el-table-column
+                  label="容量使用占比"
+                  width="260"
+                  prop="b"
+                  >
+              </el-table-column>
+              <el-table-column
+                  label="上线平台数量"
+                  width="260"
+                  prop="c"
+                  >
+              </el-table-column>
+              <el-table-column
+                  label="日上线视频数"
+                  width="260"
+                  prop="d"
+                  >
+              </el-table-column>
+              <el-table-column
+                  label="日发布视频量"
+                  width="260"
+                  prop="e"
+                  >
+              </el-table-column>
+              <el-table-column
+                  label="操作权限"
+                  width="160">
+                  <template slot-scope="scope">
+                    <el-switch
+                      active-color="#13ce66"
+                      inactive-color="#ff4949">
+                    </el-switch>
+                  </template>
+              </el-table-column>
+          </el-table>
+      </div>
     </div>
+      <div class="page-wrap">
+        <el-pagination
+            @size-change="changePageSize"
+            @current-change="changePageIdx"
+            :current-page="curPageIdx"
+            :page-sizes="pageSizes"
+            :page-size="curPageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="curTotal">
+        </el-pagination>
+      </div>
   </div>
 </template>
 <script>
 export default {
-  data() {
-    return {}
+  data () {
+    return {
+      curPageIdx: 1,
+      curPageSize: 50,
+      curTotal: 0,
+      pageSizes: [5,20,50,100],
+      dataList:[
+        {
+          a:12,
+          b:23,
+          c:34,
+          d:54,
+          e:435,
+
+        },
+        {
+          a:12,
+          b:23,
+          c:34,
+          d:54,
+          e:435,
+        },
+        {
+          a:12,
+          b:23,
+          c:34,
+          d:54,
+          e:435,
+        }
+      ]
+    }
   },
   methods: {
-    turnLeft() {},
-    turnRight() {}
+    turnLeft () {},
+    turnRight () {},
+    showMore () {
+      this.$router.push('moreinfo')
+    }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .index-page {
   padding: 30px 20px 20px 20px;
+  height: 100%;
+  box-sizing:border-box;
   .left-header {
     position: relative;
     display: inline-block;
@@ -206,6 +267,7 @@ export default {
   }
   .table-wrap {
     padding-top: 20px;
+    height: calc(~"100%  -  243px");
   }
 }
 </style>

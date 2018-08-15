@@ -7,6 +7,7 @@ import roleManager from '@/components/userManager/roleManager'
 import systemLog from '@/components/systemManager/systemLog'
 import configManager from '@/components/systemManager/configManager'
 import platformManager from '@/components/systemManager/platformManager'
+import moreinfo from '@/components/indexPage/moreinfo'
 
 Vue.use(Router)
 
@@ -20,7 +21,12 @@ export default new Router({
     {
       path: "/index",
       name: "首页",
-      component: index
+      component: index,
+    },
+    {        
+      path: '/moreinfo',
+      name: '更多信息',
+      component: moreinfo
     },
     {
       path: "/contenterManager",

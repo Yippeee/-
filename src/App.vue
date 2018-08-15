@@ -7,9 +7,9 @@
       </div>
       <!-- 导航提示 -->
       <el-breadcrumb class="router-tips" separator="/">
-        <!-- <el-breadcrumb-item v-for="b in bread" :to="b.path">{{b.name}}</el-breadcrumb-item> -->
-        <el-breadcrumb-item>1</el-breadcrumb-item>
-        <el-breadcrumb-item>2</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="b in bread" :to="b.path">{{b.name}}</el-breadcrumb-item>
+        <!-- <el-breadcrumb-item>1</el-breadcrumb-item>
+        <el-breadcrumb-item>2</el-breadcrumb-item> -->
       </el-breadcrumb>
       <div class="user">
         <i class="icon icon-single"></i>
@@ -41,7 +41,11 @@ export default {
   data () {
     return {
       isLogin: true,
-      username: "海贼王"
+      username: "海贼王",
+      bread: [{
+        name: "首页",
+        to: "index"
+      }]
     }
   },
   created () {
@@ -52,7 +56,7 @@ export default {
 
 <style lang="less" scoped>
 #app {
-  height: 100%;
+  height: calc(~"100% - 50px");
   padding-bottom: 40px;
 }
 .app-content {
@@ -83,11 +87,9 @@ export default {
 .content-wrap{
   position: relative;
   left: 240px;
-  top: 41px;
-  width: 100%;
-  // height: calc(100%-20px);
-  height: 100%;
-  // background: beige;
+  top: 40px;
+  width: calc(~"100% - 240px");
+  height: calc(~"100% - 40px");
 }
 .user{
   display: inline-block;
