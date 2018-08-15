@@ -3,13 +3,11 @@
     <div v-if="isLogin" class="app-content clearfix">
       <div class="menu-wrap">
         <menu-header></menu-header>
-        <menu-content></menu-content>
+        <menu-content @change="routerChange"></menu-content>
       </div>
       <!-- 导航提示 -->
-      <el-breadcrumb class="router-tips" separator="/">
+      <el-breadcrumb class="router-tips" separator=">">
         <el-breadcrumb-item v-for="b in bread" :to="b.path">{{b.name}}</el-breadcrumb-item>
-        <!-- <el-breadcrumb-item>1</el-breadcrumb-item>
-        <el-breadcrumb-item>2</el-breadcrumb-item> -->
       </el-breadcrumb>
       <div class="user">
         <i class="icon icon-single"></i>
@@ -50,6 +48,20 @@ export default {
   },
   created () {
     window.document.title = "内容分发系统"
+  },
+  methods:{
+    routerChange (routers) {
+      console.log("routers :"+routers);
+      // this.bread = routers;
+    }
+  },
+  watch:{
+    '$route':{
+      immediate: true,
+      handler (to, from) {
+        console.log('dfsdsf'+JSON.stringify(to)+JSON.stringify(from))
+      }
+    }
   }
 }
 </script>
@@ -84,36 +96,36 @@ export default {
   text-overflow: ellipsis;
   border-bottom: 1px solid #aaa;
 }
-.content-wrap{
+.content-wrap {
   position: relative;
   left: 240px;
   top: 40px;
   width: calc(~"100% - 240px");
   height: calc(~"100% - 40px");
 }
-.user{
+.user {
   display: inline-block;
   height: 40px;
   position: absolute;
   right: 120px;
-  span{
+  span {
     line-height: 40px;
     color: #1296db;
   }
 }
-.line{
+.line {
   position: absolute;
   height: 32px;
   top: 4px;
   right: 96px;
-  border-left: 2px solid rgb(233,237,240)
+  border-left: 2px solid rgb(233, 237, 240);
 }
-.logout{
+.logout {
   position: absolute;
   height: 40px;
   right: 20px;
   display: inline-block;
-  span{
+  span {
     line-height: 40px;
     color: #1296db;
   }

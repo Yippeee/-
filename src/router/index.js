@@ -15,7 +15,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "首页",
+      name: "默认",
       redirect: '/index'
     },
     {
