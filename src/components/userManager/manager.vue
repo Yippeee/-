@@ -1,7 +1,7 @@
 <template>
   <div class="manager">
     <div class="button-wrap">
-      <el-button type="primary">新建后台用户</el-button>
+      <el-button type="primary" @click="addDialogShow = true">新建后台用户</el-button>
       <el-button type="primary">编辑</el-button>
       <el-button type="primary">删除</el-button>
     </div>
@@ -57,13 +57,45 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="curTotal">
         </el-pagination>
-      </div>
+    </div>
+   <el-dialog
+      title="新增后台用户"
+      :visible.sync="addDialogShow"
+      width="45%%"
+      :before-close="handleClose">
+      <el-form label-width="100px" :inline="true">
+        <el-form-item label="用户姓名:" prop="id">
+            <el-input ></el-input>
+        </el-form-item>
+        <el-form-item label="登录名:" prop="id" class="marginMore">
+            <el-input ></el-input>
+        </el-form-item>
+        <el-form-item label="用户角色:" prop="id">
+            <el-select v-model="value" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="邮箱:" prop="id">
+            <el-input ></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addDialogShow = false">取 消</el-button>
+        <el-button type="primary" @click="addDialogShow   = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
+      addDialogShow: false,
       curPageIdx: 1,
       curPageSize: 50,
       curTotal: 0,
@@ -91,7 +123,17 @@ export default {
           d:54,
           e:435,
         }
-      ]
+      ],
+      options:[{
+          value: '选项1',
+          label: '超级管理员'
+        },{
+          value: '选项1',
+          label: '普通管理员'
+        },{
+          value: '选项1',
+          label: '用户'
+        }, ]
     }
   }
 }
@@ -108,20 +150,10 @@ export default {
     height: calc(~"100% - 102px");
     .el-table{
       border: 1px solid #ebebeb;
-      i{
-        cursor: pointer;
-        color: #20a0ff;
-        display: inline-block;
-        width: 15px;
-        height: 15px;
-        background-size: 15px;
-        background-repeat: no-repeat;
-        &:hover{
-          color: #1d8ce0;
-          transform: scale(1.1);
-        }
-      }
     }
   }
+}
+.marginMore {
+  margin-left: 14px
 }
 </style>
