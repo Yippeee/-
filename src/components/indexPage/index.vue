@@ -3,7 +3,7 @@
     <div class="left-header">
       <span class="header-name">系统运行情况</span>
       <div class="card">
-        <el-progress type="circle" :percentage="75" color="#8e71c7" stroke-width=10 width=100></el-progress>
+        <el-progress type="circle" :percentage="75" color="#8e71c7" stroke-width='10' width='100'></el-progress>
         <div class="card-content">
           <p class="percent">75%</p>
           <p>内存使用占比</p>
@@ -104,6 +104,7 @@
             :total="curTotal">
         </el-pagination>
       </div>
+      <router-view></router-view>
   </div>
 </template>
 <script>
@@ -144,7 +145,7 @@ export default {
     turnLeft () {},
     turnRight () {},
     showMore () {
-      this.$router.push('moreinfo')
+      this.$router.push({path:'index/moreinfo'})
     },
     changePageSize (s) {
       this.pageSizes = s

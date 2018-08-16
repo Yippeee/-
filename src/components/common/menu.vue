@@ -1,11 +1,11 @@
 <template>
 <div class="menu-content">
   <el-menu>
-    <router-link class="el-menu-item" index="1" tag="li" to="index">
+    <router-link class="el-menu-item" index="1" tag="li" to="/index">
       <i class="el-icon-menu"></i>
       <span>首页</span>
     </router-link>
-    <router-link class="el-menu-item" index="2" tag="li" to="contenterManager">
+    <router-link class="el-menu-item" index="2" tag="li" to="/contenterManager">
         <i class="el-icon-menu"></i>
         <span>内容商管理</span>
     </router-link>
@@ -26,10 +26,10 @@
           <span>后台用户</span>
         </template>
         <div class="child_el">
-          <router-link class="el-menu-item" index="3-1" tag="li" to="manager">
+          <router-link class="el-menu-item" index="3-1" tag="li" to="/userManager/manager">
           <span>管理员</span>
           </router-link>
-          <router-link class="el-menu-item" index="3-2" tag="li" to="roleManager">
+          <router-link class="el-menu-item" index="3-2" tag="li" to="/userManager/roleManager">
            <span>角色管理</span>
           </router-link>
         </div>
@@ -40,13 +40,13 @@
           <span>系统管理</span>
         </template>
         <div class="child_el">
-          <router-link class="el-menu-item" index="4-1" tag="li" to="systemLog">
+          <router-link class="el-menu-item" index="4-1" tag="li" to="/systemManager/systemLog">
            <span>系统日志</span>
           </router-link>
-          <router-link class="el-menu-item" index="4-2" tag="li" to="configManager">
+          <router-link class="el-menu-item" index="4-2" tag="li" to="/systemManager/configManager">
            <span>配置管理</span>
           </router-link>
-          <router-link class="el-menu-item" index="4-3" tag="li" to="platformManager">
+          <router-link class="el-menu-item" index="4-3" tag="li" to="/systemManager/platformManager">
            <span>发布平台管理</span>
           </router-link>
         </div>

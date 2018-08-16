@@ -1,3 +1,3 @@
 <template>
-  <div class="content-manager"></div>
+  <div class="content-manager">cccccccc</div>
 </template>

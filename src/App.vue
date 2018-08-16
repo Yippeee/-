@@ -40,14 +40,63 @@ export default {
     return {
       isLogin: true,
       username: "海贼王",
+      routerMap: {},
       bread: [{
         name: "首页",
-        to: "index"
+        to: "/index"
       }]
     }
   },
   created () {
     window.document.title = "内容分发系统"
+    let routes = this.$router.options.routes;
+    for(let i in routes){
+      let item = routes[i]
+      let name = item.name
+      // console.log(i + name)
+      if(name !== ''){
+        if(!item.children){
+          // console.log("ch不存在的："+name)
+          let arr = []
+          arr.push({
+            name: name,
+            to: item.path
+          })
+          this.routerMap[name] = arr
+          // console.log(name)
+        }else{
+          // console.log("ch存在的： "+item.name)
+          for(let ch_index in item.children){
+            name = item.name
+            let ch_item = item.children[ch_index]
+            let arr = []
+            arr.push({
+              name: name,
+              to: item.path
+            })
+            this.routerMap[name] = arr
+            console.log("arr:"+JSON.stringify(arr) + "name:" +name)
+            name = ch_item.name
+            let arr2 = arr.slice(0)
+            arr2.push({
+              name: name,
+              to: ch_item.path
+            })
+            console.log("arr2:"+JSON.stringify(arr2) + "name:" +name)
+            this.routerMap[name] = arr2
+          }
+        }
+      }
+    }
+    // if(this.$router){
+    // const list = this.$router.options.routes;
+    // // console.log('list: ' +  JSON.stringify(list))
+    // for(let item in list){
+    //   // console.log(list[item])
+    // }
+    // }else{
+    //   // console.log('this.$router 不存在')
+    // }
   },
   methods:{
     routerChange (routers) {
@@ -57,9 +106,12 @@ export default {
   },
   watch:{
     '$route':{
-      immediate: true,
       handler (to, from) {
-        console.log('dfsdsf'+JSON.stringify(to)+JSON.stringify(from))
+        console.log(this.routerMap)
+        const path = to.path;
+        const name = to.name;
+        this.bread = this.routerMap[name]
+        console.log('dfsdsf: '+to.name+'  path:'+to.path)
       }
     }
   }

@@ -1,0 +1,159 @@
+//list
+[
+  {
+    "path": "/index",
+    "name": "首页",
+    "component": {
+      "methods": {},
+      "staticRenderFns": [
+        null,
+        null,
+        null
+      ],
+      "_compiled": true,
+      "_scopeId": "data-v-30b95712",
+      "beforeCreate": [
+        null,
+        null
+      ],
+      "__file": "src\\components\\indexPage\\index.vue",
+      "beforeDestroy": [
+        null
+      ],
+      "_Ctor": {}
+    },
+    "children": [
+      {
+        "path": "moreinfo",
+        "name": "更多信息",
+        "component": {
+          "staticRenderFns": [],
+          "_compiled": true,
+          "_scopeId": "data-v-0f359d6e",
+          "beforeCreate": [
+            null,
+            null
+          ],
+          "__file": "src\\components\\indexPage\\moreinfo.vue",
+          "beforeDestroy": [
+            null
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "path": "/contenterManager",
+    "name": "内容商管理",
+    "component": {
+      "staticRenderFns": [],
+      "_compiled": true,
+      "__file": "src\\components\\contenterManager\\contenterManager.vue",
+      "beforeCreate": [
+        null
+      ],
+      "beforeDestroy": [
+        null
+      ]
+    }
+  },
+  {
+    "path": "/userManager",
+    "name": "后台用户",
+    "component": {
+      "staticRenderFns": [],
+      "_compiled": true,
+      "__file": "src\\components\\userManager\\userManager.vue",
+      "beforeCreate": [
+        null
+      ],
+      "beforeDestroy": [
+        null
+      ]
+    },
+    "redirect": {
+      "name": "管理员"
+    },
+    "children": [
+      {
+        "path": "manager",
+        "name": "管理员",
+        "component": {
+          "__file": "src\\components\\userManager\\manager.vue"
+        }
+      },
+      {
+        "path": "roleManager",
+        "name": "角色管理",
+        "component": {
+          "__file": "src\\components\\userManager\\roleManager.vue"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/systemManager",
+    "name": "系统管理",
+    "component": {
+      "staticRenderFns": [],
+      "_compiled": true,
+      "__file": "src\\components\\systemManager\\systemManager.vue",
+      "beforeCreate": [
+        null
+      ],
+      "beforeDestroy": [
+        null
+      ]
+    },
+    "redirect": {
+      "name": "系统日志"
+    },
+    "children": [
+      {
+        "path": "systemLog",
+        "name": "系统日志",
+        "component": {
+          "staticRenderFns": [],
+          "_compiled": true,
+          "__file": "src\\components\\systemManager\\systemLog.vue",
+          "beforeCreate": [
+            null
+          ],
+          "beforeDestroy": [
+            null
+          ]
+        }
+      },
+      {
+        "path": "configManager",
+        "name": "配置管理",
+        "component": {
+          "staticRenderFns": [],
+          "_compiled": true,
+          "__file": "src\\components\\systemManager\\configManager.vue",
+          "beforeCreate": [
+            null
+          ],
+          "beforeDestroy": [
+            null
+          ]
+        }
+      },
+      {
+        "path": "platformManager",
+        "name": "发布平台管理",
+        "component": {
+          "staticRenderFns": [],
+          "_compiled": true,
+          "__file": "src\\components\\systemManager\\platformManager.vue",
+          "beforeCreate": [
+            null
+          ],
+          "beforeDestroy": [
+            null
+          ]
+        }
+      }
+    ]
+  }
+]

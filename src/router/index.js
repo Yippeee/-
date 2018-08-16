@@ -8,6 +8,8 @@ import systemLog from '@/components/systemManager/systemLog'
 import configManager from '@/components/systemManager/configManager'
 import platformManager from '@/components/systemManager/platformManager'
 import moreinfo from '@/components/indexPage/moreinfo'
+import systemManager from '@/components/systemManager/systemManager'
+import userManager from '@/components/userManager/userManager'
 
 Vue.use(Router)
 
@@ -15,18 +17,20 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "默认",
-      redirect: '/index'
+      name: "",
+      redirect: {name : '首页'}
     },
     {
       path: "/index",
       name: "首页",
       component: index,
-    },
-    {        
-      path: '/moreinfo',
-      name: '更多信息',
-      component: moreinfo
+      children:[
+        {        
+          path: 'moreinfo',
+          name: '更多信息',
+          component: moreinfo
+        },
+      ]
     },
     {
       path: "/contenterManager",
@@ -36,6 +40,8 @@ export default new Router({
     {
       path: '/userManager',
       name: '后台用户',
+      component:userManager,
+      redirect: {name: '管理员'},
       children: [
         {
           path: "manager",
@@ -52,6 +58,8 @@ export default new Router({
     {
       path: '/systemManager',
       name: "系统管理",
+      component:systemManager,
+      redirect: {name: '系统日志'},
       children: [
         {
           path: 'systemLog',
