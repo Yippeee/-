@@ -53,19 +53,15 @@ export default {
     for(let i in routes){
       let item = routes[i]
       let name = item.name
-      // console.log(i + name)
       if(name !== ''){
         if(!item.children){
-          // console.log("ch不存在的："+name)
           let arr = []
           arr.push({
             name: name,
             to: item.path
           })
           this.routerMap[name] = arr
-          // console.log(name)
         }else{
-          // console.log("ch存在的： "+item.name)
           for(let ch_index in item.children){
             name = item.name
             let ch_item = item.children[ch_index]
@@ -75,37 +71,22 @@ export default {
               to: item.path
             })
             this.routerMap[name] = arr
-            console.log("arr:"+JSON.stringify(arr) + "name:" +name)
             name = ch_item.name
             let arr2 = arr.slice(0)
             arr2.push({
               name: name,
               to: ch_item.path
             })
-            console.log("arr2:"+JSON.stringify(arr2) + "name:" +name)
             this.routerMap[name] = arr2
           }
         }
       }
     }
-    // if(this.$router){
-    // const list = this.$router.options.routes;
-    // // console.log('list: ' +  JSON.stringify(list))
-    // for(let item in list){
-    //   // console.log(list[item])
-    // }
-    // }else{
-    //   // console.log('this.$router 不存在')
-    // }
-  },
-  methods:{
-    routerChange (routers) {
-      console.log("routers :"+routers);
-      // this.bread = routers;
-    }
   },
   watch:{
     '$route':{
+      immediate:true,
+      deep:true,
       handler (to, from) {
         console.log(this.routerMap)
         const path = to.path;

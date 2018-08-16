@@ -44,7 +44,7 @@
       </div>
     </div>
     <div class="table-wrap">
-      <span>内容商运行情况</span>
+      <span class="wrap-name">内容商运行情况</span>
       <div class="table-content">
              <el-table
               :data="dataList"
@@ -70,19 +70,16 @@
               </el-table-column>
               <el-table-column
                   label="日上线视频数"
-                  width="260"
                   prop="d"
                   >
               </el-table-column>
               <el-table-column
                   label="日发布视频量"
-                  width="260"
                   prop="e"
                   >
               </el-table-column>
               <el-table-column
-                  label="操作权限"
-                  width="160">
+                  label="操作权限">
                   <template slot-scope="scope">
                     <el-switch
                       active-color="#13ce66"
@@ -167,8 +164,8 @@ export default {
     width: 890px;
     height: 140px;
     padding: 60px 30px 30px 30px;
-    border: 1px solid #aaa;
-    background-color: #f9fafc;
+    border: 1px solid #eef1f6;
+    background-color: #FAFAFA;
     .header-name {
       position: absolute;
       top: 20px;
@@ -181,7 +178,7 @@ export default {
       width: 246px;
       padding: 20px;
       display: inline-block;
-      border: 1px solid #aaa;
+      border: 1px solid #eef1f6;
       vertical-align: top;
       .el-progress-circle {
         width: 100px;
@@ -213,9 +210,9 @@ export default {
     width: 475px;
     vertical-align: top;
     margin-left: 10px;
-    border: 1px solid #aaa;
+    border: 1px solid #eef1f6;
     .header {
-      background-color: #f9fafc;
+      background-color: #EFF2F7;
       display: inline-block;
       height: 45px;
       width: 100%;
@@ -273,6 +270,13 @@ export default {
     }
   }
   .table-wrap {
+    .wrap-name{
+      display: inline-block;
+      font-weight: 700;
+      height: 40px;
+      line-height: 40px;
+      color: #475669;
+    }
     padding-top: 20px;
     height: calc(~"100%  -  243px");
   }

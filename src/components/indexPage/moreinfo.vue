@@ -67,10 +67,10 @@ export default {
     ul{
       margin: 10px;
       box-sizing: border-box;
-      border: 1px solid gray;
+      border: 1px solid #c1c1c1;
       li{
         padding:10px;
-        border-bottom: 1px solid gray;
+        border-bottom: 1px solid #c1c1c1;
         position: relative;
         i{
           display: inline-block;
