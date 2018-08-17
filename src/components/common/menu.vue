@@ -9,7 +9,7 @@
         <i class="menu-contenter menu-icon"></i>
         <span>内容商管理</span>
     </router-link>
-    <el-submenu index="2">
+    <!-- <el-submenu index="2">
       <template slot="title">
           <i class="menu-report menu-icon"></i>
           <span>统计报表</span>
@@ -19,7 +19,7 @@
             <el-menu-item index="2-2"><span>收视统计</span></el-menu-item>
             <el-menu-item index="2-3"><span>资源统计</span></el-menu-item>
           </div>
-    </el-submenu>
+    </el-submenu> -->
     <el-submenu index="3">
       <template slot="title">
           <i class="menu-backend menu-icon"></i>
@@ -65,7 +65,6 @@ export default {}
     .el-menu-item {
       height: 56px;
       background: #20a0ff;
-      color: white;
       span {
         padding-left: 30px;
         font-size: 16px;
@@ -76,6 +75,9 @@ export default {}
         color: white;
       }
       &:hover {
+        background: #1d8ce0;
+      }
+      &.router-link-exact-active{
         background: #1d8ce0;
       }
     }
@@ -91,7 +93,7 @@ export default {}
           color: white;
         }
         &:hover {
-          background: black;
+          background-color: #58b7ff;
         }
       }
       i {
@@ -109,7 +111,8 @@ export default {}
     }
   }
 }
+
 .el-submenu__title:hover {
-  background: black;
+	background-color: #20A0FF;
 }
 </style>

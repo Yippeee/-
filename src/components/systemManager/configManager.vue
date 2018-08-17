@@ -66,6 +66,7 @@ export default {
   .card-border{
     padding: 30px;
     border: 1px solid #ebeef5;
+    margin-bottom: 30px;
     .margin-p{
       margin-top: 20px;
     }
