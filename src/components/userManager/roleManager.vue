@@ -104,7 +104,7 @@ export default {
         statistics:[],
         backendUser:[],
         roleManage:[],
-        flag:true,
+        flag:false,
         roleName:'普通管理员'
       })
 		},
@@ -112,11 +112,11 @@ export default {
       this.adminlist.splice(index,1)
 		},
 		handleEdit (index) {
-      this.adminlist[index].flag = false
+      this.adminlist[index].flag = true
     },
     confirmChange (index) {
       // this.adminlist[index].roleName = 
-      this.adminlist[index].flag = true      
+      this.adminlist[index].flag = false      
     }
 	}
 }
@@ -151,7 +151,7 @@ export default {
 				}
 				.button-right {
 					padding-top: 7px;
-					display: inline-block;
+					// display: inline-block;
 					float: right;
 					.delete-button {
 						margin-left: 20px;

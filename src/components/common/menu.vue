@@ -2,16 +2,16 @@
 <div class="menu-content">
   <el-menu>
     <router-link class="el-menu-item" index="1" tag="li" to="/index">
-      <i class="el-icon-menu"></i>
+      <i class="menu-index menu-icon"></i>
       <span>首页</span>
     </router-link>
     <router-link class="el-menu-item" index="2" tag="li" to="/contenterManager">
-        <i class="el-icon-menu"></i>
+        <i class="menu-contenter menu-icon"></i>
         <span>内容商管理</span>
     </router-link>
     <el-submenu index="2">
       <template slot="title">
-          <i class="el-icon-location"></i>
+          <i class="menu-report menu-icon"></i>
           <span>统计报表</span>
         </template>
           <div class="child_el">
@@ -22,7 +22,7 @@
     </el-submenu>
     <el-submenu index="3">
       <template slot="title">
-          <i class="el-icon-location"></i>
+          <i class="menu-backend menu-icon"></i>
           <span>后台用户</span>
         </template>
         <div class="child_el">
@@ -36,7 +36,7 @@
     </el-submenu>
         <el-submenu index="4">
       <template slot="title">
-          <i class="el-icon-location"></i>
+          <i class="menu-sys menu-icon"></i>
           <span>系统管理</span>
         </template>
         <div class="child_el">

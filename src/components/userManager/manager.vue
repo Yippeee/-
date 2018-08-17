@@ -1,9 +1,9 @@
 <template>
   <div class="manager">
     <div class="button-wrap">
-      <el-button type="primary" @click="addDialogShow = true">新建后台用户</el-button>
-      <el-button type="primary">编辑</el-button>
-      <el-button type="primary">删除</el-button>
+      <el-button type="primary" @click="addDialogShow = true"><i class="el-icon-circle-plus-outline"></i>新建后台用户</el-button>
+      <el-button type="primary"><i class="el-icon-edit-outline"></i>编辑</el-button>
+      <el-button type="primary"><i class="el-icon-circle-close-outline" @click="visible2 = true"></i>删除</el-button>
     </div>
     <div class="table-wrap">
       <div class="table-content">
