@@ -1,48 +1,54 @@
 <template>
   <div class="index-page">
-    <div class="left-header">
-      <span class="header-name">系统运行情况</span>
-      <div class="card">
-        <el-progress type="circle" :percentage="75" color="#8e71c7" stroke-width='10' width='100'></el-progress>
-        <div class="card-content">
-          <p class="percent">75%</p>
-          <p>内存使用占比</p>
+    <div class="header">
+      <div class="left-header">
+        <span class="header-name">系统运行情况</span>
+        <div class="card">
+          <el-progress type="circle" :percentage="75" color="#8e71c7" stroke-width='10' width='100'></el-progress>
+          <div class="card-content">
+            <p class="percent">75%</p>
+            <p>内存使用占比</p>
+          </div>
+        </div>
+        <div class="card">
+          <i class="icon-upload"></i>
+          <div class="card-content">
+            <p><span class="percent">1</span> M/s</p>
+            <p>平均上传速度</p>
+          </div>
+        </div>
+        <div class="card">
+          <i class="icon-domnload"></i>
+          <div class="card-content">
+            <p><span class="percent">1</span> M/s</p>
+            <p>平均下发速度</p>
+          </div>
         </div>
       </div>
-      <div class="card">
-        <i class="icon-upload"></i>
-        <div class="card-content">
-          <p><span class="percent">1</span> M/s</p>
-          <p>平均上传速度</p>
+      <div class="right-header">
+        <div class="header">
+          <span class="header-name">事件提醒</span>
+          <span class="more" @click="showMore">更多
+            <i class="el-icon-arrow-right"></i>
+          </span>
         </div>
-      </div>
-      <div class="card">
-        <i class="icon-domnload"></i>
-        <div class="card-content">
-          <p><span class="percent">1</span> M/s</p>
-          <p>平均下发速度</p>
+        <div class="right-content">
+          <ul>
+            <li v-for="item in lilistReal">
+              <el-badge v-if="item.isnew" is-dot class="item"><i  class="icon-message"></i></el-badge>
+              <i v-else class="icon-message"></i>
+              <span class="li-info">{{item.info}}</span>
+              <span class="li-time">{{item.time}}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="right-controler">
+          <i class="el-icon-arrow-left" @click="rightPage = 0"></i>
+          <i class="el-icon-arrow-right" @click="rightPage = 1"></i>
         </div>
       </div>
     </div>
-    <div class="right-header">
-      <div class="header">
-        <span class="header-name">事件提醒</span>
-        <span class="more" @click="showMore">更多
-          <i class="el-icon-arrow-right"></i>
-        </span>
-      </div>
-      <div class="right-content">
-        <ul>
-          <li><el-badge is-dot class="item"><i class="icon-message"></i></el-badge><span class="li-info">如果说这就是在浪费时间的话</span><span class="li-time">06:33</span></li>
-          <li><el-badge is-dot class="item"><i class="icon-message"></i></el-badge><span class="li-info">如果说这就是在浪费时间的话</span><span class="li-time">06:33</span></li>
-          <li><el-badge is-dot class="item"><i class="icon-message"></i></el-badge><span class="li-info">如果说这就是在浪费时间的话</span><span class="li-time">06:33</span></li>
-        </ul>
-      </div>
-      <div class="right-controler">
-        <i class="el-icon-arrow-left" @click="turnLeft"></i>
-        <i class="el-icon-arrow-right" @click="turnRight"></i>
-      </div>
-    </div>
+
     <div class="table-wrap">
       <span class="wrap-name">内容商运行情况</span>
       <div class="table-content">
@@ -52,19 +58,19 @@
               height="100%">
               <el-table-column
                   label="内容商"
-                  width="260"
+                  max-width="260"
                   prop="a"
                   >
               </el-table-column>
               <el-table-column
                   label="容量使用占比"
-                  width="260"
+                  max-width="260"
                   prop="b"
                   >
               </el-table-column>
               <el-table-column
                   label="上线平台数量"
-                  width="260"
+                  max-width="260"
                   prop="c"
                   >
               </el-table-column>
@@ -82,8 +88,11 @@
                   label="操作权限">
                   <template slot-scope="scope">
                     <el-switch
+                      v-model="scope.row.right"
                       active-color="#13ce66"
-                      inactive-color="#ff4949">
+                      inactive-color="#ff4949"
+                      active-value="100"
+                      inactive-value="0">
                     </el-switch>
                   </template>
               </el-table-column>
@@ -111,6 +120,7 @@ export default {
       curPageIdx: 1,
       curPageSize: 50,
       curTotal: 0,
+      rightPage:0,
       pageSizes: [5,20,50,100],
       dataList:[
         {
@@ -119,7 +129,7 @@ export default {
           c:34,
           d:54,
           e:435,
-
+          right:''
         },
         {
           a:12,
@@ -127,6 +137,7 @@ export default {
           c:34,
           d:54,
           e:435,
+          right:''
         },
         {
           a:12,
@@ -134,8 +145,55 @@ export default {
           c:34,
           d:54,
           e:435,
+          right:''
         }
-      ]
+      ],
+      lilist:[
+        {
+          info:'如果说这就是在浪费时间的话',
+          time:'06:33',
+          isnew:true
+        },
+        {
+          info:'如果说这就是在浪费时间的话',
+          time:'06:33',
+          isnew:false
+        },
+        {
+          info:'如果说这就是在浪费时间的话',
+          time:'06:33',
+          isnew:true
+        },
+        {
+          info:'如果这都不算爱',
+          time:'17:33',
+          isnew:false
+        },
+        {
+          info:'如果这都不算爱2',
+          time:'17:33',
+          isnew:true
+        },
+        {
+          info:'如果这都不算爱3',
+          time:'17:33',
+          isnew:true
+        },
+      ],
+      lilistReal:[],
+    }
+  },
+  created () {
+    this.lilistReal = this.lilist.slice(0,3)
+  },
+  watch: {
+    rightPage (value) {
+      if(value === 0){
+        this.lilistReal = this.lilist.slice(0,3)
+      }
+      if(value === 1){
+        this.lilistReal = this.lilist.slice(3,6)
+      }
     }
   },
   methods: {
@@ -236,13 +294,16 @@ export default {
         display: inline-block;
         height: 20px;
         i {
-          display: inline-block;
           width: 20px;
-          height: 20px;
-          background-size: 20px;
-          background-repeat: no-repeat;
-          position: relative;
         }
+      }
+      i {
+        display: inline-block;
+        width: 30px;
+        height: 20px;
+        background-size: 20px;
+        background-repeat: no-repeat;
+        position: relative;
       }
       li {
         vertical-align: top;

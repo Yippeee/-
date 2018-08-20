@@ -114,7 +114,7 @@ export default {
 .menu-wrap {
   width: 174px;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: hidden;
   background-color: #20a0ff;
   color: #fff;
   position: absolute;
@@ -138,7 +138,8 @@ export default {
   top: 40px;
   width: calc(~"100% - 174px");
   height: calc(~"100% - 40px");
-  white-space: nowrap;
+  // white-space: nowrap;
+  min-width: 1500px;
 }
 .user {
   display: inline-block;

@@ -60,7 +60,10 @@ export default {}
 <style scoped lang="less">
 /* 重写el-menu样式 */
 .menu-content {
+  box-sizing: border-box;
   padding-top: 30px;
+  overflow-x: hidden;
+  height: 100%;
   .el-menu {
     background: #20a0ff;
     .el-menu-item {

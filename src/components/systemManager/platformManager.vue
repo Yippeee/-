@@ -12,23 +12,23 @@
           height="100%">
           <el-table-column
             type="selection"
-            width="55">
+            max-width="55">
           </el-table-column>
           <el-table-column
               label="序号"
-              width="160"
+              max-width="160"
               prop="a"
               >
           </el-table-column>
           <el-table-column
               label="运营商名称"
-              width="300"
+              max-width="300"
               prop="b"
               >
           </el-table-column>
           <el-table-column
               label="合作状态"
-              width="280"
+              max-width="280"
               prop="c"
               >
           </el-table-column>
@@ -39,7 +39,7 @@
           </el-table-column>
           <el-table-column
               label="所属区域"
-              width="280"
+              max-width="280"
               prop="e"
               >
           </el-table-column>
@@ -68,7 +68,7 @@
     <el-dialog
       title="新增发布平台"
       :visible.sync="addDialogShow"
-      width="45%%"
+      width="45%"
       :before-close="handleClose">
       <el-form label-width="100px" :inline="true">
         <el-form-item label="运营商名称:" prop="id">
@@ -188,7 +188,10 @@ export default {
 .block-el-form{
   display: block;
   .el-input{
-    width: 728px!important;
+    width: 628px!important;
   }
+}
+.marginMore{
+  margin-left: 13px;
 }
 </style>

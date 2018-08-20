@@ -22,35 +22,35 @@
           height="100%">
           <el-table-column
             type="selection"
-            width="55">
+            max-width="55">
           </el-table-column>
           <el-table-column
               label="序号"
-              width="160"
+              max-width="160"
               prop="a"
               >
           </el-table-column>
           <el-table-column
               label="内容商名称"
-              width="260"
+              max-width="260"
               prop="b"
               >
           </el-table-column>
           <el-table-column
               label="英文名称"
-              width="260"
+              max-width="260"
               prop="c"
               >
           </el-table-column>
           <el-table-column
               label="合作商类型"
-              width="260"
+              max-width="260"
               prop="d"
               >
           </el-table-column>
           <el-table-column
               label="媒资容量(G)"
-              width="260"
+              max-width="260"
               prop="e"
               >
           </el-table-column>
@@ -59,7 +59,7 @@
           </el-table-column>
           <el-table-column
               label="操作"
-              width="160">
+              max-width="160">
               <template slot-scope="scope">
                 <i class="el-icon-edit-outline"></i>
                 <i class="el-icon-delete"></i>

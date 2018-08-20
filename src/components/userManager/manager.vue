@@ -13,29 +13,29 @@
           height="100%">
           <el-table-column
             type="selection"
-            width="55">
+            max-width="55">
           </el-table-column>
           <el-table-column
               label="序号"
-              width="160"
+              max-width="160"
               prop="a"
               >
           </el-table-column>
           <el-table-column
               label="用户名称"
-              width="260"
+              max-width="260"
               prop="b"
               >
           </el-table-column>
           <el-table-column
               label="登录名"
-              width="260"
+              max-width="260"
               prop="c"
               >
           </el-table-column>
           <el-table-column
               label="用户角色"
-              width="260"
+              max-width="260"
               prop="d"
               >
           </el-table-column>
@@ -61,7 +61,7 @@
    <el-dialog
       title="新增后台用户"
       :visible.sync="addDialogShow"
-      width="45%%"
+      width="45%"
       :before-close="handleClose">
       <el-form label-width="100px" :inline="true">
         <el-form-item label="用户姓名:" prop="id">

@@ -21,23 +21,23 @@
           height="100%">
           <el-table-column
             type="selection"
-            width="55">
+            max-width="55">
           </el-table-column>
           <el-table-column
               label="序号"
-              width="160"
+              max-width="160"
               prop="a"
               >
           </el-table-column>
           <el-table-column
               label="操作人"
-              width="260"
+              max-width="260"
               prop="b"
               >
           </el-table-column>
           <el-table-column
               label="内容商"
-              width="260"
+              max-width="260"
               prop="c"
               >
           </el-table-column>
@@ -48,7 +48,7 @@
           </el-table-column>
           <el-table-column
               label="操作时间"
-              width="130"
+              max-width="130"
               prop="e"
               >
           </el-table-column>
