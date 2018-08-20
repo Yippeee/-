@@ -18,7 +18,7 @@ export default {
 .header-title {
   p {
     height: 60px;
-    line-height: 60px;
+    line-height: 76px;
     font-size: 20px;
     color: #fff;
     padding: 0 20px;

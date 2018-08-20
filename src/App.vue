@@ -109,7 +109,7 @@ export default {
   height: 100%;
 }
 .menu-wrap {
-  width: 240px;
+  width: 174px;
   height: 100%;
   overflow-y: auto;
   background-color: #20a0ff;
@@ -118,7 +118,7 @@ export default {
 }
 .el-breadcrumb {
   position: absolute;
-  left: 260px;
+  left: 194px;
   right: 20px;
   top: 0;
   padding-left: 20px;
@@ -131,10 +131,11 @@ export default {
 }
 .content-wrap {
   position: relative;
-  left: 240px;
+  left: 174px;
   top: 40px;
-  width: calc(~"100% - 240px");
+  width: calc(~"100% - 174px");
   height: calc(~"100% - 40px");
+  white-space: nowrap;
 }
 .user {
   display: inline-block;

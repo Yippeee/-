@@ -60,13 +60,14 @@ export default {}
 <style scoped lang="less">
 /* 重写el-menu样式 */
 .menu-content {
+  padding-top: 30px;
   .el-menu {
     background: #20a0ff;
     .el-menu-item {
       height: 56px;
       background: #20a0ff;
       span {
-        padding-left: 30px;
+        // padding-left: 30px;
         font-size: 16px;
         line-height: 56px;
         color: white;
@@ -85,7 +86,7 @@ export default {}
       .el-submenu__title {
         span {
           color: white;
-          padding-left: 30px;
+          // padding-left: 30px;
           text-align: center;
           font-size: 16px;
         }
@@ -105,7 +106,7 @@ export default {}
     }
     .child_el {
       span {
-        padding-left: 50px;
+        padding-left: 20px;
         font-size: 14px;
       }
     }
