@@ -6,8 +6,12 @@ import router from './router'
 import ElementUI from 'element-ui'
 // eslint-disable-next-line
 import '!style-loader!css-loader!less-loader!@/assets/css/main.less'
+import util from './assets/js/util';
 
 Vue.config.productionTip = false
+
+Vue.use(util)
+
 Vue.use(ElementUI)
 /* eslint-disable no-new */
 new Vue({

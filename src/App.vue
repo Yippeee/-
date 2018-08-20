@@ -82,17 +82,20 @@ export default {
         }
       }
     }
+    this.bread = this.routerMap[this.util.getCookies("bread")]
   },
   watch:{
     '$route':{
       immediate:true,
       deep:true,
       handler (to, from) {
-        console.log(this.routerMap)
         const path = to.path;
         const name = to.name;
         this.bread = this.routerMap[name]
-        console.log('dfsdsf: '+to.name+'  path:'+to.path)
+        if(this.bread){
+          let length = this.bread.length-1
+          this.util.setCookie('bread',this.bread[length].name)
+        }
       }
     }
   }

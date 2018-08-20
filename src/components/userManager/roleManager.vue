@@ -98,7 +98,7 @@ export default {
 		handleAddUser() {
       this.adminlist.push({
         videoUploadList:[],
-        videoPublish:[],
+        videoLab:[],
         videoPublish:[],
         videoCheck:[],
         statistics:[],
@@ -112,11 +112,11 @@ export default {
       this.adminlist.splice(index,1)
 		},
 		handleEdit (index) {
-      this.adminlist[index].flag = true
+      this.adminlist[index].flag = false
     },
     confirmChange (index) {
       // this.adminlist[index].roleName = 
-      this.adminlist[index].flag = false      
+      this.adminlist[index].flag = true      
     }
 	}
 }
