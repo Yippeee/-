@@ -10,6 +10,8 @@ import platformManager from '@/components/systemManager/platformManager'
 import moreinfo from '@/components/indexPage/moreinfo'
 import systemManager from '@/components/systemManager/systemManager'
 import userManager from '@/components/userManager/userManager'
+import posterEditor from '@/components/videocheck/posterEditor'
+import tocheck from '@/components/videocheck/tocheck'
 
 Vue.use(Router)
 
@@ -77,6 +79,16 @@ export default new Router({
           component: platformManager
         }
       ]
+    },
+    {
+      path: "/posterEditor",
+      name: "内容商管理",
+      component: posterEditor
+    },
+    {
+      path: "/tocheck",
+      name: "待审核列表",
+      component: tocheck
     }
   ]
 })

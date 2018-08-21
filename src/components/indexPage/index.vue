@@ -43,8 +43,8 @@
           </ul>
         </div>
         <div class="right-controler">
-          <i class="el-icon-arrow-left" @click="rightPage = 0"></i>
-          <i class="el-icon-arrow-right" @click="rightPage = 1"></i>
+          <i class="el-icon-arrow-left" :class="{blueI : rightPage == 1}" @click="rightPage = 0"></i>
+          <i class="el-icon-arrow-right" :class="{blueI : rightPage == 0}" @click="rightPage = 1"></i>
         </div>
       </div>
     </div>
@@ -325,9 +325,6 @@ export default {
       text-align: center;
       display: inline-block;
       width: 100%;
-      i {
-        cursor: pointer;
-      }
     }
   }
   .table-wrap {
@@ -341,5 +338,9 @@ export default {
     padding-top: 20px;
     height: calc(~"100%  -  243px");
   }
+}
+.blueI{
+  color: #20a0ff;
+  cursor: pointer;
 }
 </style>

@@ -34,7 +34,7 @@
           </router-link>
         </div>
     </el-submenu>
-        <el-submenu index="4">
+    <el-submenu index="4">
       <template slot="title">
           <i class="menu-sys menu-icon"></i>
           <span>系统管理</span>
@@ -51,6 +51,14 @@
           </router-link>
         </div>
     </el-submenu>
+    <router-link class="el-menu-item" index="5" tag="li" to="/tocheck">
+      <i class="menu-contenter menu-icon"></i>
+      <span>待审核列表</span>
+    </router-link>
+    <router-link class="el-menu-item" index="6" tag="li" to="/posterEditor">
+      <i class="menu-contenter menu-icon"></i>
+      <span>海报编辑</span>
+    </router-link>
   </el-menu>
 </div>
 </template>
