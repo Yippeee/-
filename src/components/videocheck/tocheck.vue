@@ -4,7 +4,7 @@
       <div class="table-wrap">
         <div class="table-content">
           <el-table
-            style="width: 100%;min-height:400px">
+            style="width: 100%;min-height:600px">
             <el-table-column
               type="selection"
               width="30">
@@ -66,7 +66,7 @@
         <p class="header">海报检查</p>
         <div class="poster-content el-scrollbar">
           <el-scrollbar style="height:100%">
-            <p>320x400竖版海报尺寸</p>
+            <p>320x400竖版海报尺寸 <i class="icon-pencil icon"></i> </p>
             <div class="imgDiv">
               <img src="../../assets/example.jpg" alt="">
               <span>320x400</span>
@@ -79,12 +79,12 @@
               <img src="../../assets/logo.png" alt="">
               <span>320x400</span>
             </div>
-            <p>500x280竖版海报尺寸</p>
+            <p>500x280竖版海报尺寸 <i class="icon-pencil icon"></i></p>
             <div class="imgDiv">
               <img src="../../assets/example.jpg" alt="">
               <span>500x280</span>
             </div>
-            <p>1280x720</p>
+            <p>1280x720 <i class="icon-pencil icon"></i></p>
             <div class="imgDiv">
               <img src="../../assets/logo.png" alt="">
               <span>1280x720</span>
@@ -122,7 +122,9 @@ export default {
   .left-table{
     display: inline-block;
     flex: 0 0 230px;
-    border: 1px solid #eef1f6;
+    .table-wrap{
+      border: 1px solid #eef1f6;
+    }
   }
   .right-table{
     display: inline-block;
