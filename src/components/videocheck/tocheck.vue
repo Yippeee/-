@@ -52,7 +52,10 @@
         </div>
         <!-- 视频检查 -->
         <p class="header">视频检查</p>
-        <video src=""></video>
+        <video width="320" height="240" controls>
+          <source src="../../assets/demo.mp4" type="video/mp4">
+          您的浏览器不支持 HTML5 video 标签。
+        </video>
         <div class="checksuggest">
           <span>检查意见</span>
           <div class="line"></div>
@@ -65,7 +68,7 @@
           <el-scrollbar style="height:100%">
             <p>320x400竖版海报尺寸</p>
             <div class="imgDiv">
-              <img src="../../assets/logo.png" alt="">
+              <img src="../../assets/example.jpg" alt="">
               <span>320x400</span>
             </div>
             <div class="imgDiv">
@@ -78,7 +81,7 @@
             </div>
             <p>500x280竖版海报尺寸</p>
             <div class="imgDiv">
-              <img src="../../assets/logo.png" alt="">
+              <img src="../../assets/example.jpg" alt="">
               <span>500x280</span>
             </div>
             <p>1280x720</p>
@@ -126,7 +129,11 @@ export default {
     vertical-align: top;
     flex: 1;
     margin-left: 12px;
+    height: 100%;
+    // overflow-y: scroll;
     .right-table-content{
+      height: 100%;
+      // overflow-y: scroll;
       border: 1px solid #eef1f6;
       p.header{
         display: inline-block;
@@ -206,6 +213,13 @@ export default {
         width: 92px;
       }
     }
+  }
+  video{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width:710px;
+    height: 400px;
   }
 }
 </style>

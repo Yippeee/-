@@ -23,18 +23,22 @@
       </div>
     </div>
     <login v-else></login>
+
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import menuHeader from "@/components/common/header"
 import menuContent from "@/components/common/menu"
+import AppFooter from "@/components/common/AppFooter";
 
 export default {
   name: "App",
   components: {
     menuHeader,
-    menuContent
+    menuContent,
+    AppFooter
   },
   data () {
     return {
@@ -104,8 +108,10 @@ export default {
 
 <style lang="less" scoped>
 #app {
-  height: calc(~"100% - 50px");
+  // height: calc(~"100% - 50px");
+  height: 100%;
   padding-bottom: 40px;
+  overflow: hidden;
 }
 .app-content {
   position: relative;
@@ -138,6 +144,8 @@ export default {
   top: 40px;
   width: calc(~"100% - 174px");
   height: calc(~"100% - 40px");
+  // overflow-y: scroll;
+  overflow-x: hidden;
   // white-space: nowrap;
   min-width: 1500px;
 }

@@ -336,7 +336,7 @@ export default {
       color: #475669;
     }
     padding-top: 20px;
-    height: calc(~"100%  -  243px");
+    height: calc(~"100%  -  250px");
   }
 }
 .blueI{
