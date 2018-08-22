@@ -132,7 +132,8 @@
                   </el-checkbox-group>
               </el-form-item>
               <el-form-item label="权限平台:" class="authority clearfix">
-                  <el-checkbox-group >
+                <el-checkbox-group >
+                  <el-scrollbar style="height:100%">
                     <el-checkbox label="内容提供商" name="type"></el-checkbox>
                     <el-checkbox label="服务提供商" name="type"></el-checkbox>
                     <el-checkbox label="直播提供商" name="type"></el-checkbox>
@@ -145,7 +146,8 @@
                     <el-checkbox label="服务提供商" name="type"></el-checkbox>
                     <el-checkbox label="直播提供商" name="type"></el-checkbox>
                     <el-checkbox label="版权提供商" name="type"></el-checkbox>
-                  </el-checkbox-group>
+                  </el-scrollbar>  
+                </el-checkbox-group>
               </el-form-item>
             </el-form>
           </el-tab-pane>
@@ -288,10 +290,10 @@ export default {
 .authority{
   position: relative;
   .el-checkbox-group{
-    width: 57%;
+    width: 65%;
     height: 100px;
     box-sizing: border-box;
-    overflow-y: scroll; 
+    // overflow-y: scroll; 
     position: relative;
     left: 100px;
     top: -40px;

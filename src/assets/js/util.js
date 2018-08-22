@@ -27,7 +27,9 @@ const util = {
       return null;
     }
 }
-
+const http = {
+  
+}
 export default{
   install : function(vm) {
     vm.prototype.util = util
