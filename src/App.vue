@@ -1,14 +1,17 @@
 <template>
   <div id="app" class="clearfix">
     <div v-if="isLogin" class="app-content clearfix">
+      <!-- 左侧menu信息 -->
       <div class="menu-wrap">
         <menu-header></menu-header>
         <menu-content @change="routerChange"></menu-content>
       </div>
+
       <!-- 导航提示 -->
       <el-breadcrumb class="router-tips" separator=">">
         <el-breadcrumb-item v-for="b in bread" :to="b.path">{{b.name}}</el-breadcrumb-item>
       </el-breadcrumb>
+      <!-- 头部信息 -->
       <div class="user">
         <i class="icon icon-single"></i>
         <span class="user-name">{{username}}</span>
@@ -18,12 +21,15 @@
         <i class="icon icon-logout"></i>
         <span>退出</span>
       </div>
+
+      <!-- 内容区域 -->
       <div class="content-wrap">
         <router-view></router-view>
       </div>
     </div>
     <login v-else></login>
 
+    <!-- 版权申请区域 -->
     <app-footer></app-footer>
   </div>
 </template>
@@ -108,7 +114,6 @@ export default {
 
 <style lang="less" scoped>
 #app {
-  // height: calc(~"100% - 50px");
   height: 100%;
   padding-bottom: 40px;
   overflow: hidden;

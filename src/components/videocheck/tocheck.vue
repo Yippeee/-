@@ -11,8 +11,11 @@
             </el-table-column>
             <el-table-column
               label="节目名称"
-              width="200"
-            ></el-table-column>
+              width="200">
+            <template slot="do">
+              <el-button type="primary">一键通过</el-button>
+            </template>
+            </el-table-column>
           </el-table>
         </div>
       </div>
@@ -192,7 +195,7 @@ export default {
       videoChecked:[],
       videoInfoChecked:'',
       programChecked:'',
-      activeNames:['1','2','3']
+      activeNames:['1','2','3','4']
     }
   }
 }

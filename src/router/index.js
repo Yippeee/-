@@ -12,6 +12,12 @@ import systemManager from '@/components/systemManager/systemManager'
 import userManager from '@/components/userManager/userManager'
 import posterEditor from '@/components/videocheck/posterEditor'
 import tocheck from '@/components/videocheck/tocheck'
+/** 
+ * indexPage 首页
+ * contenterManager 内容商管理
+ * systemManager 后台用户
+ * systemManager 系统管理
+*/
 
 Vue.use(Router)
 

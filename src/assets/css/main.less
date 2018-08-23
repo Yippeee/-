@@ -38,6 +38,45 @@ body{
   padding-left: 10px;
   background-color: #eef1f6;
 }
+//TODO: 海报编辑界面需要加上的全局样式
+.el-upload-list__item.is-ready{
+ overflow: visible;
+}
+.el-upload-list__item.is-ready::after{
+  content: attr(imgName);
+  position: relative;
+  left: 50px;
+  top:-12px;
+}
+.el-upload-list__item-preview{
+  display: none
+}
+.el-upload-list--picture-card .el-upload-list__item-actions:hover .el-upload-list__item-preview{
+  display: none
+}
+.posterEditor{
+  .el-dialog__header{
+    border-bottom: 1px solid #d7dbde
+  }
+  .el-dialog__body{
+    height: 460px;
+  }
+  .el-dialog__footer{
+    border-top: 1px solid #d7dbde
+  }
+}
+// .el-upload-list__item-actions{
+//   height: 18%;
+//   right: 0;
+//   bottom: 0;
+//   cursor: default;
+//   text-align: right;
+//   color: #fff;
+//   opacity: 0;
+//   font-size: 17px;
+//   background-color: rgba(0,0,0,.4);
+// }
+
 /*
 **表格相关css配置 #eef1f6
 */
