@@ -213,7 +213,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .index-page {
-  padding: 30px 20px 20px 20px;
+  padding: 20px;
   height: 100%;
   box-sizing:border-box;
   .left-header {

@@ -124,14 +124,14 @@ export default {
 
 <style lang="less" scoped>
 .admin-list {
-	margin-top: 30px;
+	margin-bottom: 30px;
 	width: 100%;
 	.list {
 		margin-top: 10px;
 		width: 100%;
 		.admin-info {
 			width: 100%;
-			margin-bottom: 10px;
+			margin-top: 10px;
 			.title {
 				height: 28px;
 				line-height: 28px;
@@ -207,7 +207,7 @@ export default {
 	}
 }
 .role-wrap{
-  padding: 40px;
+  padding: 20px;
 }
 
 </style>

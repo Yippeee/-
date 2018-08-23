@@ -7,7 +7,7 @@
       }" 
       @callback="afterEditPoster">
     </image-editor> -->
-    <canvas id="canvas" style="width:300px;height:300px">浏览器不支持HTML5</canvas>
+    <canvas id="canvas">浏览器不支持HTML5</canvas>
     <img src="../../assets/logo.png" alt="">
     <img id="demo" alt="">
   </div>
@@ -35,7 +35,7 @@ export default {
     img.onload = function(){
       console.log('dsfffffffffff')
 
-      ctx.drawImage(img,10,10);
+      ctx.drawImage(img,10,10,200,200);
       console.log('dsfffffffffff')
       ctx.beginPath();
       ctx.moveTo(30,96);

@@ -22,17 +22,17 @@
       <p class="margin-p">
         <el-radio v-model="intime" label="2">定时下发:</el-radio> 
         <span class="p-name span-margin">发布次数</span>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="publishTime" placeholder="请选择" :disabled="intime == 1">
           <el-option
             v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            :label="item"
+            :value="item">
           </el-option>
         </el-select>
         <span class="p-name span-margin">发布时间</span>
         <el-time-select
           v-model="value1"
+          :disabled="intime == 1"
           :picker-options="{
             start: '08:30',
             step: '00:15',
@@ -50,14 +50,16 @@ export default {
     return {
       radio:'',
       time:'',
-      intime:''
+      intime:'2',
+      publishTime:'',
+      options:[1,2,3]
     }
   }
 }
 </script>
 <style lang="less" scoped>
 .configManager{
-  padding: 30px;
+  padding: 20px;
   h1{
     font-weight: 700;
     color: #475669;

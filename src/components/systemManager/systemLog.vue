@@ -82,9 +82,9 @@ export default {
 .systemLog{
   box-sizing: border-box;
   height: 100%;
-  padding: 30px;
+  padding: 20px;
   .control-wrap{
-    height: 30px;
+    height: 40px;
     margin-bottom: 30px;
   }
   .table-wrap{
