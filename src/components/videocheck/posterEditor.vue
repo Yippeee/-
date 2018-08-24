@@ -48,15 +48,46 @@
             </el-upload>
           </div>
           <!-- 选择尺寸（图片裁剪界面） -->
-          <div v-if="nowStep == 4" class="choose-size">
+          <div v-if="nowStep == 4" class="choose-size" ref="forthStep">
             <div class="left-preview">
-              水电费第三个
+              <p class="p-header">海报预览</p>
+              <div class="preview-content-wrap">
+                <el-scrollbar style="height:100%">
+                <div class="preview-content" @click="showToEditor($event)">
+                  <el-collapse v-model="activeNames" @change="handleChange" >
+                    <el-collapse-item title="320x400横版海报" name="1">
+                      <img src="../../assets/logo.png" >
+                      <img src="../../assets/example.jpg" > 
+                    </el-collapse-item>
+                    <el-collapse-item title="250x400横版海报" name="2">
+                      <img src="../../assets/logo.png" >
+                      <img src="../../assets/logo.png" > 
+                    </el-collapse-item>
+                    <el-collapse-item title="420x300横版海报" name="3">
+                      <div>简化流程：设计简洁直观的操作流程；</div>
+                      <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
+                      <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
+                    </el-collapse-item>
+                    <el-collapse-item title="1320x900横版海报" name="4">
+                      <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
+                      <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+                    </el-collapse-item>
+                  </el-collapse>
+                </div>
+                </el-scrollbar>
+              </div>
             </div>
             <div class="center-editor">
-              cccccccccccccccc
+              <canvas ref="canvas1"></canvas>
+              <img :src="editorSrc" alt="" style="width:156px;height:156px">
             </div>
             <div class="right-handle">
-              rrrrrrrrrrr
+              <p class="p-header">设配尺寸</p>
+                <el-checkbox-group v-model="sizecheckList">
+                  <el-checkbox label="250x250"></el-checkbox>
+                  <el-checkbox label="320x400"></el-checkbox>
+                  <el-checkbox label="1280x980"></el-checkbox>
+                </el-checkbox-group>
             </div>
           </div>
         </el-scrollbar>
@@ -95,7 +126,10 @@ export default {
       dialogImageUrl: "",
       dialogVisible2: true,
       uploadData: {},
-      fileArray: []
+      fileArray: [],
+      activeNames:['1','2'],
+      sizecheckList:[],
+      editorSrc:''
     };
   },
   methods: {
@@ -137,29 +171,42 @@ export default {
       }
     },
     nextStep() {
-      // this.nowStep++;
-      let formData = new FormData();
-      // let file = this.fileArray[0]
-      let url = ''
-      if(this.fileArray.length === 1){
-        url = 'http://192.168.21.29:8099/poster/poster/upload'
-      }else if(this.fileArray.length > 1){
-        url = 'http://192.168.21.29:8099/poster/posters/upload'
-      }
-      this.fileArray.forEach(item => {
-        formData.append("file", item);
-      })
-      formData.append("widthList", 400);
-      formData.append("heightList", 400);
-      formData.append("seriesId", 1);
-      formData.append("videoNumber", 1);
+      if(this.nowStep == 2){
+        let formData = new FormData();
+        // let file = this.fileArray[0]
+        let url = ''
+        if(this.fileArray.length === 1){
+          url = 'http://192.168.21.29:8099/poster/poster/upload'
+        }else if(this.fileArray.length > 1){
+          url = 'http://192.168.21.29:8099/poster/posters/upload'
+        }
+        this.fileArray.forEach(item => {
+          formData.append("file", item);
+        })
+        formData.append("widthList", 400);
+        formData.append("heightList", 400);
+        formData.append("seriesId", 1);
+        formData.append("videoNumber", 1);
 
-      let config = {
-          headers:{'Content-Type':'multipart/form-data'}
-      }; 
-      Axios.post(url,formData,config).then((response) => {
-        console.log(response.data.msg)
-      })
+        let config = {
+            headers:{'Content-Type':'multipart/form-data'}
+        }; 
+        Axios.post(url,formData,config).then((response) => {
+          console.log(response.data.msg)
+        })
+      }
+
+      this.nowStep++;
+    },
+    showToEditor (e) {
+      if(e.target.nodeName == "IMG"){
+        let a = this.$refs["forthStep"].getElementsByClassName("active")[0];
+        if (a) {
+          a.className = "";
+        }
+        this.editorSrc = e.target.src;
+        e.target.className = "active";
+      }
     }
   },
   watch: {
@@ -192,8 +239,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .poster-content {
-  height: 420px;
-  overflow-y: auto;
+  height: 460px;
+  overflow-y: hidden;
   .imgDiv {
     display: inline-block;
     width: 140px;
@@ -215,6 +262,9 @@ export default {
   p {
     color: #909399;
     font-size: 16px;
+    i{
+      cursor: pointer;
+    }
   }
 }
 .alter {
@@ -226,23 +276,64 @@ export default {
 }
 .choose-size {
   display: inline-block;
-  height: 100%;
+  height: 450px;
+  font-size: 0;
   .left-preview {
     display: inline-block;
     width: 160px;
     background-color: #fff;
+    font-size: 16px;
+    height: 100%;
+    .preview-content-wrap{
+      display: inline-block;
+      width: 100%;
+      height: 434px;
+      // overflow-y: scroll;
+      .preview-content{
+        display: inline-block;
+        height: 600px;
+      }
+    }
+    img{
+      width: 150px;
+      height: 150px;
+      &.active {
+        border: 3px solid #22a2ff;
+        border-radius: 6px;
+      }
+    }
+    .p-header{
+      margin-bottom: 10px;
+    }
   }
   .center-editor {
     display: inline-block;
     height: 100%;
-    width: 480px;
-    background-color: red;
+    width: 440px;
+    font-size: 16px;
+    vertical-align: top;
+    text-align: center;
+    background-image: url('../../assets/bc.jpg')
   }
   .right-handle {
     display: inline-block;
-    width: 180px;
+    width: 160px;
     height: 100%;
-    background-color: blue;
+    font-size: 16px;
+    vertical-align: top;
+    .p-header{
+      margin-bottom: 15px;
+    }
+    .el-checkbox{
+      box-sizing: border-box;
+      padding-left: 10px;
+      margin-left: 0px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+  .p-header{
+    padding-left: 20px;
   }
 }
 </style>
