@@ -11,7 +11,7 @@
           <!-- 海报 -->
           <div ref="firstStep" v-if="nowStep == 1" class=" el-scrollbar" @click="turnToActive($event)">
               <p>320x400竖版海报尺寸 <i class="icon-pencil icon"></i> </p>
-              <div class="imgDiv" @click="">
+              <div class="imgDiv">
                 <img src="../../assets/example.jpg" alt="">
                 <span>320x400</span>
               </div>
@@ -253,7 +253,9 @@ export default {
     img {
       width: 140px;
       height: 140px;
+      margin: 3px;
       &.active {
+        margin: 0px;
         border: 3px solid #22a2ff;
         border-radius: 6px;
       }
@@ -297,7 +299,9 @@ export default {
     img{
       width: 150px;
       height: 150px;
+      margin: 3px;
       &.active {
+        margin: 0px;
         border: 3px solid #22a2ff;
         border-radius: 6px;
       }
