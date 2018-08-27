@@ -1,7 +1,7 @@
 <template>
   <div class="posterEditor">
     <img id="demo" alt="" style="width:100px;height:100px">
-    <el-button @click="dialogVisible = true,nowStep = 1"></el-button>
+    <el-button @click="dialogVisible = true,nowStep = 1">海报</el-button>
     <el-dialog
       :visible.sync="dialogVisible"
       width="800px"
@@ -55,7 +55,7 @@
               <div class="preview-content-wrap">
                 <el-scrollbar style="height:100%">
                 <div class="preview-content" @click="showToEditor($event)">
-                  <el-collapse v-model="activeNames" @change="handleChange" >
+                  <el-collapse v-model="activeNames">
                     <el-collapse-item title="320x400横版海报" name="1">
                       <img src="../../assets/logo.png" >
                       <img src="../../assets/example.jpg" > 
@@ -81,17 +81,24 @@
             <!-- 图片编辑器区域 -->
             <div class="center-editor">
               <canvas class="canvas1" ref="canvas1" width="300" height="300"></canvas>
-            <div style="" class="photo-clip-mask">
+            <div style="" class="photo-clip-mask"
+                @mousedown="onMoveStart"
+                @mousemove="onMove"
+                @mouseup="onChangeEnd"
+                @mouseleave="onChangeEnd">
               <div class="photo-clip-mask-left"></div>
               <div class="photo-clip-mask-right"></div>
               <div class="photo-clip-mask-top"></div>
               <div class="photo-clip-mask-bottom"></div>
-              <div class="photo-clip-area">
-                <span class="photo-clip-area-bottom-right"></span>
-                <span class="photo-clip-area-bottom-left"></span>
-                <span class="photo-clip-area-top-left"></span>
-                <span class="photo-clip-area-top-right"></span>
-              </div>
+              <div class="photo-clip-area"></div>
+              <span class="photo-clip-area-bottom-right" ref="br"
+                :style="{'bottom': br.bottom+ 'px','margin-left':br.marginLeft + 'px'}"></span>
+              <span class="photo-clip-area-bottom-left" ref="bl"
+                :style="{'bottom': bl.bottom+ 'px','margin-left':bl.marginLeft + 'px'}"></span>
+              <span class="photo-clip-area-top-left" ref="tl"
+                :style="{'top': tl.top+ 'px','margin-left':tl.marginLeft + 'px'}"></span>
+              <span class="photo-clip-area-top-right" ref="tr"
+                :style="{'top': tr.top+ 'px','margin-left':tr.marginLeft + 'px'}"></span>
             </div>
             </div>
             <!-- 选择设配尺寸区域 -->
@@ -142,7 +149,23 @@ export default {
       uploadData: {},
       fileArray: [],
       activeNames: ["1", "2"],
-      sizecheckList: []
+      sizecheckList: [],
+      isMove:false,
+      spanname:'',
+      br:{ bottom:0,
+      marginLeft:0},
+      bl:{
+        bottom:0,
+        marginLeft:0
+      },
+      tl:{
+        top:0,
+        marginLeft:0
+      },
+      tr:{
+        top:0,
+        marginLeft:0
+      }
     };
   },
   methods: {
@@ -171,7 +194,6 @@ export default {
     demo() {},
     turnToActive(e) {
       let target = e.target.nodeName;
-      console.log(target.nodeName);
       if (target == "IMG") {
         let a = this.$refs["firstStep"].getElementsByClassName("active")[0];
         if (a) {
@@ -228,6 +250,57 @@ export default {
         };
         img.src = e.target.src;
       }
+    },
+    //裁剪拖动相关
+    onMoveStart(e) {
+      if(e.target.nodeName !== 'SPAN') return;
+      this.spanname = e.target.className
+      console.log(this.spanname)
+      this.isMove = true
+    },
+    onMove(e) {
+      if (!this.isMove) return;
+      const spanname = this.spanname
+      if(spanname === 'photo-clip-area-bottom-right'){
+        this.br.bottom -=  e.movementY   
+        this.br.marginLeft += e.movementY
+        this.bl.bottom -=  e.movementY   
+        this.tr.marginLeft += e.movementY
+      }else if(spanname === 'photo-clip-area-bottom-left'){
+        this.bl.bottom -=  e.movementY   
+        this.bl.marginLeft -= e.movementY 
+        this.br.bottom -=  e.movementY   
+        this.tl.marginLeft -= e.movementY 
+      }else if(spanname === 'photo-clip-area-top-left'){
+        this.tl.top +=  e.movementY   
+        this.tl.marginLeft += e.movementY 
+        this.bl.marginLeft += e.movementY 
+        this.tr.top +=  e.movementY   
+      }else if(spanname === 'photo-clip-area-top-right'){
+        this.tr.top +=  e.movementY   
+        this.tr.marginLeft -= e.movementY
+        this.tl.top +=  e.movementY   
+        this.br.marginLeft -= e.movementY
+      }
+      let tr = this.$refs.tr
+      let br = this.$refs.br
+      let tl = this.$refs.tl
+      // console.log(JSON.stringify(tr.offsetLeft))
+      //获取新的裁剪区域的高度个宽度
+      let newWeight = tr.offsetLeft - tl.offsetLeft
+      let newHeight = br.offsetTop - tr.offsetTop
+      console.log(newHeight,newWeight)
+      this.rePlace(newWeight,newHeight)
+    },
+    /*
+    **@w 宽度
+    **@h 高度
+    */
+    rePlace(w,h) {
+
+    },
+    onChangeEnd(){
+      this.isMove = false
     }
   },
   watch: {
@@ -400,38 +473,37 @@ export default {
         width: 260px;
         height: 260px;
         transform: translate(-50%, -50%);
-        span {
-          position: absolute;
-          height: 8px;
-          width: 8px;
-          border-radius: 4px;
-          border: red;
-          background-color: white;
-        }
-        .photo-clip-area-bottom-right {
-          bottom: -4px;
-          left: 100%;
-          margin-left: -4px;
-          cursor: nwse-resize;
-        }
-        .photo-clip-area-bottom-left {
-          bottom: -4px;
-          left: 0%;
-          margin-left: -4px;
-          cursor: nesw-resize;
-        }
-        .photo-clip-area-top-left {
-          top: -4px;
-          left: 0%;
-          margin-left: -4px;
-          cursor: nwse-resize;
-        }
-        .photo-clip-area-top-right {
-          top: -4px;
-          left: 100%;
-          margin-left: -4px;
-          cursor: nesw-resize;
-        }
+      }
+      span {
+        position: absolute;
+        height: 8px;
+        width: 8px;
+        border-radius: 4px;
+        background-color: red;
+      }
+      .photo-clip-area-bottom-right {
+        bottom: -4px;
+        left: 100%;
+        margin-left: -4px;
+        cursor: nwse-resize;
+      }
+      .photo-clip-area-bottom-left {
+        bottom: -4px;
+        left: 0%;
+        margin-left: -4px;
+        cursor: nesw-resize;
+      }
+      .photo-clip-area-top-left {
+        top: -4px;
+        left: 0%;
+        margin-left: -4px;
+        cursor: nwse-resize;
+      }
+      .photo-clip-area-top-right {
+        top: -4px;
+        left: 100%;
+        margin-left: -4px;
+        cursor: nesw-resize;
       }
     }
   }
