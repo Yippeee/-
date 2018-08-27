@@ -49,6 +49,7 @@
           </div>
           <!-- 选择尺寸（图片裁剪界面） -->
           <div v-if="nowStep == 4" class="choose-size" ref="forthStep">
+            <!-- 海报预览 -->
             <div class="left-preview">
               <p class="p-header">海报预览</p>
               <div class="preview-content-wrap">
@@ -77,10 +78,23 @@
                 </el-scrollbar>
               </div>
             </div>
+            <!-- 图片编辑器区域 -->
             <div class="center-editor">
-              <canvas ref="canvas1"></canvas>
-              <img :src="editorSrc" alt="" style="width:156px;height:156px">
+              <canvas class="canvas1" ref="canvas1" width="300" height="300"></canvas>
+            <div style="" class="photo-clip-mask">
+              <div class="photo-clip-mask-left"></div>
+              <div class="photo-clip-mask-right"></div>
+              <div class="photo-clip-mask-top"></div>
+              <div class="photo-clip-mask-bottom"></div>
+              <div class="photo-clip-area">
+                <span class="photo-clip-area-bottom-right"></span>
+                <span class="photo-clip-area-bottom-left"></span>
+                <span class="photo-clip-area-top-left"></span>
+                <span class="photo-clip-area-top-right"></span>
+              </div>
             </div>
+            </div>
+            <!-- 选择设配尺寸区域 -->
             <div class="right-handle">
               <p class="p-header">设配尺寸</p>
                 <el-checkbox-group v-model="sizecheckList">
@@ -127,9 +141,8 @@ export default {
       dialogVisible2: true,
       uploadData: {},
       fileArray: [],
-      activeNames:['1','2'],
-      sizecheckList:[],
-      editorSrc:''
+      activeNames: ["1", "2"],
+      sizecheckList: []
     };
   },
   methods: {
@@ -148,7 +161,7 @@ export default {
       this.$nextTick(() => {
         console.log("change");
         let dom = document.getElementsByClassName("el-upload__input")[0];
-        this.fileArray.push(dom.files[0])
+        this.fileArray.push(dom.files[0]);
         let imageName = dom.files[0].name.match(/([^;]*)\./)[1];
         let nodes = document.getElementsByClassName("el-upload-list__item");
         let node = nodes[nodes.length - 1];
@@ -171,41 +184,49 @@ export default {
       }
     },
     nextStep() {
-      if(this.nowStep == 2){
+      if (this.nowStep == 2) {
         let formData = new FormData();
         // let file = this.fileArray[0]
-        let url = ''
-        if(this.fileArray.length === 1){
-          url = 'http://192.168.21.29:8099/poster/poster/upload'
-        }else if(this.fileArray.length > 1){
-          url = 'http://192.168.21.29:8099/poster/posters/upload'
+        let url = "";
+        if (this.fileArray.length === 1) {
+          url = "http://192.168.21.29:8099/poster/poster/upload";
+        } else if (this.fileArray.length > 1) {
+          url = "http://192.168.21.29:8099/poster/posters/upload";
         }
         this.fileArray.forEach(item => {
           formData.append("file", item);
-        })
+        });
         formData.append("widthList", 400);
         formData.append("heightList", 400);
         formData.append("seriesId", 1);
         formData.append("videoNumber", 1);
 
         let config = {
-            headers:{'Content-Type':'multipart/form-data'}
-        }; 
-        Axios.post(url,formData,config).then((response) => {
-          console.log(response.data.msg)
-        })
+          headers: { "Content-Type": "multipart/form-data" }
+        };
+        Axios.post(url, formData, config).then(response => {
+          console.log(response.data.msg);
+        });
       }
 
       this.nowStep++;
     },
-    showToEditor (e) {
-      if(e.target.nodeName == "IMG"){
+    showToEditor(e) {
+      if (e.target.nodeName == "IMG") {
         let a = this.$refs["forthStep"].getElementsByClassName("active")[0];
         if (a) {
           a.className = "";
         }
-        this.editorSrc = e.target.src;
         e.target.className = "active";
+        let canvas1 = this.$refs.canvas1;
+        let ctx1 = canvas1.getContext("2d");
+        let img = new Image();
+        //绘制的时候，图片的高度要读取一下
+        img.onload = function() {
+          ctx1.clearRect(0, 0, 300, 300);
+          ctx1.drawImage(img, 0, 0, 300, 300);
+        };
+        img.src = e.target.src;
       }
     }
   },
@@ -249,7 +270,6 @@ export default {
     color: #909399;
     margin-bottom: 30px;
     margin-right: 10px;
-    // border: 1px dashed #eef1f6;
     img {
       width: 140px;
       height: 140px;
@@ -264,7 +284,7 @@ export default {
   p {
     color: #909399;
     font-size: 16px;
-    i{
+    i {
       cursor: pointer;
     }
   }
@@ -286,17 +306,17 @@ export default {
     background-color: #fff;
     font-size: 16px;
     height: 100%;
-    .preview-content-wrap{
+    .preview-content-wrap {
       display: inline-block;
       width: 100%;
       height: 434px;
       // overflow-y: scroll;
-      .preview-content{
+      .preview-content {
         display: inline-block;
         height: 600px;
       }
     }
-    img{
+    img {
       width: 150px;
       height: 150px;
       margin: 3px;
@@ -306,18 +326,114 @@ export default {
         border-radius: 6px;
       }
     }
-    .p-header{
+    .p-header {
       margin-bottom: 10px;
     }
   }
   .center-editor {
+    position: relative;
     display: inline-block;
     height: 100%;
     width: 440px;
     font-size: 16px;
     vertical-align: top;
     text-align: center;
-    background-image: url('../../assets/bc.jpg')
+    background-image: url("../../assets/bc.jpg");
+    .canvas1 {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .photo-clip-mask {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      .photo-clip-mask-left {
+        position: absolute;
+        left: 0px;
+        right: 50%;
+        top: 50%;
+        bottom: 50%;
+        width: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        margin-right: 130px;
+        margin-top: -130px;
+        margin-bottom: -130px;
+      }
+      .photo-clip-mask-right {
+        position: absolute;
+        left: 50%;
+        right: 0px;
+        top: 50%;
+        bottom: 50%;
+        background-color: rgba(0, 0, 0, 0.5);
+        margin-left: 130px;
+        margin-top: -130px;
+        margin-bottom: -130px;
+      }
+      .photo-clip-mask-top {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 50%;
+        background-color: rgba(0, 0, 0, 0.5);
+        margin-bottom: 130px;
+      }
+      .photo-clip-mask-bottom {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 50%;
+        bottom: 0px;
+        background-color: rgba(0, 0, 0, 0.5);
+        margin-top: 130px;
+      }
+      .photo-clip-area {
+        border: 2px dashed rgb(221, 221, 221);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 260px;
+        height: 260px;
+        transform: translate(-50%, -50%);
+        span {
+          position: absolute;
+          height: 8px;
+          width: 8px;
+          border-radius: 4px;
+          border: red;
+          background-color: white;
+        }
+        .photo-clip-area-bottom-right {
+          bottom: -4px;
+          left: 100%;
+          margin-left: -4px;
+          cursor: nwse-resize;
+        }
+        .photo-clip-area-bottom-left {
+          bottom: -4px;
+          left: 0%;
+          margin-left: -4px;
+          cursor: nesw-resize;
+        }
+        .photo-clip-area-top-left {
+          top: -4px;
+          left: 0%;
+          margin-left: -4px;
+          cursor: nwse-resize;
+        }
+        .photo-clip-area-top-right {
+          top: -4px;
+          left: 100%;
+          margin-left: -4px;
+          cursor: nesw-resize;
+        }
+      }
+    }
   }
   .right-handle {
     display: inline-block;
@@ -325,10 +441,10 @@ export default {
     height: 100%;
     font-size: 16px;
     vertical-align: top;
-    .p-header{
+    .p-header {
       margin-bottom: 15px;
     }
-    .el-checkbox{
+    .el-checkbox {
       box-sizing: border-box;
       padding-left: 10px;
       margin-left: 0px;
@@ -336,7 +452,7 @@ export default {
       margin-bottom: 10px;
     }
   }
-  .p-header{
+  .p-header {
     padding-left: 20px;
   }
 }
