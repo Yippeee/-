@@ -79,18 +79,28 @@
               </div>
             </div>
             <!-- 图片编辑器区域 -->
-            <div class="center-editor">
+            <div class="center-editor" ref="editor">
               <canvas class="canvas1" ref="canvas1" width="300" height="300"></canvas>
             <div style="" class="photo-clip-mask"
                 @mousedown="onMoveStart"
                 @mousemove="onMove"
                 @mouseup="onChangeEnd"
                 @mouseleave="onChangeEnd">
-              <div class="photo-clip-mask-left"></div>
-              <div class="photo-clip-mask-right"></div>
-              <div class="photo-clip-mask-top"></div>
-              <div class="photo-clip-mask-bottom"></div>
-              <div class="photo-clip-area"></div>
+              <div class="photo-clip-mask-left"
+                :style="{'height': maskL.height+'px','top': maskL.top+'px','width': maskL.width+'px'}"
+              ></div>
+              <div class="photo-clip-mask-right"
+                :style="{'height':maskR.height+'px','left':maskR.left+'px','top':maskR.top+'px'}"
+              ></div>
+              <div class="photo-clip-mask-top"
+                :style="{'height': maskT.height+'px'}"
+              ></div>
+              <div class="photo-clip-mask-bottom"
+                :style="{'height':maskB.height+'px','top':maskB.top+'px'}"                
+              ></div>
+              <div class="photo-clip-area"
+                :style="{'width':clip.width+'px','height':clip.height+'px','left':clip.left+'px','top':clip.top+'px'}"
+              ></div>
               <span class="photo-clip-area-bottom-right" ref="br"
                 :style="{'bottom': br.bottom+ 'px','margin-left':br.marginLeft + 'px'}"></span>
               <span class="photo-clip-area-bottom-left" ref="bl"
@@ -154,6 +164,7 @@ export default {
       spanname:'',
       br:{ bottom:0,
       marginLeft:0},
+      //初始值需要点进来的时候计算一下
       bl:{
         bottom:0,
         marginLeft:0
@@ -165,6 +176,29 @@ export default {
       tr:{
         top:0,
         marginLeft:0
+      },
+      clip:{
+        width:440,
+        height:450,
+        left:0,
+        top:0
+      },
+      maskL:{
+        height:0,
+        top:0,
+        width:0
+      },
+      maskT:{
+        height:0
+      },
+      maskB:{
+        height: 0,
+        top: 0
+      },
+      maskR:{
+        height: 0,
+        top: 0,
+        left:0
       }
     };
   },
@@ -282,6 +316,7 @@ export default {
         this.tl.top +=  e.movementY   
         this.br.marginLeft -= e.movementY
       }
+      //获取裁剪框的三个角，来计算新的高度、宽度
       let tr = this.$refs.tr
       let br = this.$refs.br
       let tl = this.$refs.tl
@@ -289,15 +324,38 @@ export default {
       //获取新的裁剪区域的高度个宽度
       let newWeight = tr.offsetLeft - tl.offsetLeft
       let newHeight = br.offsetTop - tr.offsetTop
-      console.log(newHeight,newWeight)
-      this.rePlace(newWeight,newHeight)
+
+      let editor = this.$refs.editor
+      let newLeft = tl.offsetLeft
+      let newTop = tl.offsetTop
+      // console.log(newHeight,newWeight)
+      console.log(newLeft,newTop)
+      this.rePlace(newWeight,newHeight,newLeft,newTop)
     },
     /*
     **@w 宽度
     **@h 高度
+    **@left 绝对定位的Left值
+    **@top top值
     */
-    rePlace(w,h) {
-
+    rePlace(w,h,left,top) {
+      this.clip.width = w
+      this.clip.height = h
+      this.clip.left = left
+      this.clip.top = top
+      //top
+      this.maskT.height = top
+      //left
+      this.maskL.top = top
+      this.maskL.height = h
+      this.maskL.width = left
+      //bottom
+      this.maskB.top = top+h
+      this.maskB.height = 450-this.maskB.top
+      //rught
+      this.maskR.height = h
+      this.maskR.top = top
+      this.maskR.left = left+w
     },
     onChangeEnd(){
       this.isMove = false
@@ -383,7 +441,6 @@ export default {
       display: inline-block;
       width: 100%;
       height: 434px;
-      // overflow-y: scroll;
       .preview-content {
         display: inline-block;
         height: 600px;
@@ -432,9 +489,9 @@ export default {
         bottom: 50%;
         width: auto;
         background-color: rgba(0, 0, 0, 0.5);
-        margin-right: 130px;
-        margin-top: -130px;
-        margin-bottom: -130px;
+        // margin-right: 130px;
+        // margin-top: -130px;
+        // margin-bottom: -130px;
       }
       .photo-clip-mask-right {
         position: absolute;
@@ -443,9 +500,9 @@ export default {
         top: 50%;
         bottom: 50%;
         background-color: rgba(0, 0, 0, 0.5);
-        margin-left: 130px;
-        margin-top: -130px;
-        margin-bottom: -130px;
+        // margin-left: 130px;
+        // margin-top: -130px;
+        // margin-bottom: -130px;
       }
       .photo-clip-mask-top {
         position: absolute;
@@ -454,7 +511,7 @@ export default {
         top: 0px;
         bottom: 50%;
         background-color: rgba(0, 0, 0, 0.5);
-        margin-bottom: 130px;
+        // margin-bottom: 130px;
       }
       .photo-clip-mask-bottom {
         position: absolute;
@@ -463,7 +520,7 @@ export default {
         top: 50%;
         bottom: 0px;
         background-color: rgba(0, 0, 0, 0.5);
-        margin-top: 130px;
+        // margin-top: 130px;
       }
       .photo-clip-area {
         border: 2px dashed rgb(221, 221, 221);
@@ -472,7 +529,7 @@ export default {
         top: 50%;
         width: 260px;
         height: 260px;
-        transform: translate(-50%, -50%);
+        // transform: translate(-50%, -50%);
       }
       span {
         position: absolute;
