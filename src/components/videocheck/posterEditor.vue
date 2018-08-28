@@ -80,8 +80,8 @@
             </div>
             <!-- 图片编辑器区域 -->
             <div class="center-editor" ref="editor">
-              <canvas class="canvas1" ref="canvas1" width="300" height="300"></canvas>
-            <div style="" class="photo-clip-mask"
+              <canvas class="canvas1" ref="canvas1" width="400" height="400"></canvas>
+            <div class="photo-clip-mask"
                 @mousedown="onMoveStart"
                 @mousemove="onMove"
                 @mouseup="onChangeEnd"
@@ -110,6 +110,12 @@
               <span class="photo-clip-area-top-right" ref="tr"
                 :style="{'top': tr.top+ 'px','margin-left':tr.marginLeft + 'px'}"></span>
             </div>
+            </div>
+            <div class="center-handle">
+              <div class="center-handle-centent">
+                <i class="center-icon reUpload"></i>
+                <i class="center-icon save" @click="savePhotoClip"></i>
+              </div>
             </div>
             <!-- 选择设配尺寸区域 -->
             <div class="right-handle">
@@ -162,6 +168,7 @@ export default {
       sizecheckList: [],
       isMove:false,
       spanname:'',
+      editorImg:'',
       br:{ bottom:0,
       marginLeft:0},
       //初始值需要点进来的时候计算一下
@@ -178,10 +185,14 @@ export default {
         marginLeft:0
       },
       clip:{
-        width:440,
-        height:450,
+        width:400,
+        height:400,
         left:0,
         top:0
+      },
+      mask:{
+        w:0,
+        h:0
       },
       maskL:{
         height:0,
@@ -279,17 +290,18 @@ export default {
         let img = new Image();
         //绘制的时候，图片的高度要读取一下
         img.onload = function() {
-          ctx1.clearRect(0, 0, 300, 300);
-          ctx1.drawImage(img, 0, 0, 300, 300);
+          ctx1.restore();
+          ctx1.clearRect(0, 0, 400, 400);
+          ctx1.drawImage(img, 0, 0, 400, 400);
         };
         img.src = e.target.src;
+        this.editorImg = e.target.src
       }
     },
     //裁剪拖动相关
     onMoveStart(e) {
       if(e.target.nodeName !== 'SPAN') return;
       this.spanname = e.target.className
-      console.log(this.spanname)
       this.isMove = true
     },
     onMove(e) {
@@ -324,12 +336,11 @@ export default {
       //获取新的裁剪区域的高度个宽度
       let newWeight = tr.offsetLeft - tl.offsetLeft
       let newHeight = br.offsetTop - tr.offsetTop
-
+      this.mask.w =  newWeight
+      this.mask.h = newHeight
       let editor = this.$refs.editor
       let newLeft = tl.offsetLeft
       let newTop = tl.offsetTop
-      // console.log(newHeight,newWeight)
-      console.log(newLeft,newTop)
       this.rePlace(newWeight,newHeight,newLeft,newTop)
     },
     /*
@@ -339,6 +350,7 @@ export default {
     **@top top值
     */
     rePlace(w,h,left,top) {
+      left = left + 4
       this.clip.width = w
       this.clip.height = h
       this.clip.left = left
@@ -351,14 +363,32 @@ export default {
       this.maskL.width = left
       //bottom
       this.maskB.top = top+h
-      this.maskB.height = 450-this.maskB.top
+      this.maskB.height = 400-this.maskB.top
       //rught
       this.maskR.height = h
       this.maskR.top = top
       this.maskR.left = left+w
     },
-    onChangeEnd(){
+    onChangeEnd () {
       this.isMove = false
+    },
+    //保存裁剪图片的坐标轴，裁剪图片 
+    savePhotoClip () {
+      let canvas1 = this.$refs.canvas1;
+      let ctx = canvas1.getContext("2d");
+      let img = new Image();
+      //绘制的时候，图片的高度要读取一下
+      let sx = this.maskT.height;
+      let sy = this.maskL.width-4
+      let sWidth = this.mask.w;
+      let sHeight = this.mask.h;
+      console.log(sx,sy,sWidth,sHeight)
+      img.onload = function() {
+        ctx.clearRect(0, 0, 400, 400);
+        ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, 400, 400);
+        // ctx.drawImage(img, 0, 0, 100, 100, 0, 0, 400, 400);
+      };
+      img.src = this.editorImg;
     }
   },
   watch: {
@@ -433,7 +463,7 @@ export default {
   font-size: 0;
   .left-preview {
     display: inline-block;
-    width: 160px;
+    width: 180px;
     background-color: #fff;
     font-size: 16px;
     height: 100%;
@@ -463,8 +493,8 @@ export default {
   .center-editor {
     position: relative;
     display: inline-block;
-    height: 100%;
-    width: 440px;
+    height: 400px;
+    width: 400px;
     font-size: 16px;
     vertical-align: top;
     text-align: center;
@@ -523,7 +553,7 @@ export default {
         // margin-top: 130px;
       }
       .photo-clip-area {
-        border: 2px dashed rgb(221, 221, 221);
+        border: 2px solid red;
         position: absolute;
         left: 50%;
         top: 50%;
@@ -533,10 +563,12 @@ export default {
       }
       span {
         position: absolute;
+        box-sizing: border-box;
         height: 8px;
         width: 8px;
         border-radius: 4px;
-        background-color: red;
+        border: 1px solid red;
+        background-color: #fff;
       }
       .photo-clip-area-bottom-right {
         bottom: -4px;
@@ -564,9 +596,23 @@ export default {
       }
     }
   }
+  .center-handle{
+    position: absolute;
+    left: 180px;
+    bottom: 0px;
+    width: 400px;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.8);
+    .center-handle-centent{
+      display: inline-block;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%)
+    }
+  }
   .right-handle {
     display: inline-block;
-    width: 160px;
+    width: 180px;
     height: 100%;
     font-size: 16px;
     vertical-align: top;

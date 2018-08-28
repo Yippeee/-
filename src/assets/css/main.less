@@ -39,6 +39,50 @@ body{
   background-color: #eef1f6;
 }
 //TODO: 海报编辑界面需要加上的全局样式
+.center-icon{
+  display: inline-block;
+  font-style: normal;
+  width: 60px;
+  height: 50px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  vertical-align: middle;
+  text-align: center;
+  position: relative;
+  font-size: 13px;
+  &.save{
+    background-image: url("../image/save.png");
+    &:after{
+      display: inline-block;
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 20px;
+      color: #ffff;
+      content: '保存'
+    }
+  }
+  &.reUpload{
+    background-image: url("../image/reUpload.png");
+    &:after{
+      display: inline-block;
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 20px;
+      color: #ffff;
+      content: '重新上传'
+    }
+  }
+  &:hover{
+    cursor: pointer;
+    // background-color: #20a0ff;
+  }
+}
+
+
 .el-upload-list__item.is-ready{
  overflow: visible;
  text-align: center
