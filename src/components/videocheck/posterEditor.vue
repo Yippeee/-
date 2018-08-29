@@ -374,19 +374,28 @@ export default {
     },
     //保存裁剪图片的坐标轴，裁剪图片 
     savePhotoClip () {
+      let _this = this
       let canvas1 = this.$refs.canvas1;
       let ctx = canvas1.getContext("2d");
       let img = new Image();
+      //被选中的图片
+      let a = this.$refs["forthStep"].getElementsByClassName("active")[0];
       //绘制的时候，图片的高度要读取一下
-      let sx = this.maskT.height;
-      let sy = this.maskL.width-4
-      let sWidth = this.mask.w;
-      let sHeight = this.mask.h;
-      console.log(sx,sy,sWidth,sHeight)
       img.onload = function() {
         ctx.clearRect(0, 0, 400, 400);
-        ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, 400, 400);
-        // ctx.drawImage(img, 0, 0, 100, 100, 0, 0, 400, 400);
+
+        let natureH = img.naturalHeight
+        let natureW = img.naturalWidth
+        let n = natureW/400 
+        let m = natureH/400 
+        let sx = _this.maskT.height*n
+        let sy = _this.maskL.width*m
+        let sWidth = _this.mask.w*n;
+        let sHeight = _this.mask.h*m;
+        //源图片的宽高需要对比例进行计算后取得，目标宽高就不需用了
+        ctx.drawImage(img, sx, sy, sWidth, sHeight,_this.maskL.width, _this.maskT.height, _this.mask.w, _this.mask.h,);
+        let newImg = canvas1.toDataURL()
+        a.src = newImg
       };
       img.src = this.editorImg;
     }
@@ -407,7 +416,6 @@ export default {
       }
     })
       .then(function(response) {
-        // console.log(response.data.rows[0].base64String)
         demo.src =
           "data:image/png;base64," + response.data.rows[0].base64String;
         demo.style.width = response.data.rows[0].width;
