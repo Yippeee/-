@@ -61,8 +61,8 @@
                       <img src="../../assets/example.jpg" > 
                     </el-collapse-item>
                     <el-collapse-item title="250x400横版海报" name="2">
-                      <img src="../../assets/logo.png" >
-                      <img src="../../assets/logo.png" > 
+                      <img src="../../assets/e1.png" >
+                      <img src="../../assets/e2.jpg" > 
                     </el-collapse-item>
                     <el-collapse-item title="420x300横版海报" name="3">
                       <div>简化流程：设计简洁直观的操作流程；</div>
@@ -394,8 +394,20 @@ export default {
         let sHeight = _this.mask.h*m;
         //源图片的宽高需要对比例进行计算后取得，目标宽高就不需用了
         ctx.drawImage(img, sx, sy, sWidth, sHeight,_this.maskL.width, _this.maskT.height, _this.mask.w, _this.mask.h,);
-        let newImg = canvas1.toDataURL()
-        a.src = newImg
+
+        //设置离屏canvas:维持原图的大小
+        let offscreenCanvas = document.createElement('canvas'),
+            offscreenContext = offscreenCanvas.getContext('2d');
+        offscreenCanvas.width = natureW
+        offscreenCanvas.height = natureH
+        let newImg = new Image()
+        newImg.onload = function () {
+          offscreenContext.drawImage(newImg,0,0,natureW,natureH)    
+          a.src = offscreenCanvas.toDataURL()
+        }
+        //或许这里应该用本身的图片的资源来裁剪
+        newImg.src = canvas1.toDataURL()
+        // ctx.restore();
       };
       img.src = this.editorImg;
     }
