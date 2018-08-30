@@ -1,6 +1,6 @@
 <template>
 <div class="menu-content">
-    <el-scrollbar style="height:100%">  
+    <el-scrollbar style="height:100%">
   <el-menu>
     <router-link class="el-menu-item" index="1" tag="li" to="/index">
       <i class="menu-index menu-icon"></i>
@@ -61,8 +61,7 @@
       <span>海报编辑</span>
     </router-link>
   </el-menu>
-   </el-scrollbar>  
-
+   </el-scrollbar>
 </div>
 </template>
 <script>
@@ -128,6 +127,6 @@ export default {}
 }
 
 .el-submenu__title:hover {
-	background-color: #20A0FF;
+  background-color: #20A0FF;
 }
 </style>

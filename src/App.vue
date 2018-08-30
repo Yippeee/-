@@ -9,7 +9,7 @@
 
       <!-- 导航提示 -->
       <el-breadcrumb class="router-tips" separator=">">
-        <el-breadcrumb-item v-for="b in bread" :to="b.path">{{b.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="b in bread" :to="b.path" :key="b">{{b.name}}</el-breadcrumb-item>
       </el-breadcrumb>
       <!-- 头部信息 -->
       <div class="user">
@@ -37,7 +37,7 @@
 <script>
 import menuHeader from "@/components/common/header"
 import menuContent from "@/components/common/menu"
-import AppFooter from "@/components/common/AppFooter";
+import AppFooter from "@/components/common/AppFooter"
 
 export default {
   name: "App",
@@ -59,33 +59,33 @@ export default {
   },
   created () {
     window.document.title = "内容分发系统"
-    let routes = this.$router.options.routes;
-    for(let i in routes){
+    let routes = this.$router.options.routes
+    for (let i in routes) {
       let item = routes[i]
       let name = item.name
-      if(name !== ''){
-        if(!item.children){
+      if (name !== '') {
+        if (!item.children) {
           let arr = []
           arr.push({
             name: name,
             to: item.path
           })
           this.routerMap[name] = arr
-        }else{
-          for(let ch_index in item.children){
+        } else {
+          for (let chIndex in item.children) {
             name = item.name
-            let ch_item = item.children[ch_index]
+            let chItem = item.children[chIndex]
             let arr = []
             arr.push({
               name: name,
               to: item.path
             })
             this.routerMap[name] = arr
-            name = ch_item.name
+            name = chItem.name
             let arr2 = arr.slice(0)
             arr2.push({
               name: name,
-              to: ch_item.path
+              to: chItem.path
             })
             this.routerMap[name] = arr2
           }
@@ -94,17 +94,17 @@ export default {
     }
     this.bread = this.routerMap[this.util.getCookies("bread")]
   },
-  watch:{
-    '$route':{
-      immediate:true,
-      deep:true,
+  watch: {
+    '$route': {
+      immediate: true,
+      deep: true,
       handler (to, from) {
-        const path = to.path;
-        const name = to.name;
+        // const path = to.path
+        const name = to.name
         this.bread = this.routerMap[name]
-        if(this.bread){
-          let length = this.bread.length-1
-          this.util.setCookie('bread',this.bread[length].name)
+        if (this.bread) {
+          let length = this.bread.length - 1
+          this.util.setCookie('bread', this.bread[length].name)
         }
       }
     }

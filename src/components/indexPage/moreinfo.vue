@@ -3,7 +3,7 @@
     <div class="table-wrap">
       <div class="table-content">
         <ul>
-          <li v-for="item in tableData">
+          <li v-for="item in tableData" :key="item">
             <el-badge is-dot class="item"><i class="icon-message"></i></el-badge>
             <span class="info">{{item.info}}</span>
             <span class="timer">{{item.time}}</span>
@@ -31,23 +31,23 @@ export default {
       curPageIdx: 1,
       curPageSize: 50,
       curTotal: 10000,
-      pageSizes: [5,20,50,100],
-      tableData:[
+      pageSizes: [5, 20, 50, 100],
+      tableData: [
         {
-          info:'idjfsaifhiasd',
-          time:'2018-06-18 09:00'
+          info: 'idjfsaifhiasd',
+          time: '2018-06-18 09:00'
         },
         {
-          info:'idjfsaifhiasd',
-          time:'2018-06-18 09:00'
+          info: 'idjfsaifhiasd',
+          time: '2018-06-18 09:00'
         },
         {
-          info:'idjfsaifhiasd',
-          time:'2018-06-18 09:00'
+          info: 'idjfsaifhiasd',
+          time: '2018-06-18 09:00'
         },
         {
-          info:'idjfsaifhiasd',
-          time:'2018-06-18 09:00'
+          info: 'idjfsaifhiasd',
+          time: '2018-06-18 09:00'
         }
       ]
     }

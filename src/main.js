@@ -9,7 +9,7 @@ import vuePosterEditor from 'vue-poster-editor'
 // eslint-disable-next-line
 import '!style-loader!css-loader!less-loader!@/assets/css/main.less'
 import 'element-ui/lib/theme-chalk/index.css'
-import util from './assets/js/util';
+import util from './assets/js/util'
 
 Vue.config.productionTip = false
 

@@ -32,7 +32,7 @@
               <div class="imgDiv">
                 <img src="../../assets/logo.png" alt="">
                 <span>1280x720</span>
-              </div> 
+              </div>
           </div>
           <!-- 本地上传-上传图片 -->
           <div v-if="nowStep == 2">
@@ -60,11 +60,11 @@
                   <el-collapse v-model="activeNames">
                     <el-collapse-item title="320x400横版海报" name="1">
                       <img src="../../assets/logo.png" >
-                      <img src="../../assets/example.jpg" > 
+                      <img src="../../assets/example.jpg" >
                     </el-collapse-item>
                     <el-collapse-item title="250x400横版海报" name="2">
                       <img src="../../assets/e1.png" >
-                      <img src="../../assets/e2.jpg" > 
+                      <img src="../../assets/e2.jpg" >
                     </el-collapse-item>
                     <el-collapse-item title="420x300横版海报" name="3">
                       <div>简化流程：设计简洁直观的操作流程；</div>
@@ -83,35 +83,35 @@
             <!-- 图片编辑器区域 -->
             <div class="center-editor" ref="editor">
               <canvas class="canvas1" ref="canvas1" width="400" height="400"></canvas>
-            <div class="photo-clip-mask"
+              <div class="photo-clip-mask"
                 @mousedown="onMoveStart"
                 @mousemove="onMove"
                 @mouseup="onChangeEnd"
                 @mouseleave="onChangeEnd">
-              <div class="photo-clip-mask-left"
-                :style="{'height': maskL.height+'px','top': maskL.top+'px','width': maskL.width+'px'}"
-              ></div>
-              <div class="photo-clip-mask-right"
-                :style="{'height':maskR.height+'px','left':maskR.left+'px','top':maskR.top+'px'}"
-              ></div>
-              <div class="photo-clip-mask-top"
-                :style="{'height': maskT.height+'px'}"
-              ></div>
-              <div class="photo-clip-mask-bottom"
-                :style="{'height':maskB.height+'px','top':maskB.top+'px'}"                
-              ></div>
-              <div class="photo-clip-area"
-                :style="{'width':clip.width+'px','height':clip.height+'px','left':clip.left+'px','top':clip.top+'px'}"
-              ></div>
-              <span class="photo-clip-area-bottom-right" ref="br"
-                :style="{'bottom': br.bottom+ 'px','margin-left':br.marginLeft + 'px'}"></span>
-              <span class="photo-clip-area-bottom-left" ref="bl"
-                :style="{'bottom': bl.bottom+ 'px','margin-left':bl.marginLeft + 'px'}"></span>
-              <span class="photo-clip-area-top-left" ref="tl"
-                :style="{'top': tl.top+ 'px','margin-left':tl.marginLeft + 'px'}"></span>
-              <span class="photo-clip-area-top-right" ref="tr"
-                :style="{'top': tr.top+ 'px','margin-left':tr.marginLeft + 'px'}"></span>
-            </div>
+                <div class="photo-clip-mask-left"
+                  :style="{'height': maskL.height+'px','top': maskL.top+'px','width': maskL.width+'px'}"
+                ></div>
+                <div class="photo-clip-mask-right"
+                  :style="{'height':maskR.height+'px','left':maskR.left+'px','top':maskR.top+'px'}"
+                ></div>
+                <div class="photo-clip-mask-top"
+                  :style="{'height': maskT.height+'px'}"
+                ></div>
+                <div class="photo-clip-mask-bottom"
+                  :style="{'height':maskB.height+'px','top':maskB.top+'px'}"
+                ></div>
+                <div class="photo-clip-area"
+                  :style="{'width':clip.width+'px','height':clip.height+'px','left':clip.left+'px','top':clip.top+'px'}"
+                ></div>
+                <span class="photo-clip-area-bottom-right" ref="br"
+                  :style="{'bottom': br.bottom+ 'px','margin-left':br.marginLeft + 'px'}"></span>
+                <span class="photo-clip-area-bottom-left" ref="bl"
+                  :style="{'bottom': bl.bottom+ 'px','margin-left':bl.marginLeft + 'px'}"></span>
+                <span class="photo-clip-area-top-left" ref="tl"
+                  :style="{'top': tl.top+ 'px','margin-left':tl.marginLeft + 'px'}"></span>
+                <span class="photo-clip-area-top-right" ref="tr"
+                  :style="{'top': tr.top+ 'px','margin-left':tr.marginLeft + 'px'}"></span>
+              </div>
             </div>
             <div class="center-handle">
               <div class="center-handle-centent">
@@ -143,8 +143,9 @@
   </div>
 </template>
 <script>
-import Axios from "axios";
 
+import Axios from "axios"
+/* eslint-disable*/
 export default {
   data() {
     return {
@@ -169,155 +170,156 @@ export default {
       fileArray: [],
       activeNames: ["1", "2"],
       sizecheckList: [],
-      isMove:false,
-      spanname:'',
-      editorImg:'',
-      br:{ bottom:0,
-      marginLeft:0},
-      //初始值需要点进来的时候计算一下
-      bl:{
-        bottom:0,
-        marginLeft:0
+      isMove: false,
+      spanname: '',
+      editorImg: '',
+      br: {
+        bottom: 0,
+        marginLeft: 0
       },
-      tl:{
-        top:-4,
-        marginLeft:0
+      bl: {
+        bottom: 0,
+        marginLeft: 0
       },
-      tr:{
-        top:-4,
-        marginLeft:0
+      tl: {
+        top: -4,
+        marginLeft: 0
       },
-      clip:{
-        width:400,
-        height:400,
-        left:0,
-        top:0
+      tr: {
+        top: -4,
+        marginLeft: 0
       },
-      mask:{
-        w:0,
-        h:0
-      },
-      maskL:{
-        height:0,
-        top:0,
-        width:0
-      },
-      maskT:{
-        height:0
-      },
-      maskB:{
-        height: 0,
+      clip: {
+        width: 400,
+        height: 400,
+        left: 0,
         top: 0
       },
-      maskR:{
+      mask: {
+        w: 0,
+        h: 0
+      },
+      maskL: {
         height: 0,
         top: 0,
-        left:0
+        width: 0
+      },
+      maskT: {
+        height: 0
+      },
+      maskB: {
+        height:  0,
+        top:  0
+      },
+      maskR: {
+        height:  0,
+        top:  0,
+        left: 0
       }
-    };
+    }
   },
   methods: {
     handleRemove(file, fileList) {
-      let nodes = document.getElementsByClassName("el-upload-list__item");
+      let nodes = document.getElementsByClassName("el-upload-list__item")
       Array.from(nodes).forEach((element, index) => {
         if (index < nodes.length - 1) {
           element.setAttribute(
             "imgName",
             fileList[index].name.match(/([^;]*)\./)[1]
-          );
+          )
         }
-      });
+      })
     },
     change(file, fileList) {
       this.$nextTick(() => {
         if(this.preventChangeTimes !== 0) return
         let i = this.fileArray.length
-        let inputDom = document.getElementsByClassName("el-upload__input")[0];
+        let inputDom = document.getElementsByClassName("el-upload__input")[0]
         //允许批量上传，需要直接获取全部选中的文件
         let files = inputDom.files
-        let nodes = document.getElementsByClassName("el-upload-list__item");
+        let nodes = document.getElementsByClassName("el-upload-list__item")
         Array.from(files).forEach((item,index) => {
           this.fileArray.push(inputDom.files[index]); 
-          let imageName = inputDom.files[index].name.match(/([^;]*)\./)[1];
-          let node = nodes[index + i];
-          node.setAttribute("imgName", imageName);
+          let imageName = inputDom.files[index].name.match(/([^;]*)\./)[1]
+          let node = nodes[index + i]
+          node.setAttribute("imgName", imageName)
         })
-        this.preventChangeTimes = 1;
-      });
+        this.preventChangeTimes = 1
+      })
     },
     demo() {
-      this.preventChangeTimes = 0;
+      this.preventChangeTimes = 0
     },
     turnToActive(e) {
-      let target = e.target.nodeName;
+      let target = e.target.nodeName
       if (target == "IMG") {
-        let a = this.$refs["firstStep"].getElementsByClassName("active")[0];
+        let a = this.$refs["firstStep"].getElementsByClassName("active")[0]
         if (a) {
-          a.className = "";
+          a.className = ""
         }
-        e.target.className = "active";
-        console.log(e.target.className);
+        e.target.className = "active"
+        console.log(e.target.className)
       } else if (target == "I") {
-        this.nowStep = 4;
+        this.nowStep = 4
       }
     },
     nextStep() {
       if (this.nowStep == 2) {
-        let formData = new FormData();
+        let formData = new FormData()
         // let file = this.fileArray[0]
-        let url = "";
+        let url = ""
         if (this.fileArray.length === 1) {
-          url = "http://192.168.21.29:8099/poster/poster/upload";
+          url = "http://192.168.21.29:8099/poster/poster/upload"
         } else if (this.fileArray.length > 1) {
-          url = "http://192.168.21.29:8099/poster/posters/upload";
+          url = "http://192.168.21.29:8099/poster/posters/upload"
         }
         this.fileArray.forEach(item => {
-          formData.append("file", item);
-        });
-        formData.append("widthList", 400);
-        formData.append("heightList", 400);
-        formData.append("seriesId", 1);
-        formData.append("videoNumber", 1);
+          formData.append("file", item)
+        })
+        formData.append("widthList", 400)
+        formData.append("heightList", 400)
+        formData.append("seriesId", 1)
+        formData.append("videoNumber", 1)
 
         let config = {
           headers: { "Content-Type": "multipart/form-data" }
-        };
+        }
         Axios.post(url, formData, config).then(response => {
-          console.log(response.data.msg);
-        });
+          console.log(response.data.msg)
+        })
       }
 
-      this.nowStep++;
+      this.nowStep++
     },
     showToEditor(e) {
       if (e.target.nodeName == "IMG") {
-        let a = this.$refs["forthStep"].getElementsByClassName("active")[0];
+        let a = this.$refs["forthStep"].getElementsByClassName("active")[0]
         if (a) {
-          a.className = "";
+          a.className = ""
         }
-        e.target.className = "active";
-        let canvas1 = this.$refs.canvas1;
-        let ctx1 = canvas1.getContext("2d");
-        let img = new Image();
+        e.target.className = "active"
+        let canvas1 = this.$refs.canvas1
+        let ctx1 = canvas1.getContext("2d")
+        let img = new Image()
         //绘制的时候，图片的高度要读取一下
         img.onload = function() {
-          ctx1.restore();
-          ctx1.clearRect(0, 0, 400, 400);
-          ctx1.drawImage(img, 0, 0, 400, 400);
-        };
-        img.src = e.target.src;
+          ctx1.restore()
+          ctx1.clearRect(0, 0, 400, 400)
+          ctx1.drawImage(img, 0, 0, 400, 400)
+        }
+        img.src = e.target.src
         this.editorImg = e.target.src
-        this.initClip();
+        this.initClip()
       }
     },
     //裁剪拖动相关
     onMoveStart(e) {
-      if(e.target.nodeName !== 'SPAN') return;
+      if(e.target.nodeName !== 'SPAN') return
       this.spanname = e.target.className
       this.isMove = true
     },
     onMove(e) {
-      if (!this.isMove) return;
+      if (!this.isMove) return
       const spanname = this.spanname
       if(spanname === 'photo-clip-area-bottom-right'){
         this.br.bottom -=  e.movementY   
@@ -388,14 +390,14 @@ export default {
     //保存裁剪图片的坐标轴，裁剪图片 
     savePhotoClip () {
       let _this = this
-      let canvas1 = this.$refs.canvas1;
-      let ctx = canvas1.getContext("2d");
-      let img = new Image();
+      let canvas1 = this.$refs.canvas1
+      let ctx = canvas1.getContext("2d")
+      let img = new Image()
       //被选中的图片
-      let a = this.$refs["forthStep"].getElementsByClassName("active")[0];
+      let a = this.$refs["forthStep"].getElementsByClassName("active")[0]
       //绘制的时候，图片的高度要读取一下
       img.onload = function() {
-        ctx.clearRect(0, 0, 400, 400);
+        ctx.clearRect(0, 0, 400, 400)
 
         let natureH = img.naturalHeight
         let natureW = img.naturalWidth
@@ -403,15 +405,15 @@ export default {
         let m = natureH/400 
         let sx = _this.maskT.height
         let sy = _this.maskL.width
-        let sWidth = _this.mask.w;
-        let sHeight = _this.mask.h;
+        let sWidth = _this.mask.w
+        let sHeight = _this.mask.h
 
         //源图片的宽高需要对比例进行计算后取得，目标宽高就不需用了
-        ctx.drawImage(img, sx*n, sy*m, sWidth*n, sHeight*m,_this.maskL.width, _this.maskT.height, _this.mask.w, _this.mask.h,);
+        ctx.drawImage(img, sx*n, sy*m, sWidth*n, sHeight*m,_this.maskL.width, _this.maskT.height, _this.mask.w, _this.mask.h,)
 
         //设置离屏canvas:维持原图的大小
         let offscreenCanvas = document.createElement('canvas'),
-            offscreenContext = offscreenCanvas.getContext('2d');
+            offscreenContext = offscreenCanvas.getContext('2d')
 
         offscreenCanvas.width = natureW
         offscreenCanvas.height = natureH
@@ -419,79 +421,80 @@ export default {
         let newImg = new Image()
         newImg.onload = function () {
           //或许这里应该用本身的图片的资源来裁剪
-          offscreenContext.clearRect(0,0,natureW,natureH)
-          offscreenContext.drawImage(newImg,sx*n,sy*m,sWidth*n,sHeight*m,0,0,natureW,natureH)
-          a.onload = function(){
-            ctx.clearRect(0, 0, 400, 400);
-            ctx.drawImage(a,0,0,400,400)
+          offscreenContext.clearRect(0, 0, natureW, natureH)
+          offscreenContext.drawImage(newImg, sx*n, sy*m, sWidth*n, sHeight*m, 0, 0, natureW, natureH)
+          a.onload = function () {
+            ctx.clearRect(0, 0, 400, 400)
+            ctx.drawImage(a, 0, 0, 400 ,400)
             _this.initClip()
           }
           a.src = offscreenCanvas.toDataURL()
         }
-        newImg.src = a.src;
-      };
-      img.src = this.editorImg;
+        newImg.src = a.src
+      }
+      img.src = this.editorImg
     },
-    //初始化裁剪框
-    initClip() {
-      this.br={ 
-        bottom:0,
-        marginLeft:0
+    // 初始化裁剪框
+    initClip () {
+      this.br = {
+        bottom: 0,
+        marginLeft: 0
       },
-      this.bl={
-        bottom:0,
-        marginLeft:0
+      this.bl = {
+        bottom: 0,
+        marginLeft: 0
       },
-      this.tl={
-        top:0,
-        marginLeft:0
+      this.tl = {
+        top: 0,
+        marginLeft: 0
       },
-      this.tr={
-        top:0,
-        marginLeft:0
+      this.tr = {
+        top: 0,
+        marginLeft: 0
       },
-      this.clip={
-        width:400,
-        height:400,
-        left:0,
-        top:0
+      this.clip = {
+        width: 400,
+        height: 400,
+        left: 0,
+        top: 0
       },
-      this.mask={
-        w:0,
-        h:0
+      this.mask = {
+        w: 0,
+        h: 0
       },
-      this.maskL={
-        height:0,
-        top:0,
-        width:0
+      this.maskL = {
+        height: 0,
+        top: 0,
+        width: 0
       },
-      this.maskT={
-        height:0
+      this.maskT = {
+        height: 0
       },
-      this.maskB={
+      this.maskB = {
         height: 0,
         top: 0
       },
-      this.maskR={
+      this.maskR = {
         height: 0,
         top: 0,
-        left:0
+        left: 0
       }
     }
   },
   watch: {
-    nowStep(v) {
-      this.title = this.steps[v];
-      if(v == 2){
+    nowStep (v) {
+      this.title = this.steps[v]
+      if (v === 2) {
         this.$nextTick(() => {
-          let inputDom = document.getElementsByClassName("el-upload__input")[0];
-          inputDom.click();
+          let inputDom = document.getElementsByClassName("el-upload__input")[0]
+          inputDom.click()
         })
       }
-    }
+    },
+    sizecheckList () {}
   },
-  mounted() {
-    let demo = document.getElementById("demo");
+  mounted () {
+    let demo = document.getElementById("demo")
     Axios.get("http://192.168.21.29:8099/poster/posters/page", {
       params: {
         seriesId: 1,
@@ -500,15 +503,15 @@ export default {
         pageSize: 1
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         demo.src =
-          "data:image/png;base64," + response.data.rows[0].base64String;
+          "data:image/png;base64," + response.data.rows[0].base64String
       })
-      .catch(function(error) {
-        console.log(error);
-      });
+      .catch(function (error) {
+        console.log(error)
+      })
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .poster-content {

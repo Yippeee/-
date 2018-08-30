@@ -20,11 +20,12 @@
         <el-radio v-model="intime" label="1">及时下发</el-radio>
       </p>
       <p class="margin-p">
-        <el-radio v-model="intime" label="2">定时下发:</el-radio> 
+        <el-radio v-model="intime" label="2">定时下发:</el-radio>
         <span class="p-name span-margin">发布次数</span>
         <el-select v-model="publishTime" placeholder="请选择" :disabled="intime == 1">
           <el-option
             v-for="item in options"
+            :key="item"
             :label="item"
             :value="item">
           </el-option>
@@ -48,11 +49,11 @@
 export default {
   data () {
     return {
-      radio:'',
-      time:'',
-      intime:'2',
-      publishTime:'',
-      options:[1,2,3]
+      radio: '',
+      time: '',
+      intime: '2',
+      publishTime: '',
+      options: [1, 2, 3]
     }
   }
 }

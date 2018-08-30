@@ -12,7 +12,7 @@
           <el-button size="mini" type="text" @click="visible2 = false">取消</el-button>
         </div>
         <el-button type="primary" slot="reference"><i class="el-icon-circle-close-outline" @click="visible2 = true"></i> 删除</el-button>
-      </el-popover>     
+      </el-popover>
     </div>
     <div class="table-wrap">
       <div class="table-content">
@@ -146,7 +146,7 @@
                     <el-checkbox label="服务提供商" name="type"></el-checkbox>
                     <el-checkbox label="直播提供商" name="type"></el-checkbox>
                     <el-checkbox label="版权提供商" name="type"></el-checkbox>
-                  </el-scrollbar>  
+                  </el-scrollbar>
                 </el-checkbox-group>
               </el-form-item>
             </el-form>
@@ -211,45 +211,45 @@
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
       </div>
-    </el-dialog>  
+    </el-dialog>
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      addDialogTabs:'first',
-      dialogFormVisible:false,
-      visible2:false,
+      addDialogTabs: 'first',
+      dialogFormVisible: false,
+      visible2: false,
       curPageIdx: 1,
       curPageSize: 50,
       curTotal: 0,
-      pageSizes: [5,20,50,100],
-      dataList:[
+      pageSizes: [5, 20, 50, 100],
+      dataList: [
         {
-          a:12,
-          b:23,
-          c:34,
-          d:54,
-          e:435,
+          a: 12,
+          b: 23,
+          c: 34,
+          d: 54,
+          e: 435
 
         },
         {
-          a:12,
-          b:23,
-          c:34,
-          d:54,
-          e:435,
+          a: 12,
+          b: 23,
+          c: 34,
+          d: 54,
+          e: 435
         },
         {
-          a:12,
-          b:23,
-          c:34,
-          d:54,
-          e:435,
+          a: 12,
+          b: 23,
+          c: 34,
+          d: 54,
+          e: 435
         }
       ],
-      cooperateForm:{}
+      cooperateForm: {}
     }
   }
 }
@@ -293,7 +293,6 @@ export default {
     width: 65%;
     height: 100px;
     box-sizing: border-box;
-    // overflow-y: scroll; 
     position: relative;
     left: 100px;
     top: -40px;

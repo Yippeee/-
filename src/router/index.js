@@ -12,7 +12,7 @@ import systemManager from '@/components/systemManager/systemManager'
 import userManager from '@/components/userManager/userManager'
 import posterEditor from '@/components/videocheck/posterEditor'
 import tocheck from '@/components/videocheck/tocheck'
-/** 
+/**
  * indexPage 首页
  * contenterManager 内容商管理
  * systemManager 后台用户
@@ -26,18 +26,18 @@ export default new Router({
     {
       path: "/",
       name: "",
-      redirect: {name : '首页'}
+      redirect: {name: '首页'}
     },
     {
       path: "/index",
       name: "首页",
       component: index,
-      children:[
-        {        
+      children: [
+        {
           path: 'moreinfo',
           name: '更多信息',
           component: moreinfo
-        },
+        }
       ]
     },
     {
@@ -48,7 +48,7 @@ export default new Router({
     {
       path: '/userManager',
       name: '后台用户',
-      component:userManager,
+      component: userManager,
       redirect: {name: '管理员'},
       children: [
         {
@@ -66,7 +66,7 @@ export default new Router({
     {
       path: '/systemManager',
       name: "系统管理",
-      component:systemManager,
+      component: systemManager,
       redirect: {name: '系统日志'},
       children: [
         {

@@ -34,7 +34,7 @@
         </div>
         <div class="right-content">
           <ul>
-            <li v-for="item in lilistReal">
+            <li v-for="item in lilistReal" :key="item">
               <el-badge v-if="item.isnew" is-dot class="item"><i  class="icon-message"></i></el-badge>
               <i v-else class="icon-message"></i>
               <span class="li-info">{{item.info}}</span>
@@ -120,79 +120,79 @@ export default {
       curPageIdx: 1,
       curPageSize: 50,
       curTotal: 0,
-      rightPage:0,
-      pageSizes: [5,20,50,100],
-      dataList:[
+      rightPage: 0,
+      pageSizes: [5, 20, 50, 100],
+      dataList: [
         {
-          a:12,
-          b:23,
-          c:34,
-          d:54,
-          e:435,
-          right:''
+          a: 12,
+          b: 23,
+          c: 34,
+          d: 54,
+          e: 435,
+          right: ''
         },
         {
-          a:12,
-          b:23,
-          c:34,
-          d:54,
-          e:435,
-          right:''
+          a: 12,
+          b: 23,
+          c: 34,
+          d: 54,
+          e: 435,
+          right: ''
         },
         {
-          a:12,
-          b:23,
-          c:34,
-          d:54,
-          e:435,
-          right:''
+          a: 12,
+          b: 23,
+          c: 34,
+          d: 54,
+          e: 435,
+          right: ''
         }
       ],
-      lilist:[
+      lilist: [
         {
-          info:'如果说这就是在浪费时间的话',
-          time:'06:33',
-          isnew:true
+          info: '如果说这就是在浪费时间的话',
+          time: '06:33',
+          isnew: true
         },
         {
-          info:'如果说这就是在浪费时间的话',
-          time:'06:33',
-          isnew:false
+          info: '如果说这就是在浪费时间的话',
+          time: '06:33',
+          isnew: false
         },
         {
-          info:'如果说这就是在浪费时间的话',
-          time:'06:33',
-          isnew:true
+          info: '如果说这就是在浪费时间的话',
+          time: '06:33',
+          isnew: true
         },
         {
-          info:'如果这都不算爱',
-          time:'17:33',
-          isnew:false
+          info: '如果这都不算爱',
+          time: '17:33',
+          isnew: false
         },
         {
-          info:'如果这都不算爱2',
-          time:'17:33',
-          isnew:true
+          info: '如果这都不算爱2',
+          time: '17:33',
+          isnew: true
         },
         {
-          info:'如果这都不算爱3',
-          time:'17:33',
-          isnew:true
-        },
+          info: '如果这都不算爱3',
+          time: '17:33',
+          isnew: true
+        }
       ],
-      lilistReal:[],
+      lilistReal: []
     }
   },
   created () {
-    this.lilistReal = this.lilist.slice(0,3)
+    this.lilistReal = this.lilist.slice(0, 3)
   },
   watch: {
     rightPage (value) {
-      if(value === 0){
-        this.lilistReal = this.lilist.slice(0,3)
+      if (value === 0) {
+        this.lilistReal = this.lilist.slice(0, 3)
       }
-      if(value === 1){
-        this.lilistReal = this.lilist.slice(3,6)
+      if (value === 1) {
+        this.lilistReal = this.lilist.slice(3, 6)
       }
     }
   },
@@ -200,7 +200,7 @@ export default {
     turnLeft () {},
     turnRight () {},
     showMore () {
-      this.$router.push({path:'index/moreinfo'})
+      this.$router.push({path: 'index/moreinfo'})
     },
     changePageSize (s) {
       this.pageSizes = s

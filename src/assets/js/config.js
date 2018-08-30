@@ -1,4 +1,4 @@
-//系统配置文件
+// 系统配置文件
 const CONFIG = {
   // boss 首页地址
   homepage: "",
@@ -12,13 +12,13 @@ const CONFIG = {
   userid: "3120",
   // 开发模式下的默认用户名
   username: "熊黎",
-  // 开发模式下的默认令牌 
+  // 开发模式下的默认令牌
   token: "TOKEN3120",
   // 可选的每页显示数量
   pagesizes: [20, 30, 50, 100],
-};
+}
 
-//系统接口
+// 系统接口
 const API = {
   
 }
@@ -26,4 +26,4 @@ const API = {
 export {
   API,
   CONFIG
-};
+}

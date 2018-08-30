@@ -127,7 +127,7 @@
             <div class="imgDiv">
               <img src="../../assets/logo.png" alt="">
               <span>1280x720</span>
-            </div> 
+            </div>
           </el-scrollbar>
         </div>
         <div class="checksuggest">
@@ -165,7 +165,7 @@
             <div class="imgDiv">
               <img src="../../assets/logo.png" alt="">
               <span>1280x720</span>
-            </div> 
+            </div>
           </el-scrollbar>
         </div>
         <div class="checksuggest">
@@ -190,12 +190,12 @@
 export default {
   data () {
     return {
-      videoPosterChecked:[],
-      programPosterChecked:[],
-      videoChecked:[],
-      videoInfoChecked:'',
-      programChecked:'',
-      activeNames:['1','2','3','4']
+      videoPosterChecked: [],
+      programPosterChecked: [],
+      videoChecked: [],
+      videoInfoChecked: '',
+      programChecked: '',
+      activeNames: ['1', '2', '3', '4']
     }
   }
 }

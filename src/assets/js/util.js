@@ -1,6 +1,6 @@
-//封装全局方法
-import Axios from "axios";
-import { API, CONFIG } from "./config";
+// 封装全局方法
+// import Axios from "axios"
+// import { API, CONFIG } from "./config"
 
 const util = {
 
@@ -10,7 +10,7 @@ const util = {
    * @param {*} key
    * @param {*} value
    */
-  setCookie (key,value){
+  setCookie (key, value) {
     document.cookie = key + '=' +  value
   },
 
@@ -19,19 +19,20 @@ const util = {
    *
    * @param {*} key
    */
-  getCookies (key){
-    var arr, reg = new RegExp("(^| )" + key + "=([^;]*)(;|$)");
-    if (arr = document.cookie.match(reg))
-      return (arr[2]);
-    else
-      return null;
+  getCookies (key) {
+    var arr
+    var reg = new RegExp("(^| )" + key + "=([^;]*)(;|$)")
+    if (arr === document.cookie.match(reg)) {
+      return (arr[2])
     }
+    else {
+      return null
+    }
+  }
 }
-const http = {
-  
-}
+// const http = {}
 export default{
-  install : function(vm) {
+  install: function (vm) {
     vm.prototype.util = util
   }
-};
+}

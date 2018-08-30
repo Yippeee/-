@@ -53,7 +53,7 @@
 							</el-row>
 							<el-row>
 								<el-col :span="12">
-									<span>报表统计：</span>
+   								<span>报表统计：</span>
 									<el-checkbox-group v-model="item.statistics">
 								    <el-checkbox label="sosoAndLook">搜索/查看</el-checkbox>
 								    <el-checkbox label="download">下载</el-checkbox>
@@ -89,6 +89,7 @@
 
 <script>
 export default {
+  /* eslint-disable*/
 	data() {
 		return {
       adminlist:[]

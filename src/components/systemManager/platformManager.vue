@@ -116,7 +116,6 @@
         <el-form-item label="ftp地址:" prop="id" class="block-el-form">
             <el-input v-model="cooperateForm.id"></el-input>
         </el-form-item>
-              
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogShow = false">取 消</el-button>
@@ -129,32 +128,32 @@
 export default {
   data () {
     return {
-      cooperateForm:'',
-      addDialogShow:false,
-      dataList:[
+      cooperateForm: '',
+      addDialogShow: false,
+      dataList: [
         {
-          a:12,
-          b:23,
-          c:34,
-          d:54,
-          e:435,
+          a: 12,
+          b: 23,
+          c: 34,
+          d: 54,
+          e: 435
 
         },
         {
-          a:12,
-          b:23,
-          c:34,
-          d:54,
-          e:435,
+          a: 12,
+          b: 23,
+          c: 34,
+          d: 54,
+          e: 435
         },
         {
-          a:12,
-          b:23,
-          c:34,
-          d:54,
-          e:435,
+          a: 12,
+          b: 23,
+          c: 34,
+          d: 54,
+          e: 435
         }
-      ],
+      ]
     }
   }
 }
