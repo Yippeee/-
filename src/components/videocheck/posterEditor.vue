@@ -40,12 +40,13 @@
             <el-upload
               ref="upload"
               multiple
+              action= ''
               class="el-upload2"
               list-type="picture-card"
               :on-remove="handleRemove"
               :on-change="change"
               :auto-upload="false">
-              <i class="el-icon-plus" @click="demo" style="padding:40%"></i>
+              <i id="uploadI" class="el-icon-plus" @click="demo" style="padding:40%"></i>
             </el-upload>
           </div>
           <!-- 选择尺寸（图片裁剪界面） -->
@@ -158,6 +159,7 @@ export default {
         "编辑",
         "海报上传"
       ],
+      preventChangeTimes:0,
       nowStep: 1,
       title: "海报",
       dialogVisible: true,
@@ -228,17 +230,24 @@ export default {
     },
     change(file, fileList) {
       this.$nextTick(() => {
-        console.log("change");
-        let dom = document.getElementsByClassName("el-upload__input")[0];
-        console.log('dom.files'+JSON.stringify(dom.files))
-        this.fileArray.push(dom.files[0]);
-        let imageName = dom.files[0].name.match(/([^;]*)\./)[1];
+        if(this.preventChangeTimes !== 0) return
+        let i = this.fileArray.length
+        let inputDom = document.getElementsByClassName("el-upload__input")[0];
+        //允许批量上传，需要直接获取全部选中的文件
+        let files = inputDom.files
         let nodes = document.getElementsByClassName("el-upload-list__item");
-        let node = nodes[nodes.length - 1];
-        node.setAttribute("imgName", imageName);
+        Array.from(files).forEach((item,index) => {
+          this.fileArray.push(inputDom.files[index]); 
+          let imageName = inputDom.files[index].name.match(/([^;]*)\./)[1];
+          let node = nodes[index + i];
+          node.setAttribute("imgName", imageName);
+        })
+        this.preventChangeTimes = 1;
       });
     },
-    demo() {},
+    demo() {
+      this.preventChangeTimes = 0;
+    },
     turnToActive(e) {
       let target = e.target.nodeName;
       if (target == "IMG") {
@@ -473,6 +482,12 @@ export default {
   watch: {
     nowStep(v) {
       this.title = this.steps[v];
+      if(v == 2){
+        this.$nextTick(() => {
+          let inputDom = document.getElementsByClassName("el-upload__input")[0];
+          inputDom.click();
+        })
+      }
     }
   },
   mounted() {
