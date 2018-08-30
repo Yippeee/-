@@ -39,6 +39,7 @@
             <span class="alter">批量上传前，请检查图片是否已按照规则命好名，如‘500x280’</span>
             <el-upload
               ref="upload"
+              multiple
               class="el-upload2"
               list-type="picture-card"
               :on-remove="handleRemove"
@@ -177,11 +178,11 @@ export default {
         marginLeft:0
       },
       tl:{
-        top:0,
+        top:-4,
         marginLeft:0
       },
       tr:{
-        top:0,
+        top:-4,
         marginLeft:0
       },
       clip:{
@@ -229,6 +230,7 @@ export default {
       this.$nextTick(() => {
         console.log("change");
         let dom = document.getElementsByClassName("el-upload__input")[0];
+        console.log('dom.files'+JSON.stringify(dom.files))
         this.fileArray.push(dom.files[0]);
         let imageName = dom.files[0].name.match(/([^;]*)\./)[1];
         let nodes = document.getElementsByClassName("el-upload-list__item");
@@ -342,17 +344,18 @@ export default {
       let editor = this.$refs.editor
       let newLeft = tl.offsetLeft
       let newTop = tl.offsetTop
-      this.rePlace(newWeight,newHeight,newLeft,newTop)
+      this.rePlaceMask(newWeight,newHeight,newLeft,newTop)
     },
     /*
+    **重新计算mask遮罩的位置信息
     **@w 宽度
     **@h 高度
     **@left 绝对定位的Left值
     **@top 绝对定位的top值
     */
-    rePlace(w,h,left,top) {
+    rePlaceMask(w,h,left,top) {
       left = left + 4
-      this.clip.width = w
+      this.clip.width = w - 4
       this.clip.height = h
       this.clip.left = left
       this.clip.top = top
