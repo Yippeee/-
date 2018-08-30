@@ -19,6 +19,7 @@
     "vue-poster-editor": "git+http://192.168.36.155:9999/PD.3/vue-poster-editor.git"
   },
   "devDependencies": {
+    "element-ui": "^2.4.6",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^8.2.1",
