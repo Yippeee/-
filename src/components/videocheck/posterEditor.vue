@@ -296,6 +296,7 @@ export default {
         };
         img.src = e.target.src;
         this.editorImg = e.target.src
+        this.initClip();
       }
     },
     //裁剪拖动相关
@@ -347,7 +348,7 @@ export default {
     **@w 宽度
     **@h 高度
     **@left 绝对定位的Left值
-    **@top top值
+    **@top 绝对定位的top值
     */
     rePlace(w,h,left,top) {
       left = left + 4
@@ -388,28 +389,82 @@ export default {
         let natureW = img.naturalWidth
         let n = natureW/400 
         let m = natureH/400 
-        let sx = _this.maskT.height*n
-        let sy = _this.maskL.width*m
-        let sWidth = _this.mask.w*n;
-        let sHeight = _this.mask.h*m;
+        let sx = _this.maskT.height
+        let sy = _this.maskL.width
+        let sWidth = _this.mask.w;
+        let sHeight = _this.mask.h;
+
         //源图片的宽高需要对比例进行计算后取得，目标宽高就不需用了
-        ctx.drawImage(img, sx, sy, sWidth, sHeight,_this.maskL.width, _this.maskT.height, _this.mask.w, _this.mask.h,);
+        ctx.drawImage(img, sx*n, sy*m, sWidth*n, sHeight*m,_this.maskL.width, _this.maskT.height, _this.mask.w, _this.mask.h,);
 
         //设置离屏canvas:维持原图的大小
         let offscreenCanvas = document.createElement('canvas'),
             offscreenContext = offscreenCanvas.getContext('2d');
+
         offscreenCanvas.width = natureW
         offscreenCanvas.height = natureH
+
         let newImg = new Image()
         newImg.onload = function () {
-          offscreenContext.drawImage(newImg,0,0,natureW,natureH)    
+          //或许这里应该用本身的图片的资源来裁剪
+          offscreenContext.clearRect(0,0,natureW,natureH)
+          offscreenContext.drawImage(newImg,sx*n,sy*m,sWidth*n,sHeight*m,0,0,natureW,natureH)
+          a.onload = function(){
+            ctx.clearRect(0, 0, 400, 400);
+            ctx.drawImage(a,0,0,400,400)
+            _this.initClip()
+          }
           a.src = offscreenCanvas.toDataURL()
         }
-        //或许这里应该用本身的图片的资源来裁剪
-        newImg.src = canvas1.toDataURL()
-        // ctx.restore();
+        newImg.src = a.src;
       };
       img.src = this.editorImg;
+    },
+    //初始化裁剪框
+    initClip() {
+      this.br={ 
+        bottom:0,
+        marginLeft:0
+      },
+      this.bl={
+        bottom:0,
+        marginLeft:0
+      },
+      this.tl={
+        top:0,
+        marginLeft:0
+      },
+      this.tr={
+        top:0,
+        marginLeft:0
+      },
+      this.clip={
+        width:400,
+        height:400,
+        left:0,
+        top:0
+      },
+      this.mask={
+        w:0,
+        h:0
+      },
+      this.maskL={
+        height:0,
+        top:0,
+        width:0
+      },
+      this.maskT={
+        height:0
+      },
+      this.maskB={
+        height: 0,
+        top: 0
+      },
+      this.maskR={
+        height: 0,
+        top: 0,
+        left:0
+      }
     }
   },
   watch: {
@@ -430,8 +485,6 @@ export default {
       .then(function(response) {
         demo.src =
           "data:image/png;base64," + response.data.rows[0].base64String;
-        demo.style.width = response.data.rows[0].width;
-        demo.style.height = response.data.rows[0].height;
       })
       .catch(function(error) {
         console.log(error);
