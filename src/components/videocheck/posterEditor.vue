@@ -9,7 +9,7 @@
       <div class="poster-content">
         <el-scrollbar style="height:100%">
           <!-- 海报 -->
-          <div ref="firstStep" v-if="nowStep == 1" class=" el-scrollbar" @click="turnToActive($event)">
+          <div ref="firstStep" v-if="nowStep == 1" class=" el-scrollbar" @click="turnToActive($event)" @dblclick="turnToActiveDbl($event)">
               <p>320x400竖版海报尺寸 <i class="icon-pencil icon"></i> </p>
               <div class="imgDiv">
                 <img src="../../assets/example.jpg" alt="">
@@ -251,6 +251,15 @@ export default {
     demo() {
       this.preventChangeTimes = 0
     },
+    turnToActiveDbl(e){
+      let target = e.target.nodeName
+      if (target == "IMG") {
+        this.nowStep = 4
+        this.$nextTick(() => {
+          this.showToEditor(e)
+        })
+      }
+    },
     turnToActive(e) {
       let target = e.target.nodeName
       if (target == "IMG") {
@@ -335,15 +344,17 @@ export default {
     //裁剪拖动相关
     onMoveStart(e) {
       this.spanname = e.target.className
-      if(e.target.nodeName !== 'SPAN') return
+      // if(e.target.nodeName !== 'SPAN') return
 
       this.isMove = true
     },
     onMove(e) {
       if (!this.isMove) return
       const spanname = this.spanname
-      let radio = this.radio
+
+      //调整裁剪框大小
       let moveStep = e.movementX
+      let radio = this.radio
       let moveStepY = moveStep / radio
       if(spanname === 'photo-clip-area-bottom-right'){
         this.br.bottom -=  moveStepY
@@ -366,11 +377,12 @@ export default {
         this.tl.top -=  moveStepY
         this.br.marginLeft += moveStep
       }
+
       //获取裁剪框的三个角，来计算新的高度、宽度
       let tr = this.$refs.tr
       let br = this.$refs.br
       let tl = this.$refs.tl
-      // console.log(JSON.stringify(tr.offsetLeft))
+
       //获取新的裁剪区域的高度个宽度
       let newWeight = tr.offsetLeft - tl.offsetLeft
       let newHeight = br.offsetTop - tr.offsetTop
@@ -379,7 +391,15 @@ export default {
       let editor = this.$refs.editor
       let newLeft = tl.offsetLeft
       let newTop = tl.offsetTop
+
+      //调整裁剪框位置
+      if(spanname == 'photo-clip-area'){
+        newLeft += moveStep
+        newTop +=  moveStepY
+      }
+
       this.rePlaceMask(newWeight,newHeight,newLeft,newTop)
+      console.log(newWeight,newHeight,newLeft,newTop)
     },
     /*
     **重新计算mask遮罩的位置信息
@@ -408,6 +428,7 @@ export default {
       this.maskR.top = top
       this.maskR.left = left+w
 
+      console.log(w,h,left,top)
       //判断是否超出范围
     },
     onChangeEnd () {
@@ -680,6 +701,7 @@ export default {
         top: 50%;
         width: 260px;
         height: 260px;
+        cursor: move;
         // transform: translate(-50%, -50%);
       }
       span {
