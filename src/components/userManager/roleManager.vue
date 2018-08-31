@@ -82,8 +82,8 @@
 			</div>
 			<div class="add-admin">
 				<span class="add-button" @click="handleAddUser"><i class="icon icon-adduser"></i>添加管理员</span>
-			</div>
-		</div>
+      </div>
+	  </div>
 	</div>
 </template>
 

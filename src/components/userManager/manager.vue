@@ -124,16 +124,16 @@ export default {
           e:435,
         }
       ],
-      options:[{
-          value: '选项1',
-          label: '超级管理员'
-        },{
-          value: '选项1',
-          label: '普通管理员'
-        },{
-          value: '选项1',
-          label: '用户'
-        }, ]
+      options: [{
+        value: '选项1',
+        label: '超级管理员'
+      },{
+        value: '选项1',
+        label: '普通管理员'
+      },{
+        value: '选项1',
+        label: '用户'
+      }]
     }
   }
 }

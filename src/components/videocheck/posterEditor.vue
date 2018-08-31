@@ -64,7 +64,7 @@
                     </el-collapse-item>
                     <el-collapse-item title="250x400横版海报" name="2">
                       <img src="../../assets/e1.png" >
-                      <img src="../../assets/e2.jpg" >
+                      <img src="../../assets/e2.png" >
                     </el-collapse-item>
                     <el-collapse-item title="420x300横版海报" name="3">
                       <div>简化流程：设计简洁直观的操作流程；</div>
@@ -124,7 +124,7 @@
               <p class="p-header">设配尺寸</p>
                 <el-checkbox-group v-model="sizecheckList">
                   <el-checkbox label="250x250"></el-checkbox>
-                  <el-checkbox label="320x400"></el-checkbox>
+                  <el-checkbox label="652x260"></el-checkbox>
                   <el-checkbox label="1280x980"></el-checkbox>
                 </el-checkbox-group>
             </div>
@@ -208,14 +208,15 @@ export default {
         height: 0
       },
       maskB: {
-        height:  0,
-        top:  0
+        height: 0,
+        top: 0
       },
       maskR: {
-        height:  0,
-        top:  0,
-        left: 0
-      }
+        height: 0,
+        top: 0,
+        left:0
+      },
+      radio:''
     }
   },
   methods: {
@@ -239,7 +240,7 @@ export default {
         let files = inputDom.files
         let nodes = document.getElementsByClassName("el-upload-list__item")
         Array.from(files).forEach((item,index) => {
-          this.fileArray.push(inputDom.files[index]); 
+          this.fileArray.push(inputDom.files[index])
           let imageName = inputDom.files[index].name.match(/([^;]*)\./)[1]
           let node = nodes[index + i]
           node.setAttribute("imgName", imageName)
@@ -292,6 +293,7 @@ export default {
       this.nowStep++
     },
     showToEditor(e) {
+      let _this = this
       if (e.target.nodeName == "IMG") {
         let a = this.$refs["forthStep"].getElementsByClassName("active")[0]
         if (a) {
@@ -305,42 +307,64 @@ export default {
         img.onload = function() {
           ctx1.restore()
           ctx1.clearRect(0, 0, 400, 400)
-          ctx1.drawImage(img, 0, 0, 400, 400)
+          let naturalWidth = img.naturalWidth
+          let naturalHeight = img.naturalHeight
+          let radio = naturalWidth/naturalHeight
+          _this.radio = radio
+          console.log(radio)
+          var w = 400,h = 400,top = 0,left = 0
+          // 宽 > 高
+          if(radio >= 1){
+            h = 400 / radio
+            top = (400 - h) / 2
+          // 宽 < 高
+          }else {
+            w = 400 * radio
+            left = (400 - w) / 2
+          }
+          //TODO: 这个console不知道为啥这么重要，没有就会报错。。
+          console.log(w,h)
+          console.log("left:"+left)
+          ctx1.drawImage(img, left, top, w, h)
+          _this.initClip(w,h,left,top)
         }
         img.src = e.target.src
         this.editorImg = e.target.src
-        this.initClip()
       }
     },
     //裁剪拖动相关
     onMoveStart(e) {
-      if(e.target.nodeName !== 'SPAN') return
       this.spanname = e.target.className
+      if(e.target.nodeName !== 'SPAN') return
+
       this.isMove = true
     },
     onMove(e) {
       if (!this.isMove) return
       const spanname = this.spanname
+      let radio = this.radio
+      let moveStep = e.movementX
+      let moveStepY = moveStep / radio
       if(spanname === 'photo-clip-area-bottom-right'){
-        this.br.bottom -=  e.movementY   
-        this.br.marginLeft += e.movementY
-        this.bl.bottom -=  e.movementY   
-        this.tr.marginLeft += e.movementY
+        this.br.bottom -=  moveStepY
+        this.br.marginLeft += moveStep
+        this.bl.bottom -=  moveStepY
+        this.tr.marginLeft += moveStep
       }else if(spanname === 'photo-clip-area-bottom-left'){
-        this.bl.bottom -=  e.movementY   
-        this.bl.marginLeft -= e.movementY 
-        this.br.bottom -=  e.movementY   
-        this.tl.marginLeft -= e.movementY 
+        this.bl.bottom +=  moveStepY
+        this.bl.marginLeft += moveStep
+        this.br.bottom +=  moveStepY
+        this.tl.marginLeft += moveStep
       }else if(spanname === 'photo-clip-area-top-left'){
-        this.tl.top +=  e.movementY   
-        this.tl.marginLeft += e.movementY 
-        this.bl.marginLeft += e.movementY 
-        this.tr.top +=  e.movementY   
+        this.tl.top +=  moveStepY
+        this.tl.marginLeft += moveStep
+        this.bl.marginLeft += moveStep
+        this.tr.top +=  moveStepY   
       }else if(spanname === 'photo-clip-area-top-right'){
-        this.tr.top +=  e.movementY   
-        this.tr.marginLeft -= e.movementY
-        this.tl.top +=  e.movementY   
-        this.br.marginLeft -= e.movementY
+        this.tr.top -=  moveStepY
+        this.tr.marginLeft += moveStep
+        this.tl.top -=  moveStepY
+        this.br.marginLeft += moveStep
       }
       //获取裁剪框的三个角，来计算新的高度、宽度
       let tr = this.$refs.tr
@@ -383,6 +407,8 @@ export default {
       this.maskR.height = h
       this.maskR.top = top
       this.maskR.left = left+w
+
+      //判断是否超出范围
     },
     onChangeEnd () {
       this.isMove = false
@@ -435,50 +461,51 @@ export default {
       img.src = this.editorImg
     },
     // 初始化裁剪框
-    initClip () {
+    initClip (width=400,height=400,left = 0,top = 0) {
       this.br = {
-        bottom: 0,
-        marginLeft: 0
+        bottom: 400 - height - top,
+        marginLeft: width - 400 + left
       },
       this.bl = {
-        bottom: 0,
-        marginLeft: 0
+        bottom: 400 - height - top,
+        marginLeft: left
       },
       this.tl = {
-        top: 0,
-        marginLeft: 0
+        top: top,
+        marginLeft: left
       },
       this.tr = {
-        top: 0,
-        marginLeft: 0
+        top: top,
+        marginLeft: width - 400 + left
       },
       this.clip = {
-        width: 400,
-        height: 400,
-        left: 0,
-        top: 0
+        width: width,
+        height: height,
+        left: left,
+        top: top
       },
       this.mask = {
-        w: 0,
-        h: 0
+        w: width,
+        h: height
       },
       this.maskL = {
-        height: 0,
-        top: 0,
-        width: 0
+        height: top,
+        top: top,
+        width: left
       },
       this.maskT = {
-        height: 0
+        height: top
       },
       this.maskB = {
         height: 0,
-        top: 0
+        top: top
       },
       this.maskR = {
-        height: 0,
-        top: 0,
+        height: top,
+        top: top,
         left: 0
       }
+      this.rePlaceMask(width,height,left,top)
     }
   },
   watch: {
