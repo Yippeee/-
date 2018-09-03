@@ -20,13 +20,9 @@ const util = {
    * @param {*} key
    */
   getCookies (key) {
-    var arr
     var reg = new RegExp("(^| )" + key + "=([^;]*)(;|$)")
-    if (arr === document.cookie.match(reg)) {
-      return (arr[2])
-    } else {
-      return null
-    }
+    var arr = document.cookie.match(reg)
+    return arr[2]
   }
 }
 // const http = {}
