@@ -477,8 +477,8 @@ export default {
 
     // 重新计算mask遮罩的位置信息
     rePlaceMask(w,h,left,top) {
-      left = left + 4
-      this.clip.width = w - 4
+      left = left 
+      this.clip.width = w 
       this.clip.height = h
       this.clip.left = left
       this.clip.top = top
@@ -849,6 +849,7 @@ export default {
   border: 1px dashed rgba(144,147,153,.5);
   border-radius: 6px;
   text-align: center;
+  cursor: pointer;
   &.active {
     margin: 0px;
     border: 3px solid #22a2ff;
