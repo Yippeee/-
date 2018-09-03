@@ -1,6 +1,6 @@
 <template>
   <div class="posterEditor">
-    <img id="demo" alt="" style="width:100px;height:100px">
+    <img id="demo" alt="" style="width:auto;max-height:100px">
     <el-button @click="dialogVisible = true,nowStep = 1">海报</el-button>
     <el-dialog
       :visible.sync="dialogVisible"
@@ -12,25 +12,35 @@
           <div ref="firstStep" v-if="nowStep == 1" class=" el-scrollbar" @click="turnToActive($event)" @dblclick="turnToActiveDbl($event)">
               <p>320x400竖版海报尺寸 <i class="icon-pencil icon"></i> </p>
               <div class="imgDiv">
-                <img src="../../assets/example.jpg" alt="">
+                <div class="img-wrap">
+                  <img src="../../assets/example.jpg" alt="">
+                </div>
                 <span>320x400</span>
               </div>
               <div class="imgDiv">
-                <img src="../../assets/logo.png" alt="">
+                <div class="img-wrap">
+                  <img src="../../assets/logo.png" alt="">
+                </div>
                 <span>320x400</span>
               </div>
               <div class="imgDiv">
-                <img src="../../assets/logo.png" alt="">
+                <div class="img-wrap">
+                  <img src="../../assets/logo.png" alt="">
+                </div>
                 <span>320x400</span>
               </div>
               <p>500x280竖版海报尺寸 <i class="icon-pencil icon"></i></p>
               <div class="imgDiv">
-                <img src="../../assets/example.jpg" alt="">
+                <div class="img-wrap">
+                  <img src="../../assets/example.jpg" alt="">
+                </div>
                 <span>500x280</span>
               </div>
               <p>1280x720 <i class="icon-pencil icon"></i></p>
               <div class="imgDiv">
-                <img src="../../assets/logo.png" alt="">
+                <div class="img-wrap">
+                  <img src="../../assets/logo.png" alt="">
+                </div>
                 <span>1280x720</span>
               </div>
           </div>
@@ -59,16 +69,28 @@
                 <div class="preview-content" @click="showToEditor($event)">
                   <el-collapse v-model="activeNames">
                     <el-collapse-item title="320x400横版海报" name="1">
-                      <img src="../../assets/logo.png" >
-                      <img src="../../assets/example.jpg" >
+                      <div class="img-wrap">
+                        <img src="../../assets/logo.png" >
+                      </div>
+                      <div class="img-wrap">
+                        <img src="../../assets/example.jpg" >
+                      </div>
                     </el-collapse-item>
                     <el-collapse-item title="250x400横版海报" name="2">
-                      <img src="../../assets/e1.png" >
-                      <img src="../../assets/e2.png" >
+                      <div class="img-wrap">
+                        <img src="../../assets/e1.png" >
+                      </div>
+                      <div class="img-wrap">
+                        <img src="../../assets/e2.png" >
+                      </div>
                     </el-collapse-item>
                     <el-collapse-item title="420x300横版海报" name="3">
-                      <img src="../../assets/e3.jpg" >
-                      <img src="../../assets/e3.jpg" >
+                      <div class="img-wrap">
+                        <img src="../../assets/e3.jpg" >
+                      </div>
+                      <div class="img-wrap">
+                        <img src="../../assets/e3.jpg" >
+                      </div>
                     </el-collapse-item>
                     <el-collapse-item title="1320x900横版海报" name="4">
                       <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
@@ -272,12 +294,16 @@ export default {
 
     turnToActive(e) {
       let target = e.target.nodeName
+      console.log(target)
+      if(e.target.className == "img-wrap"){
+        e.target.firstChild.click()
+      }
       if (target == "IMG") {
         let a = this.$refs["firstStep"].getElementsByClassName("active")[0]
         if (a) {
-          a.className = ""
+          a.className = "img-wrap"
         }
-        e.target.className = "active"
+        e.target.parentNode.className = "active img-wrap"
         console.log(e.target.className)
       } else if (target == "I") {
         this.nowStep = 4
@@ -316,12 +342,16 @@ export default {
     // image加载进入editor里面
     showToEditor(e) {
       let _this = this
+      console.log(JSON.stringify(e.target.className))
+      if(e.target.className == "img-wrap"){
+        e.target.firstChild.click()
+      }
       if (e.target.nodeName == "IMG") {
         let a = this.$refs["forthStep"].getElementsByClassName("active")[0]
         if (a) {
-          a.className = ""
+          a.className = "img-wrap"
         }
-        e.target.className = "active"
+        e.target.parentNode.className = "active img-wrap"
         let canvas1 = this.$refs.canvas1
         let ctx1 = canvas1.getContext("2d")
         let img = new Image()
@@ -620,21 +650,14 @@ export default {
   overflow-y: hidden;
   .imgDiv {
     display: inline-block;
-    width: 140px;
+    width: 160px;
     text-align: center;
     font-size: 14px;
     color: #909399;
     margin-bottom: 30px;
-    margin-right: 10px;
-    img {
-      width: 140px;
-      height: 140px;
-      margin: 3px;
-      &.active {
-        margin: 0px;
-        border: 3px solid #22a2ff;
-        border-radius: 6px;
-      }
+    margin-right: 30px;
+    .img-wrap{
+      margin-right: 5px;
     }
   }
   p {
@@ -669,16 +692,6 @@ export default {
       .preview-content {
         display: inline-block;
         height: 600px;
-      }
-    }
-    img {
-      width: 150px;
-      height: 150px;
-      margin: 3px;
-      &.active {
-        margin: 0px;
-        border: 3px solid #22a2ff;
-        border-radius: 6px;
       }
     }
     .p-header {
@@ -825,6 +838,30 @@ export default {
   }
   .p-header {
     padding-left: 20px;
+  }
+}
+.img-wrap {
+  position: relative;
+  display: inline-block;
+  width: 154px;
+  height: 154px;
+  margin: 2px;
+  border: 1px dashed rgba(144,147,153,.5);
+  border-radius: 6px;
+  text-align: center;
+  &.active {
+    margin: 0px;
+    border: 3px solid #22a2ff;
+    border-radius: 6px;
+  }
+  img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    box-sizing: border-box;
+    max-width: 150px;
+    max-height: 150px;
   }
 }
 </style>
