@@ -11,7 +11,7 @@ const util = {
    * @param {*} value
    */
   setCookie (key, value) {
-    document.cookie = key + '=' +  value
+    document.cookie = key + '=' + value
   },
 
   /**
@@ -24,8 +24,7 @@ const util = {
     var reg = new RegExp("(^| )" + key + "=([^;]*)(;|$)")
     if (arr === document.cookie.match(reg)) {
       return (arr[2])
-    }
-    else {
+    } else {
       return null
     }
   }

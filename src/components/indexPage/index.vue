@@ -4,7 +4,7 @@
       <div class="left-header">
         <span class="header-name">系统运行情况</span>
         <div class="card">
-          <el-progress type="circle" :percentage="75" color="#8e71c7" stroke-width='10' width='100'></el-progress>
+          <el-progress type="circle" :percentage="75" color="#8e71c7" stroke-width=10 width=100></el-progress>
           <div class="card-content">
             <p class="percent">75%</p>
             <p>内存使用占比</p>
@@ -34,7 +34,7 @@
         </div>
         <div class="right-content">
           <ul>
-            <li v-for="item in lilistReal" :key="item">
+            <li v-for="(item,index) in lilistReal" :key="index">
               <el-badge v-if="item.isnew" is-dot class="item"><i  class="icon-message"></i></el-badge>
               <i v-else class="icon-message"></i>
               <span class="li-info">{{item.info}}</span>

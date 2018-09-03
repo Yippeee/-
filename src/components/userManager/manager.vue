@@ -99,38 +99,38 @@ export default {
       curPageIdx: 1,
       curPageSize: 50,
       curTotal: 0,
-      pageSizes: [5,20,50,100],
-      dataList:[
+      pageSizes: [5, 20, 50, 100],
+      dataList: [
         {
-          a:12,
-          b:23,
-          c:34,
-          d:54,
-          e:435,
+          a: 12,
+          b: 23,
+          c: 34,
+          d: 54,
+          e: 435
 
         },
         {
-          a:12,
-          b:23,
-          c:34,
-          d:54,
-          e:435,
+          a: 12,
+          b: 23,
+          c: 34,
+          d: 54,
+          e: 435
         },
         {
-          a:12,
-          b:23,
-          c:34,
-          d:54,
-          e:435,
+          a: 12,
+          b: 23,
+          c: 34,
+          d: 54,
+          e: 435
         }
       ],
       options: [{
         value: '选项1',
         label: '超级管理员'
-      },{
+      }, {
         value: '选项1',
         label: '普通管理员'
-      },{
+      }, {
         value: '选项1',
         label: '用户'
       }]

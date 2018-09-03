@@ -88,7 +88,7 @@ export default new Router({
     },
     {
       path: "/posterEditor",
-      name: "内容商管理",
+      name: "内容商管理2",
       component: posterEditor
     },
     {

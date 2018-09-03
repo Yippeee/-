@@ -4,7 +4,7 @@
       <!-- 左侧menu信息 -->
       <div class="menu-wrap">
         <menu-header></menu-header>
-        <menu-content @change="routerChange"></menu-content>
+        <menu-content></menu-content>
       </div>
 
       <!-- 导航提示 -->

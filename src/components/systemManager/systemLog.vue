@@ -72,8 +72,8 @@
 export default {
   data () {
     return {
-      begintime:'',
-      endtime:''
+      begintime: '',
+      endtime: ''
     }
   }
 }
