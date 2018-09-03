@@ -510,7 +510,7 @@ export default {
       let ctx = canvas1.getContext("2d")
       let img = new Image()
       //被选中的图片
-      let a = this.$refs["forthStep"].getElementsByClassName("active")[0]
+      let a = this.$refs["forthStep"].getElementsByClassName("active")[0].firstChild
       //绘制的时候，图片的高度要读取一下
       img.onload = function() {
         ctx.clearRect(0, 0, 400, 400)
