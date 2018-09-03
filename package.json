@@ -13,10 +13,10 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.4.6",
+    "lodash": "^4.17.10",
     "style-loader": "^0.22.1",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
-    "vue-poster-editor": "git+http://192.168.36.155:9999/PD.3/vue-poster-editor.git"
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "element-ui": "^2.4.6",

@@ -4,7 +4,6 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
-import vuePosterEditor from 'vue-poster-editor'
 
 // eslint-disable-next-line
 import '!style-loader!css-loader!less-loader!@/assets/css/main.less'
@@ -16,7 +15,6 @@ Vue.config.productionTip = false
 Vue.use(util)
 
 Vue.use(ElementUI)
-Vue.use(vuePosterEditor)
 
 /* eslint-disable no-new */
 new Vue({

@@ -145,6 +145,7 @@
 <script>
 
 import Axios from "axios"
+import _ from 'lodash'
 /* eslint-disable*/
 export default {
   data() {
@@ -216,7 +217,13 @@ export default {
         top: 0,
         left:0
       },
-      radio:''
+      radio:'',
+      initClipData: {
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0
+    }
     }
   },
   methods: {
@@ -301,6 +308,7 @@ export default {
 
       this.nowStep++
     },
+    // image加载进入editor里面
     showToEditor(e) {
       let _this = this
       if (e.target.nodeName == "IMG") {
@@ -318,9 +326,9 @@ export default {
           ctx1.clearRect(0, 0, 400, 400)
           let naturalWidth = img.naturalWidth
           let naturalHeight = img.naturalHeight
-          let radio = naturalWidth/naturalHeight
+          let radio = naturalWidth / naturalHeight
           _this.radio = radio
-          console.log(radio)
+          // console.log(radio)
           var w = 400,h = 400,top = 0,left = 0
           // 宽 > 高
           if(radio >= 1){
@@ -331,9 +339,8 @@ export default {
             w = 400 * radio
             left = (400 - w) / 2
           }
-          //TODO: 这个console不知道为啥这么重要，没有就会报错。。
-          console.log(w,h)
-          console.log("left:"+left)
+          // console.log(w,h)
+          // console.log("left:"+left)
           ctx1.drawImage(img, left, top, w, h)
           _this.initClip(w,h,left,top)
         }
@@ -341,14 +348,12 @@ export default {
         this.editorImg = e.target.src
       }
     },
-    //裁剪拖动相关
+    // 裁剪拖动相关
     onMoveStart(e) {
       this.spanname = e.target.className
-      // if(e.target.nodeName !== 'SPAN') return
-
       this.isMove = true
     },
-    onMove(e) {
+    onMove: _.throttle(function(e) {
       if (!this.isMove) return
       const spanname = this.spanname
 
@@ -356,6 +361,10 @@ export default {
       let moveStep = e.movementX
       let radio = this.radio
       let moveStepY = moveStep / radio
+      // 真实Y移动距离
+      let moveStepReaY = e.movementY
+      let idata = this.initClipData
+
       if(spanname === 'photo-clip-area-bottom-right'){
         this.br.bottom -=  moveStepY
         this.br.marginLeft += moveStep
@@ -378,12 +387,12 @@ export default {
         this.br.marginLeft += moveStep
       }
 
-      //获取裁剪框的三个角，来计算新的高度、宽度
+      // 获取裁剪框的三个角，来计算新的高度、宽度
       let tr = this.$refs.tr
       let br = this.$refs.br
       let tl = this.$refs.tl
 
-      //获取新的裁剪区域的高度个宽度
+      // 获取新的裁剪区域的高度个宽度
       let newWeight = tr.offsetLeft - tl.offsetLeft
       let newHeight = br.offsetTop - tr.offsetTop
       this.mask.w =  newWeight
@@ -392,21 +401,48 @@ export default {
       let newLeft = tl.offsetLeft
       let newTop = tl.offsetTop
 
-      //调整裁剪框位置
+      // 调整裁剪框位置
       if(spanname == 'photo-clip-area'){
-        newLeft += moveStep
-        newTop +=  moveStepY
-      }
 
-      this.rePlaceMask(newWeight,newHeight,newLeft,newTop)
+          if(this.tl.marginLeft < idata.left && moveStep < 0){
+            return false
+          }else if(this.tl.top < idata.top && moveStepReaY < 0){
+            return false
+          }else if(this.bl.bottom < idata.bottom && moveStepReaY > 0){
+            return false
+          }else if(this.br.marginLeft > -idata.right && moveStep > 0){
+            return false
+          }
+
+        newLeft += moveStep
+        newTop +=  moveStepReaY
+
+        this.br.bottom -=  moveStepReaY
+        this.br.marginLeft += moveStep
+        this.bl.bottom -=  moveStepReaY
+        this.tr.marginLeft += moveStep
+        
+        this.bl.marginLeft += moveStep
+        this.tl.marginLeft += moveStep
+
+        this.tl.top +=  moveStepReaY
+        this.tr.top +=  moveStepReaY 
+        this.rePlaceMask(newWeight,newHeight,newLeft,newTop)
+
+        if(this.tl.marginLeft < idata.left || this.tl.top < idata.top || this.bl.bottom< idata.bottom || this.tr.marginLeft > -idata.right){
+          this.isMove = false
+        }
+      }else{
+        this.rePlaceMask(newWeight,newHeight,newLeft,newTop)
+      }
       console.log(newWeight,newHeight,newLeft,newTop)
-    },
+    },15),
     /*
-    **重新计算mask遮罩的位置信息
-    **@w 宽度
-    **@h 高度
-    **@left 绝对定位的Left值
-    **@top 绝对定位的top值
+    **  重新计算mask遮罩的位置信息
+    **  @w 宽度
+    **  @h 高度
+    **  @left 绝对定位的Left值
+    **  @top 绝对定位的top值
     */
     rePlaceMask(w,h,left,top) {
       left = left + 4
@@ -428,8 +464,7 @@ export default {
       this.maskR.top = top
       this.maskR.left = left+w
 
-      console.log(w,h,left,top)
-      //判断是否超出范围
+      // console.log(w,h,left,top)
     },
     onChangeEnd () {
       this.isMove = false
@@ -526,6 +561,14 @@ export default {
         top: top,
         left: 0
       }
+      // 初始裁剪框的位置信息
+      this.initClipData = {
+        top: top,
+        left: left,
+        bottom: 400 - height - top,
+        right: 400 - left - width
+      }
+      console.log(JSON.stringify(this.initClipData))
       this.rePlaceMask(width,height,left,top)
     }
   },
