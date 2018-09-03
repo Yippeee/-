@@ -67,9 +67,8 @@
                       <img src="../../assets/e2.png" >
                     </el-collapse-item>
                     <el-collapse-item title="420x300横版海报" name="3">
-                      <div>简化流程：设计简洁直观的操作流程；</div>
-                      <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
-                      <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
+                      <img src="../../assets/e3.jpg" >
+                      <img src="../../assets/e3.jpg" >
                     </el-collapse-item>
                     <el-collapse-item title="1320x900横版海报" name="4">
                       <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
@@ -169,7 +168,7 @@ export default {
       dialogVisible2: true,
       uploadData: {},
       fileArray: [],
-      activeNames: ["1", "2"],
+      activeNames: ["1", "3"],
       sizecheckList: [],
       isMove: false,
       spanname: '',
@@ -238,6 +237,7 @@ export default {
         }
       })
     },
+
     change(file, fileList) {
       this.$nextTick(() => {
         if(this.preventChangeTimes !== 0) return
@@ -255,9 +255,11 @@ export default {
         this.preventChangeTimes = 1
       })
     },
+    
     demo() {
       this.preventChangeTimes = 0
     },
+
     turnToActiveDbl(e){
       let target = e.target.nodeName
       if (target == "IMG") {
@@ -267,6 +269,7 @@ export default {
         })
       }
     },
+
     turnToActive(e) {
       let target = e.target.nodeName
       if (target == "IMG") {
@@ -280,6 +283,7 @@ export default {
         this.nowStep = 4
       }
     },
+
     nextStep() {
       if (this.nowStep == 2) {
         let formData = new FormData()
@@ -308,6 +312,7 @@ export default {
 
       this.nowStep++
     },
+
     // image加载进入editor里面
     showToEditor(e) {
       let _this = this
@@ -348,11 +353,13 @@ export default {
         this.editorImg = e.target.src
       }
     },
+
     // 裁剪拖动相关
     onMoveStart(e) {
       this.spanname = e.target.className
       this.isMove = true
     },
+
     onMove: _.throttle(function(e) {
       if (!this.isMove) return
       const spanname = this.spanname
@@ -435,15 +442,10 @@ export default {
       }else{
         this.rePlaceMask(newWeight,newHeight,newLeft,newTop)
       }
-      console.log(newWeight,newHeight,newLeft,newTop)
-    },15),
-    /*
-    **  重新计算mask遮罩的位置信息
-    **  @w 宽度
-    **  @h 高度
-    **  @left 绝对定位的Left值
-    **  @top 绝对定位的top值
-    */
+      // console.log(newWeight,newHeight,newLeft,newTop)
+    },25),
+
+    // 重新计算mask遮罩的位置信息
     rePlaceMask(w,h,left,top) {
       left = left + 4
       this.clip.width = w - 4
@@ -466,9 +468,11 @@ export default {
 
       // console.log(w,h,left,top)
     },
+
     onChangeEnd () {
       this.isMove = false
     },
+
     //保存裁剪图片的坐标轴，裁剪图片 
     savePhotoClip () {
       let _this = this
@@ -483,15 +487,20 @@ export default {
 
         let natureH = img.naturalHeight
         let natureW = img.naturalWidth
-        let n = natureW/400 
-        let m = natureH/400 
+        //width
+        let n = _this.radio > 1 ? natureW/400 : natureW /(400*_this.radio)
+        //heihgt
+        let m = _this.radio < 1 ? natureH/400 : natureH /(400/_this.radio)
         let sx = _this.maskT.height
         let sy = _this.maskL.width
         let sWidth = _this.mask.w
         let sHeight = _this.mask.h
 
         //源图片的宽高需要对比例进行计算后取得，目标宽高就不需用了
-        ctx.drawImage(img, sx*n, sy*m, sWidth*n, sHeight*m,_this.maskL.width, _this.maskT.height, _this.mask.w, _this.mask.h,)
+        console.log("裁剪的坐标信息: top: "+(sx-_this.initClipData.top)*n + ' left:' + (sy-_this.initClipData.left)*m)
+        console.log("裁剪的坐标信息: width: "+(sx-_this.initClipData.top)*n + ' left:' + (sy-_this.initClipData.left)*m)
+
+        ctx.drawImage(img, (sy-_this.initClipData.left)*m, (sx-_this.initClipData.top)*n, sWidth*n, sHeight*m,_this.maskL.width, _this.maskT.height, _this.mask.w, _this.mask.h,)
 
         //设置离屏canvas:维持原图的大小
         let offscreenCanvas = document.createElement('canvas'),
@@ -502,20 +511,21 @@ export default {
 
         let newImg = new Image()
         newImg.onload = function () {
-          //或许这里应该用本身的图片的资源来裁剪
+          //这里用本身的图片的资源来裁剪，保持图片的质量
           offscreenContext.clearRect(0, 0, natureW, natureH)
-          offscreenContext.drawImage(newImg, sx*n, sy*m, sWidth*n, sHeight*m, 0, 0, natureW, natureH)
-          a.onload = function () {
-            ctx.clearRect(0, 0, 400, 400)
-            ctx.drawImage(a, 0, 0, 400 ,400)
-            _this.initClip()
-          }
+          offscreenContext.drawImage(newImg, (sy-_this.initClipData.left)*m,(sx-_this.initClipData.top)*n,  sWidth*n, sHeight*m, 0, 0, natureW, natureH)
+          // a.onload = function () {
+          //   ctx.clearRect(0, 0, 400, 400)
+          //   ctx.drawImage(a, 0, 0, 400 ,400)
+          //   _this.initClip()
+          // }
           a.src = offscreenCanvas.toDataURL()
         }
         newImg.src = a.src
       }
       img.src = this.editorImg
     },
+
     // 初始化裁剪框
     initClip (width=400,height=400,left = 0,top = 0) {
       this.br = {
