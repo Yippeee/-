@@ -34,7 +34,7 @@ export default {
       pageSizes: [5, 20, 50, 100],
       tableData: [
         {
-          info: 'idjfsaifhiasd',
+          info: '你的券还有10天过期',
           time: '2018-06-18 09:00'
         },
         {
@@ -72,6 +72,9 @@ export default {
         padding:10px;
         border-bottom: 1px solid #c1c1c1;
         position: relative;
+        .info{
+          margin-left: 8px;
+        }
         i{
           display: inline-block;
           width: 20px;

@@ -135,7 +135,7 @@ export default {
   left: 194px;
   right: 20px;
   top: 0;
-  padding-left: 20px;
+  padding-left: 0px;
   height: 40px;
   line-height: 40px;
   white-space: nowrap;

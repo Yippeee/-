@@ -75,6 +75,9 @@
                       <div class="img-wrap">
                         <img src="../../assets/example.jpg" >
                       </div>
+                      <div class="img-wrap">
+                        <img src="../../assets/d1.gif" >
+                      </div>
                     </el-collapse-item>
                     <el-collapse-item title="250x400横版海报" name="2">
                       <div class="img-wrap">
@@ -346,7 +349,7 @@ export default {
     // image加载进入editor里面
     showToEditor(e) {
       let _this = this
-      console.log(JSON.stringify(e.target.className))
+      // console.log(JSON.stringify(e.target.className))
       if(e.target.className == "img-wrap"){
         e.target.firstChild.click()
       }
@@ -559,7 +562,8 @@ export default {
             // _this.initClip()
             a.click()
           }
-          a.src = offscreenCanvas.toDataURL()
+          console.log(_this.getImageExt(0,a.src))
+          a.src = offscreenCanvas.toDataURL(_this.getImageExt(0,a.src))
         }
         newImg.src = a.src
       }
@@ -622,6 +626,28 @@ export default {
       }
       console.log(JSON.stringify(this.initClipData))
       this.rePlaceMask(width,height,left,top)
+    },
+
+    // 获取图片格式 
+    // @e:点击事件参数  (如果在没有点击事件时候调用，传0)
+    // return：toDataUrl的格式参数 (String) 
+    getImageExt (e,src) {
+      if (e) {
+        src = e.target.src
+      }
+      let _index = src.lastIndexOf(".")
+      let ext
+      console.log(_index)
+      if (_index !== -1) {
+        ext = src.substr(_index+1)
+      } else {
+        let reg = /\/([^;]*);/
+        ext = src.match(reg)[1]
+      }
+      if(ext === 'jpg'){
+        ext = 'jpeg'
+      }
+      return 'image/'+ext
     }
   },
   watch: {
