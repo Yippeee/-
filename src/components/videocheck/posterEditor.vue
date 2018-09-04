@@ -170,11 +170,11 @@
 
 import Axios from "axios"
 import _ from 'lodash'
-/* eslint-disable*/
+
 const CANVAS_WIDTH = 400
 const CANVAS_HEIGHT = 400
 export default {
-  data() {
+  data () {
     return {
       steps: [
         "",
@@ -187,7 +187,7 @@ export default {
         "编辑",
         "海报上传"
       ],
-      preventChangeTimes:0,
+      preventChangeTimes: 0,
       nowStep: 1,
       title: "海报",
       dialogVisible: true,
@@ -241,9 +241,9 @@ export default {
       maskR: {
         height: 0,
         top: 0,
-        left:0
+        left: 0
       },
-      radio:'',
+      radio: '',
       initClipData: {
         top: 0,
         left: 0,
@@ -251,11 +251,11 @@ export default {
         right: 0,
         width: 0,
         height: 0
-    }
+      }
     }
   },
   methods: {
-    handleRemove(file, fileList) {
+    handleRemove (file, fileList) {
       let nodes = document.getElementsByClassName("el-upload-list__item")
       Array.from(nodes).forEach((element, index) => {
         if (index < nodes.length - 1) {
@@ -267,15 +267,15 @@ export default {
       })
     },
 
-    change(file, fileList) {
+    change (file, fileList) {
       this.$nextTick(() => {
-        if(this.preventChangeTimes !== 0) return
+        if (this.preventChangeTimes !== 0) return
         let i = this.fileArray.length
         let inputDom = document.getElementsByClassName("el-upload__input")[0]
-        //允许批量上传，需要直接获取全部选中的文件
+        // 允许批量上传，需要直接获取全部选中的文件
         let files = inputDom.files
         let nodes = document.getElementsByClassName("el-upload-list__item")
-        Array.from(files).forEach((item,index) => {
+        Array.from(files).forEach((item, index) => {
           this.fileArray.push(inputDom.files[index])
           let imageName = inputDom.files[index].name.match(/([^;]*)\./)[1]
           let node = nodes[index + i]
@@ -284,14 +284,13 @@ export default {
         this.preventChangeTimes = 1
       })
     },
-    
-    demo() {
+    demo () {
       this.preventChangeTimes = 0
     },
 
-    turnToActiveDbl(e){
+    turnToActiveDbl (e) {
       let target = e.target.nodeName
-      if (target == "IMG") {
+      if (target === "IMG") {
         this.nowStep = 4
         this.$nextTick(() => {
           this.showToEditor(e)
@@ -299,26 +298,26 @@ export default {
       }
     },
 
-    turnToActive(e) {
+    turnToActive (e) {
       let target = e.target.nodeName
       console.log(target)
-      if(e.target.className == "img-wrap"){
+      if (e.target.className === "img-wrap") {
         e.target.firstChild.click()
       }
-      if (target == "IMG") {
+      if (target === "IMG") {
         let a = this.$refs["firstStep"].getElementsByClassName("active")[0]
         if (a) {
           a.className = "img-wrap"
         }
         e.target.parentNode.className = "active img-wrap"
         console.log(e.target.className)
-      } else if (target == "I") {
+      } else if (target === "I") {
         this.nowStep = 4
       }
     },
 
-    nextStep() {
-      if (this.nowStep == 2) {
+    nextStep () {
+      if (this.nowStep === 2) {
         let formData = new FormData()
         // let file = this.fileArray[0]
         let url = ""
@@ -347,13 +346,13 @@ export default {
     },
 
     // image加载进入editor里面
-    showToEditor(e) {
+    showToEditor (e) {
       let _this = this
       // console.log(JSON.stringify(e.target.className))
-      if(e.target.className == "img-wrap"){
+      if (e.target.className === "img-wrap") {
         e.target.firstChild.click()
       }
-      if (e.target.nodeName == "IMG") {
+      if (e.target.nodeName === "IMG") {
         let a = this.$refs["forthStep"].getElementsByClassName("active")[0]
         if (a) {
           a.className = "img-wrap"
@@ -362,8 +361,8 @@ export default {
         let canvas1 = this.$refs.canvas1
         let ctx1 = canvas1.getContext("2d")
         let img = new Image()
-        //绘制的时候，图片的高度要读取一下
-        img.onload = function() {
+        // 绘制的时候，图片的高度要读取一下
+        img.onload = function () {
           ctx1.restore()
           ctx1.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
           let naturalWidth = img.naturalWidth
@@ -371,20 +370,23 @@ export default {
           let radio = naturalWidth / naturalHeight
           _this.radio = radio
           // console.log(radio)
-          var w = CANVAS_WIDTH,h = CANVAS_HEIGHT,top = 0,left = 0
+          let w = CANVAS_WIDTH
+          let h = CANVAS_HEIGHT
+          let top = 0
+          let left = 0
           // 宽 > 高
-          if(radio >= 1){
+          if (radio >= 1) {
             h = CANVAS_HEIGHT / radio
             top = (CANVAS_HEIGHT - h) / 2
           // 宽 < 高
-          }else {
+          } else {
             w = CANVAS_WIDTH * radio
             left = (CANVAS_WIDTH - w) / 2
           }
           // console.log(w,h)
           // console.log("left:"+left)
           ctx1.drawImage(img, left, top, w, h)
-          _this.initClip(w,h,left,top)
+          _this.initClip(w, h, left, top)
         }
         img.src = e.target.src
         this.editorImg = e.target.src
@@ -392,16 +394,16 @@ export default {
     },
 
     // 裁剪拖动相关
-    onMoveStart(e) {
+    onMoveStart (e) {
       this.spanname = e.target.className
       this.isMove = true
     },
 
-    onMove: _.throttle(function(e) {
+    onMove: _.throttle(function (e) {
       if (!this.isMove) return
       const spanname = this.spanname
 
-      //调整裁剪框大小
+      // 调整裁剪框大小
       let moveStep = e.movementX
       let radio = this.radio
       let moveStepY = moveStep / radio
@@ -409,25 +411,25 @@ export default {
       let moveStepReaY = e.movementY
       let idata = this.initClipData
 
-      if(spanname === 'photo-clip-area-bottom-right'){
-        this.br.bottom -=  moveStepY
+      if (spanname === 'photo-clip-area-bottom-right') {
+        this.br.bottom -= moveStepY
         this.br.marginLeft += moveStep
-        this.bl.bottom -=  moveStepY
+        this.bl.bottom -= moveStepY
         this.tr.marginLeft += moveStep
-      }else if(spanname === 'photo-clip-area-bottom-left'){
-        this.bl.bottom +=  moveStepY
+      } else if (spanname === 'photo-clip-area-bottom-left') {
+        this.bl.bottom += moveStepY
         this.bl.marginLeft += moveStep
-        this.br.bottom +=  moveStepY
+        this.br.bottom += moveStepY
         this.tl.marginLeft += moveStep
-      }else if(spanname === 'photo-clip-area-top-left'){
-        this.tl.top +=  moveStepY
+      } else if (spanname === 'photo-clip-area-top-left') {
+        this.tl.top += moveStepY
         this.tl.marginLeft += moveStep
         this.bl.marginLeft += moveStep
-        this.tr.top +=  moveStepY   
-      }else if(spanname === 'photo-clip-area-top-right'){
-        this.tr.top -=  moveStepY
+        this.tr.top += moveStepY
+      } else if (spanname === 'photo-clip-area-top-right') {
+        this.tr.top -= moveStepY
         this.tr.marginLeft += moveStep
-        this.tl.top -=  moveStepY
+        this.tl.top -= moveStepY
         this.br.marginLeft += moveStep
       }
 
@@ -439,69 +441,64 @@ export default {
       // 获取新的裁剪区域的高度个宽度
       let newWeight = tr.offsetLeft - tl.offsetLeft
       let newHeight = br.offsetTop - tr.offsetTop
-      this.mask.w =  newWeight
+      this.mask.w = newWeight
       this.mask.h = newHeight
-      let editor = this.$refs.editor
+      // let editor = this.$refs.editor
       let newLeft = tl.offsetLeft
       let newTop = tl.offsetTop
-
       // 调整裁剪框位置
-      if(spanname == 'photo-clip-area'){
-
-        if(this.tl.marginLeft < idata.left && moveStep < 0){
+      if (spanname === 'photo-clip-area') {
+        // 判断是否可以继续移动
+        if (this.tl.marginLeft < idata.left && moveStep < 0) {
           return false
-        }else if(this.tl.top < idata.top && moveStepReaY < 0){
+        } else if (this.tl.top < idata.top && moveStepReaY < 0) {
           return false
-        }else if(this.bl.bottom < idata.bottom && moveStepReaY > 0){
+        } else if (this.bl.bottom < idata.bottom && moveStepReaY > 0) {
           return false
-        }else if(this.br.marginLeft > -idata.right && moveStep > 0){
+        } else if (this.br.marginLeft > -idata.right && moveStep > 0) {
           return false
         }
-
         newLeft += moveStep
-        newTop +=  moveStepReaY
-
-        this.br.bottom -=  moveStepReaY
+        newTop += moveStepReaY
+        // 裁剪点操作
+        this.br.bottom -= moveStepReaY
         this.br.marginLeft += moveStep
-        this.bl.bottom -=  moveStepReaY
+        this.bl.bottom -= moveStepReaY
         this.tr.marginLeft += moveStep
-        
         this.bl.marginLeft += moveStep
         this.tl.marginLeft += moveStep
+        this.tl.top += moveStepReaY
+        this.tr.top += moveStepReaY
+        this.rePlaceMask(newWeight, newHeight, newLeft, newTop)
 
-        this.tl.top +=  moveStepReaY
-        this.tr.top +=  moveStepReaY 
-        this.rePlaceMask(newWeight,newHeight,newLeft,newTop)
-
-        if(this.tl.marginLeft < idata.left || this.tl.top < idata.top || this.bl.bottom< idata.bottom || this.tr.marginLeft > -idata.right){
+        if (this.tl.marginLeft < idata.left || this.tl.top < idata.top || this.bl.bottom < idata.bottom || this.tr.marginLeft > -idata.right) {
           this.isMove = false
         }
-      }else{
-        this.rePlaceMask(newWeight,newHeight,newLeft,newTop)
+      } else {
+        this.rePlaceMask(newWeight, newHeight, newLeft, newTop)
       }
       // console.log(newWeight,newHeight,newLeft,newTop)
-    },25),
+    }, 25),
 
     // 重新计算mask遮罩的位置信息
-    rePlaceMask(w,h,left,top) {
-      left = left 
-      this.clip.width = w 
+    rePlaceMask (w, h, left, top) {
+      this.clip.width = w
       this.clip.height = h
       this.clip.left = left
       this.clip.top = top
-      //top
+      // top
       this.maskT.height = top
-      //left
+      // left
       this.maskL.top = top
       this.maskL.height = h
       this.maskL.width = left
-      //bottom
-      this.maskB.top = top+h
-      this.maskB.height = CANVAS_HEIGHT-this.maskB.top
-      //rught
+      // bottom
+      this.maskB.top = top + h
+      this.maskB.height = CANVAS_HEIGHT - this.maskB.top
+      // right
       this.maskR.height = h
       this.maskR.top = top
-      this.maskR.left = left+w
+      this.maskR.left = left + w
 
       // console.log(w,h,left,top)
     },
@@ -510,60 +507,60 @@ export default {
       this.isMove = false
     },
 
-    //保存裁剪图片的坐标轴，裁剪图片 
+    // 保存裁剪图片的坐标轴，裁剪图片
     savePhotoClip () {
       let _this = this
       let canvas1 = this.$refs.canvas1
       let ctx = canvas1.getContext("2d")
       let img = new Image()
-      //被选中的图片
+      // 被选中的图片
       let a = this.$refs["forthStep"].getElementsByClassName("active")[0].firstChild
-      //绘制的时候，图片的高度要读取一下
-      img.onload = function() {
+      // 绘制的时候，图片的高度要读取一下
+      img.onload = function () {
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
         let natureH = img.naturalHeight
         let natureW = img.naturalWidth
-        //width
-        let n = _this.radio > 1 ? natureW/CANVAS_WIDTH : natureW /(CANVAS_WIDTH*_this.radio)
-        //heihgt
-        let m = _this.radio < 1 ? natureH/CANVAS_HEIGHT : natureH /(CANVAS_HEIGHT/_this.radio)
+        // width
+        let n = _this.radio > 1 ? natureW / CANVAS_WIDTH : natureW / (CANVAS_WIDTH * _this.radio)
+        // heihgt
+        let m = _this.radio < 1 ? natureH / CANVAS_HEIGHT : natureH / (CANVAS_HEIGHT / _this.radio)
         let sx = _this.maskT.height
         let sy = _this.maskL.width
         let sWidth = _this.mask.w
         let sHeight = _this.mask.h
 
-        //源图片的宽高需要对比例进行计算后取得，目标宽高就不需用了
-        console.log("裁剪的坐标信息: top: "+(sx-_this.initClipData.top)*n + ' left:' + (sy-_this.initClipData.left)*m)
-        console.log("裁剪的坐标信息: width: "+(sx-_this.initClipData.top)*n + ' left:' + (sy-_this.initClipData.left)*m)
+        // 源图片的宽高需要对比例进行计算后取得，目标宽高就不需用了
+        // console.log("裁剪的坐标信息: top: "+(sx-_this.initClipData.top) * n + ' left:' + (sy-_this.initClipData.left)*m)
+        // console.log("裁剪的坐标信息: width: "+(sx-_this.initClipData.top) * n + ' left:' + (sy-_this.initClipData.left)*m)
 
-        ctx.drawImage(img, (sy-_this.initClipData.left)*m, (sx-_this.initClipData.top)*n, sWidth*n, sHeight*m,_this.maskL.width, _this.maskT.height, _this.mask.w, _this.mask.h,)
+        ctx.drawImage(img, (sy - _this.initClipData.left) * m, (sx - _this.initClipData.top) * n, sWidth * n, sHeight * m, _this.maskL.width, _this.maskT.height, _this.mask.w, _this.mask.h)
 
-        //设置离屏canvas:维持原图的大小
-        let offscreenCanvas = document.createElement('canvas'),
-            offscreenContext = offscreenCanvas.getContext('2d')
+        // 设置离屏canvas:维持原图的大小
+        let offscreenCanvas = document.createElement('canvas')
+        let offscreenContext = offscreenCanvas.getContext('2d')
 
         offscreenCanvas.width = natureW
         offscreenCanvas.height = natureH
 
         let newImg = new Image()
-        let newWeight = _this.initClipData.width
-        let newHeight = _this.initClipData.height
+        // let newWeight = _this.initClipData.width
+        // let newHeight = _this.initClipData.height
         let newLeft = _this.initClipData.left
         let newTop = _this.initClipData.top
         newImg.onload = function () {
           // 这里用本身的图片的资源来裁剪，保持图片的质量
           offscreenContext.clearRect(0, 0, natureW, natureH)
-          offscreenContext.drawImage(newImg, (sy-_this.initClipData.left)*m,(sx-_this.initClipData.top)*n,  sWidth*n, sHeight*m, 0, 0, natureW, natureH)
+          offscreenContext.drawImage(newImg, (sy - newLeft) * m, (sx - newTop) * n, sWidth * n, sHeight * m, 0, 0, natureW, natureH)
           a.onload = function () {
             // ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
-            // ctx.drawImage(a, newLeft, newTop, _this.initClipData.width ,_this.initClipData.height)
+            // ctx.drawImage(a, newLeft, newTop, _this.initClipData.wdidth ,_this.initClipData.height)
             // _this.rePlaceMask(newWeight,newHeight,newLeft,newTop)
             // _this.initClip()
             a.click()
           }
-          console.log(_this.getImageExt(0,a.src))
-          a.src = offscreenCanvas.toDataURL(_this.getImageExt(0,a.src))
+          console.log(_this.getImageExt(0, a.src))
+          a.src = offscreenCanvas.toDataURL(_this.getImageExt(0, a.src))
         }
         newImg.src = a.src
       }
@@ -571,45 +568,45 @@ export default {
     },
 
     // 初始化裁剪框
-    initClip (width=CANVAS_WIDTH,height=CANVAS_HEIGHT,left = 0,top = 0) {
+    initClip (width = CANVAS_WIDTH, height = CANVAS_HEIGHT, left = 0, top = 0) {
       this.br = {
         bottom: CANVAS_HEIGHT - height - top,
         marginLeft: width - CANVAS_WIDTH + left
-      },
+      }
       this.bl = {
         bottom: CANVAS_HEIGHT - height - top,
         marginLeft: left
-      },
+      }
       this.tl = {
         top: top,
         marginLeft: left
-      },
+      }
       this.tr = {
         top: top,
         marginLeft: width - CANVAS_WIDTH + left
-      },
+      }
       this.clip = {
         width: width,
         height: height,
         left: left,
         top: top
-      },
+      }
       this.mask = {
         w: width,
         h: height
-      },
+      }
       this.maskL = {
         height: top,
         top: top,
         width: left
-      },
+      }
       this.maskT = {
         height: top
-      },
+      }
       this.maskB = {
         height: 0,
         top: top
-      },
+      }
       this.maskR = {
         height: top,
         top: top,
@@ -621,17 +618,17 @@ export default {
         left: left,
         bottom: CANVAS_HEIGHT - height - top,
         right: CANVAS_WIDTH - left - width,
-        width:width,
-        height:height
+        width: width,
+        height: height
       }
       console.log(JSON.stringify(this.initClipData))
-      this.rePlaceMask(width,height,left,top)
+      this.rePlaceMask(width, height, left, top)
     },
 
-    // 获取图片格式 
+    // 获取图片格式
     // @e:点击事件参数  (如果在没有点击事件时候调用，传0)
-    // return：toDataUrl的格式参数 (String) 
-    getImageExt (e,src) {
+    // return：toDataUrl的格式参数 (String)
+    getImageExt (e, src) {
       if (e) {
         src = e.target.src
       }
@@ -639,15 +636,15 @@ export default {
       let ext
       console.log(_index)
       if (_index !== -1) {
-        ext = src.substr(_index+1)
+        ext = src.substr(_index + 1)
       } else {
         let reg = /\/([^;]*);/
         ext = src.match(reg)[1]
       }
-      if(ext === 'jpg'){
+      if (ext === 'jpg') {
         ext = 'jpeg'
       }
-      return 'image/'+ext
+      return 'image/' + ext
     }
   },
   watch: {
