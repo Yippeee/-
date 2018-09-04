@@ -22,7 +22,11 @@ const util = {
   getCookies (key) {
     var reg = new RegExp("(^| )" + key + "=([^;]*)(;|$)")
     var arr = document.cookie.match(reg)
-    return arr[2]
+    if (arr === document.cookie.match(reg)) {
+      return null
+    } else {
+      return arr[2]
+    }
   }
 }
 // const http = {}

@@ -168,6 +168,8 @@
 import Axios from "axios"
 import _ from 'lodash'
 /* eslint-disable*/
+const CANVAS_WIDTH = 400
+const CANVAS_HEIGHT = 400
 export default {
   data() {
     return {
@@ -212,8 +214,8 @@ export default {
         marginLeft: 0
       },
       clip: {
-        width: 400,
-        height: 400,
+        width: CANVAS_WIDTH,
+        height: CANVAS_HEIGHT,
         left: 0,
         top: 0
       },
@@ -243,7 +245,9 @@ export default {
         top: 0,
         left: 0,
         bottom: 0,
-        right: 0
+        right: 0,
+        width: 0,
+        height: 0
     }
     }
   },
@@ -358,21 +362,21 @@ export default {
         //绘制的时候，图片的高度要读取一下
         img.onload = function() {
           ctx1.restore()
-          ctx1.clearRect(0, 0, 400, 400)
+          ctx1.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
           let naturalWidth = img.naturalWidth
           let naturalHeight = img.naturalHeight
           let radio = naturalWidth / naturalHeight
           _this.radio = radio
           // console.log(radio)
-          var w = 400,h = 400,top = 0,left = 0
+          var w = CANVAS_WIDTH,h = CANVAS_HEIGHT,top = 0,left = 0
           // 宽 > 高
           if(radio >= 1){
-            h = 400 / radio
-            top = (400 - h) / 2
+            h = CANVAS_HEIGHT / radio
+            top = (CANVAS_HEIGHT - h) / 2
           // 宽 < 高
           }else {
-            w = 400 * radio
-            left = (400 - w) / 2
+            w = CANVAS_WIDTH * radio
+            left = (CANVAS_WIDTH - w) / 2
           }
           // console.log(w,h)
           // console.log("left:"+left)
@@ -441,15 +445,15 @@ export default {
       // 调整裁剪框位置
       if(spanname == 'photo-clip-area'){
 
-          if(this.tl.marginLeft < idata.left && moveStep < 0){
-            return false
-          }else if(this.tl.top < idata.top && moveStepReaY < 0){
-            return false
-          }else if(this.bl.bottom < idata.bottom && moveStepReaY > 0){
-            return false
-          }else if(this.br.marginLeft > -idata.right && moveStep > 0){
-            return false
-          }
+        if(this.tl.marginLeft < idata.left && moveStep < 0){
+          return false
+        }else if(this.tl.top < idata.top && moveStepReaY < 0){
+          return false
+        }else if(this.bl.bottom < idata.bottom && moveStepReaY > 0){
+          return false
+        }else if(this.br.marginLeft > -idata.right && moveStep > 0){
+          return false
+        }
 
         newLeft += moveStep
         newTop +=  moveStepReaY
@@ -490,7 +494,7 @@ export default {
       this.maskL.width = left
       //bottom
       this.maskB.top = top+h
-      this.maskB.height = 400-this.maskB.top
+      this.maskB.height = CANVAS_HEIGHT-this.maskB.top
       //rught
       this.maskR.height = h
       this.maskR.top = top
@@ -513,14 +517,14 @@ export default {
       let a = this.$refs["forthStep"].getElementsByClassName("active")[0].firstChild
       //绘制的时候，图片的高度要读取一下
       img.onload = function() {
-        ctx.clearRect(0, 0, 400, 400)
+        ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
         let natureH = img.naturalHeight
         let natureW = img.naturalWidth
         //width
-        let n = _this.radio > 1 ? natureW/400 : natureW /(400*_this.radio)
+        let n = _this.radio > 1 ? natureW/CANVAS_WIDTH : natureW /(CANVAS_WIDTH*_this.radio)
         //heihgt
-        let m = _this.radio < 1 ? natureH/400 : natureH /(400/_this.radio)
+        let m = _this.radio < 1 ? natureH/CANVAS_HEIGHT : natureH /(CANVAS_HEIGHT/_this.radio)
         let sx = _this.maskT.height
         let sy = _this.maskL.width
         let sWidth = _this.mask.w
@@ -540,15 +544,21 @@ export default {
         offscreenCanvas.height = natureH
 
         let newImg = new Image()
+        let newWeight = _this.initClipData.width
+        let newHeight = _this.initClipData.height
+        let newLeft = _this.initClipData.left
+        let newTop = _this.initClipData.top
         newImg.onload = function () {
-          //这里用本身的图片的资源来裁剪，保持图片的质量
+          // 这里用本身的图片的资源来裁剪，保持图片的质量
           offscreenContext.clearRect(0, 0, natureW, natureH)
           offscreenContext.drawImage(newImg, (sy-_this.initClipData.left)*m,(sx-_this.initClipData.top)*n,  sWidth*n, sHeight*m, 0, 0, natureW, natureH)
-          // a.onload = function () {
-          //   ctx.clearRect(0, 0, 400, 400)
-          //   ctx.drawImage(a, 0, 0, 400 ,400)
-          //   _this.initClip()
-          // }
+          a.onload = function () {
+            // ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+            // ctx.drawImage(a, newLeft, newTop, _this.initClipData.width ,_this.initClipData.height)
+            // _this.rePlaceMask(newWeight,newHeight,newLeft,newTop)
+            // _this.initClip()
+            a.click()
+          }
           a.src = offscreenCanvas.toDataURL()
         }
         newImg.src = a.src
@@ -557,13 +567,13 @@ export default {
     },
 
     // 初始化裁剪框
-    initClip (width=400,height=400,left = 0,top = 0) {
+    initClip (width=CANVAS_WIDTH,height=CANVAS_HEIGHT,left = 0,top = 0) {
       this.br = {
-        bottom: 400 - height - top,
-        marginLeft: width - 400 + left
+        bottom: CANVAS_HEIGHT - height - top,
+        marginLeft: width - CANVAS_WIDTH + left
       },
       this.bl = {
-        bottom: 400 - height - top,
+        bottom: CANVAS_HEIGHT - height - top,
         marginLeft: left
       },
       this.tl = {
@@ -572,7 +582,7 @@ export default {
       },
       this.tr = {
         top: top,
-        marginLeft: width - 400 + left
+        marginLeft: width - CANVAS_WIDTH + left
       },
       this.clip = {
         width: width,
@@ -605,8 +615,10 @@ export default {
       this.initClipData = {
         top: top,
         left: left,
-        bottom: 400 - height - top,
-        right: 400 - left - width
+        bottom: CANVAS_HEIGHT - height - top,
+        right: CANVAS_WIDTH - left - width,
+        width:width,
+        height:height
       }
       console.log(JSON.stringify(this.initClipData))
       this.rePlaceMask(width,height,left,top)
@@ -654,8 +666,8 @@ export default {
     text-align: center;
     font-size: 14px;
     color: #909399;
-    margin-bottom: 30px;
-    margin-right: 30px;
+    // margin-bottom: 30px;
+    // margin-right: 30px;
     .img-wrap{
       margin-right: 5px;
     }
@@ -663,6 +675,7 @@ export default {
   p {
     color: #909399;
     font-size: 16px;
+    margin-top: 20px;
     i {
       cursor: pointer;
     }
@@ -671,6 +684,7 @@ export default {
 .alter {
   color: red;
   font-size: 14px;
+  margin-top: 20px;
   box-sizing: border-box;
   display: inline-block;
   height: 30px;

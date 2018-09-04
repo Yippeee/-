@@ -9,7 +9,7 @@
 
       <!-- 导航提示 -->
       <el-breadcrumb class="router-tips" separator=">">
-        <el-breadcrumb-item v-for="b in bread" :to="b.path" :key="b">{{b.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="(b,index) in bread" :to="b.path" :key="index">{{b.name}}</el-breadcrumb-item>
       </el-breadcrumb>
       <!-- 头部信息 -->
       <div class="user">
@@ -92,7 +92,7 @@ export default {
         }
       }
     }
-    this.bread = this.routerMap[this.util.getCookies("bread")]
+    this.bread = this.routerMap[this.util.getCookies("bread") ? this.util.getCookies("bread") : '首页']
   },
   watch: {
     '$route': {
