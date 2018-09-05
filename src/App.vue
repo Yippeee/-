@@ -93,6 +93,22 @@ export default {
       }
     }
     this.bread = this.routerMap[this.util.getCookies("bread") ? this.util.getCookies("bread") : '首页']
+    document.addEventListener("visibilitychange", this.handleVisibilityChange, false)
+    // console.log(document.hidden)
+    // let geo = navigator.geolocation
+    // geo.getCurrentPosition((position) => {
+    //   console.log(position.coords)
+    // })
+  },
+  methods: {
+    handleVisibilityChange () {
+      let h = document.hidden
+      if (!h) {
+        window.document.title = "内容分发系统"
+      } else {
+        window.document.title = "主人~快回来"
+      }
+    }
   },
   watch: {
     '$route': {

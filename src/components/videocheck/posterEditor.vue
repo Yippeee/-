@@ -301,16 +301,16 @@ export default {
     turnToActive (e) {
       let target = e.target.nodeName
       console.log(target)
-      if (e.target.className === "img-wrap") {
-        e.target.firstChild.click()
+      if (e.target.classList.contains("img-wrap")) {
+        e.target.firstElementChild.click()
       }
       if (target === "IMG") {
         let a = this.$refs["firstStep"].getElementsByClassName("active")[0]
         if (a) {
-          a.className = "img-wrap"
+          a.classList.remove("active")
         }
-        e.target.parentNode.className = "active img-wrap"
-        console.log(e.target.className)
+        e.target.parentNode.classList.add("active")
+        console.log(this.dataURLtoBlob(e.target.src))
       } else if (target === "I") {
         this.nowStep = 4
       }
@@ -348,16 +348,15 @@ export default {
     // image加载进入editor里面
     showToEditor (e) {
       let _this = this
-      // console.log(JSON.stringify(e.target.className))
-      if (e.target.className === "img-wrap") {
-        e.target.firstChild.click()
+      if (e.target.classList.contains("img-wrap")) {
+        e.target.firstElementChild.click()
       }
       if (e.target.nodeName === "IMG") {
         let a = this.$refs["forthStep"].getElementsByClassName("active")[0]
         if (a) {
-          a.className = "img-wrap"
+          a.classList.remove("active")
         }
-        e.target.parentNode.className = "active img-wrap"
+        e.target.parentNode.classList.add("active")
         let canvas1 = this.$refs.canvas1
         let ctx1 = canvas1.getContext("2d")
         let img = new Image()
@@ -469,6 +468,7 @@ export default {
         this.tl.marginLeft += moveStep
         this.tl.top += moveStepReaY
         this.tr.top += moveStepReaY
+        // 重新计算
         this.rePlaceMask(newWeight, newHeight, newLeft, newTop)
 
         if (this.tl.marginLeft < idata.left || this.tl.top < idata.top || this.bl.bottom < idata.bottom || this.tr.marginLeft > -idata.right) {
@@ -514,7 +514,7 @@ export default {
       let ctx = canvas1.getContext("2d")
       let img = new Image()
       // 被选中的图片
-      let a = this.$refs["forthStep"].getElementsByClassName("active")[0].firstChild
+      let a = this.$refs["forthStep"].getElementsByClassName("active")[0].firstElementChild
       // 绘制的时候，图片的高度要读取一下
       img.onload = function () {
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
@@ -559,7 +559,6 @@ export default {
             // _this.initClip()
             a.click()
           }
-          console.log(_this.getImageExt(0, a.src))
           a.src = offscreenCanvas.toDataURL(_this.getImageExt(0, a.src))
         }
         newImg.src = a.src
@@ -645,6 +644,20 @@ export default {
         ext = 'jpeg'
       }
       return 'image/' + ext
+    },
+
+    // base64 转 blob 格式
+    dataURLtoBlob (dataURL) {
+      let mine = dataURL.slice(5, dataURL.indexOf(";"))// mine格式
+      let data = dataURL.split(",")[1]
+      let byte = window.atob(data) // 解码
+      let arraybuffers = new ArrayBuffer(byte.length)// 创建缓存数组
+      let unit8 = new Uint8Array(arraybuffers)// 使用缓存数组，创建视图
+
+      Array.from(byte).forEach((item, index) => {
+        unit8[index] = byte.charCodeAt(index)
+      })
+      return new Blob([unit8], {type: mine})
     }
   },
   watch: {
