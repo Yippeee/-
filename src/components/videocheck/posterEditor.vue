@@ -658,6 +658,15 @@ export default {
         unit8[index] = byte.charCodeAt(index)
       })
       return new Blob([unit8], {type: mine})
+    },
+
+    // blob 转 base64 格式
+    blobtoDataURL (blob) {
+      let reader = new FileReader()
+      blob.onload = function (result) {
+        return result
+      }
+      reader.readAsDataURL(blob)
     }
   },
   watch: {

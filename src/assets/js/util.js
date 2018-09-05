@@ -15,7 +15,7 @@ const util = {
   },
 
   /**
-   *
+   *获取cookies
    *
    * @param {*} key
    */
