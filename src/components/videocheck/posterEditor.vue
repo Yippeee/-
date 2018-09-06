@@ -128,13 +128,13 @@
                   :style="{'width':clip.width+'px','height':clip.height+'px','left':clip.left+'px','top':clip.top+'px'}"
                 ></div>
                 <span class="photo-clip-area-bottom-right" ref="br"
-                  :style="{'bottom': br.bottom+ 'px','margin-left':br.marginLeft + 'px'}"></span>
+                  :style="{'bottom': br.bottom + 'px','margin-left':br.marginLeft + 'px'}"></span>
                 <span class="photo-clip-area-bottom-left" ref="bl"
-                  :style="{'bottom': bl.bottom+ 'px','margin-left':bl.marginLeft + 'px'}"></span>
+                  :style="{'bottom': bl.bottom + 'px','margin-left':bl.marginLeft + 'px'}"></span>
                 <span class="photo-clip-area-top-left" ref="tl"
-                  :style="{'top': tl.top+ 'px','margin-left':tl.marginLeft + 'px'}"></span>
+                  :style="{'top': tl.top + 'px','margin-left':tl.marginLeft + 'px'}"></span>
                 <span class="photo-clip-area-top-right" ref="tr"
-                  :style="{'top': tr.top+ 'px','margin-left':tr.marginLeft + 'px'}"></span>
+                  :style="{'top': tr.top + 'px','margin-left':tr.marginLeft + 'px'}"></span>
               </div>
             </div>
             <div class="center-handle">
@@ -440,23 +440,32 @@ export default {
       // 获取新的裁剪区域的高度个宽度
       let newWeight = tr.offsetLeft - tl.offsetLeft
       let newHeight = br.offsetTop - tr.offsetTop
-      this.mask.w = newWeight
-      this.mask.h = newHeight
+      this.mask.w = newWeight + 4
+      this.mask.h = newHeight + 4
       // let editor = this.$refs.editor
-      let newLeft = tl.offsetLeft
-      let newTop = tl.offsetTop
+      let newLeft = tl.offsetLeft + 4
+      let newTop = tl.offsetTop + 4
       // 调整裁剪框位置
       if (spanname === 'photo-clip-area') {
         // 判断是否可以继续移动
-        if (this.tl.marginLeft < idata.left && moveStep < 0) {
+          // 左移
+        if ((this.tl.marginLeft <= idata.left || this.tl.marginLeft - moveStep <= idata.left) && moveStep < 0) {
+          console.log('1')
           return false
-        } else if (this.tl.top < idata.top && moveStepReaY < 0) {
+          // 上移
+        } else if (this.tl.top <= idata.top && moveStepReaY < 0) {
+          console.log('2')
           return false
-        } else if (this.bl.bottom < idata.bottom && moveStepReaY > 0) {
+          // 下移
+        } else if (this.bl.bottom <= idata.bottom && moveStepReaY > 0) {
+          console.log('3')
           return false
-        } else if (this.br.marginLeft > -idata.right && moveStep > 0) {
+          // 右移
+        } else if (this.br.marginLeft >= -idata.right && moveStep > 0) {
+          console.log('4')
           return false
         }
+        console.log('tl.top:'+this.tl.top + ' moveStepReaY:' + moveStepReaY + ' idata.top:'  + idata.top)
         newLeft += moveStep
         newTop += moveStepReaY
         // 裁剪点操作
@@ -471,9 +480,6 @@ export default {
         // 重新计算
         this.rePlaceMask(newWeight, newHeight, newLeft, newTop)
 
-        if (this.tl.marginLeft < idata.left || this.tl.top < idata.top || this.bl.bottom < idata.bottom || this.tr.marginLeft > -idata.right) {
-          this.isMove = false
-        }
       } else {
         this.rePlaceMask(newWeight, newHeight, newLeft, newTop)
       }
@@ -527,8 +533,8 @@ export default {
         let m = _this.radio < 1 ? natureH / CANVAS_HEIGHT : natureH / (CANVAS_HEIGHT / _this.radio)
         let sx = _this.maskT.height
         let sy = _this.maskL.width
-        let sWidth = _this.mask.w
-        let sHeight = _this.mask.h
+        let sWidth = _this.mask.w - 4
+        let sHeight = _this.mask.h - 4
 
         // 源图片的宽高需要对比例进行计算后取得，目标宽高就不需用了
         // console.log("裁剪的坐标信息: top: "+(sx-_this.initClipData.top) * n + ' left:' + (sy-_this.initClipData.left)*m)
@@ -568,6 +574,7 @@ export default {
 
     // 初始化裁剪框
     initClip (width = CANVAS_WIDTH, height = CANVAS_HEIGHT, left = 0, top = 0) {
+      console.log('init')
       this.br = {
         bottom: CANVAS_HEIGHT - height - top,
         marginLeft: width - CANVAS_WIDTH + left
@@ -738,6 +745,7 @@ export default {
   display: inline-block;
   height: 450px;
   font-size: 0;
+  overflow: hidden;
   .left-preview {
     display: inline-block;
     width: 180px;
@@ -820,6 +828,7 @@ export default {
         // margin-top: 130px;
       }
       .photo-clip-area {
+        box-sizing: border-box;
         border: 2px solid red;
         position: absolute;
         left: 50%;
