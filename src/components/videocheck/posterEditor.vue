@@ -540,7 +540,7 @@ export default {
         // console.log("裁剪的坐标信息: top: "+(sx-_this.initClipData.top) * n + ' left:' + (sy-_this.initClipData.left)*m)
         // console.log("裁剪的坐标信息: width: "+(sx-_this.initClipData.top) * n + ' left:' + (sy-_this.initClipData.left)*m)
 
-        ctx.drawImage(img, (sy - _this.initClipData.left) * m, (sx - _this.initClipData.top) * n, sWidth * n, sHeight * m, _this.maskL.width, _this.maskT.height, _this.mask.w, _this.mask.h)
+        ctx.drawImage(img, (sy - _this.initClipData.left) * m, (sx - _this.initClipData.top) * n, sWidth * n, sHeight * m, _this.maskL.width, _this.maskT.height, _this.mask.w - 4, _this.mask.h - 4)
 
         // 设置离屏canvas:维持原图的大小
         let offscreenCanvas = document.createElement('canvas')
@@ -598,8 +598,8 @@ export default {
         top: top
       }
       this.mask = {
-        w: width,
-        h: height
+        w: width + 4,
+        h: height + 4
       }
       this.maskL = {
         height: top,
