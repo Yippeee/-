@@ -33,9 +33,17 @@
           </span>
         </div>
         <div class="right-content">
-          <transition name="fade">
-            <ul v-show="rightPageShow">
-              <li v-for="(item,index) in lilistReal" :key="index">
+          <transition :name="slidemode">
+            <ul v-if="rightPageShow" key="one">
+              <li v-for="(item,index) in lilistReal1" :key="index">
+                <el-badge v-if="item.isnew" is-dot class="item"><i  class="icon-message"></i></el-badge>
+                <i v-else class="icon-message"></i>
+                <span class="li-info">{{item.info}}</span>
+                <span class="li-time">{{item.time}}</span>
+              </li>
+            </ul>
+            <ul v-else key="two">
+              <li v-for="(item,index) in lilistReal2" :key="index">
                 <el-badge v-if="item.isnew" is-dot class="item"><i  class="icon-message"></i></el-badge>
                 <i v-else class="icon-message"></i>
                 <span class="li-info">{{item.info}}</span>
@@ -182,28 +190,24 @@ export default {
           isnew: true
         }
       ],
-      lilistReal: [],
+      lilistReal1: [],
+      lilistReal2: [],
       rightPageShow: true
     }
   },
   created () {
-    this.lilistReal = this.lilist.slice(0, 3)
+    this.lilistReal1 = this.lilist.slice(0, 3)
+    this.lilistReal2 = this.lilist.slice(3, 6)
   },
   watch: {
     rightPage (value) {
       if (value === 0) {
-        this.rightPageShow = false
-        setTimeout(() => {
-          this.rightPageShow = true
-          this.lilistReal = this.lilist.slice(0, 3)
-        }, 500)
+        this.slidemode = 'slideleft'
+        this.rightPageShow = true
       }
       if (value === 1) {
+        this.slidemode = 'slideright'
         this.rightPageShow = false
-        setTimeout(() => {
-          this.rightPageShow = true
-          this.lilistReal = this.lilist.slice(3, 6)
-        }, 500)
       }
     }
   },
@@ -322,6 +326,11 @@ export default {
         background-repeat: no-repeat;
         position: relative;
       }
+      ul{
+        position: absolute;
+        width: 100%;
+        background-color: #fff;
+      }
       li {
         vertical-align: top;
         height: 24px;
@@ -336,17 +345,25 @@ export default {
         font-size: 16px;
       }
     }
-    .fade-enter-active {
-      transition: all .5s ease;
-    }
-    .fade-leave-active {
-      transition: all .5s ease;
-    }
-    .fade-enter, .fade-leave-to
-    /* .fade-leave-active for below version 2.1.8 */ {
-      transform: translateX(-100px);
+    // 滑动动画相关
+    .slideleft-enter-active,.slideleft-leave-active,.slideright-enter-active,.slideright-leave-active{
+      transition: all .8s;
+      }
+    .slideleft-enter,.slideleft-leave-to,.slideright-enter,.slideright-leave-to{
       opacity: 0;
-    }
+      }
+    .slideright-enter {
+      transform: translateX(+50%);
+      }
+    .slideright-leave-active {
+      transform: translateX(-50%);
+      }
+    .slideleft-enter {
+      transform: translateX(-50%);
+      }
+    .slideleft-leave-active {
+      transform: translateX(+50%);
+      }
     .right-controler {
       position: absolute;
       bottom: 10px;
