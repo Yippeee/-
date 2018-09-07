@@ -108,6 +108,7 @@
             <div class="center-editor" ref="editor">
               <canvas class="canvas1" ref="canvas1" width="400" height="400"></canvas>
               <div class="photo-clip-mask"
+                v-if="editorImg"
                 @mousedown="onMoveStart"
                 @mousemove="onMove"
                 @mouseup="onChangeEnd"
@@ -135,6 +136,18 @@
                   :style="{'top': tl.top + 'px','margin-left':tl.marginLeft + 'px'}"></span>
                 <span class="photo-clip-area-top-right" ref="tr"
                   :style="{'top': tr.top + 'px','margin-left':tr.marginLeft + 'px'}"></span>
+              </div>
+              <div v-else class="blank-photo-clip-mask">
+                <div class="contener-wrap">
+                  <div class="reUploadSmall">
+                    <i class="icon icon-reUploadSmall"></i>
+                    <span>本地上传</span>
+                  </div>
+                  <div class="reUploadSmall">
+                    <i class="icon icon-reUploadSmall"></i>
+                    <span>截取帧画</span>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="center-handle">
@@ -243,7 +256,7 @@ export default {
         top: 0,
         left: 0
       },
-      radio: '',
+      radio: 0,
       initClipData: {
         top: 0,
         left: 0,
@@ -312,6 +325,7 @@ export default {
         e.target.parentNode.classList.add("active")
         console.log(this.dataURLtoBlob(e.target.src))
       } else if (target === "I") {
+        this.editorImg = ''
         this.nowStep = 4
       }
     },
@@ -448,7 +462,7 @@ export default {
       // 调整裁剪框位置
       if (spanname === 'photo-clip-area') {
         // 判断是否可以继续移动
-          // 左移
+        // 左移
         if ((this.tl.marginLeft <= idata.left || this.tl.marginLeft - moveStep <= idata.left) && moveStep < 0) {
           console.log('1')
           return false
@@ -465,7 +479,6 @@ export default {
           console.log('4')
           return false
         }
-        console.log('tl.top:'+this.tl.top + ' moveStepReaY:' + moveStepReaY + ' idata.top:'  + idata.top)
         newLeft += moveStep
         newTop += moveStepReaY
         // 裁剪点操作
@@ -479,7 +492,6 @@ export default {
         this.tr.top += moveStepReaY
         // 重新计算
         this.rePlaceMask(newWeight, newHeight, newLeft, newTop)
-
       } else {
         this.rePlaceMask(newWeight, newHeight, newLeft, newTop)
       }
@@ -718,8 +730,6 @@ export default {
     text-align: center;
     font-size: 14px;
     color: #909399;
-    // margin-bottom: 30px;
-    // margin-right: 30px;
     .img-wrap{
       margin-right: 5px;
     }
@@ -872,6 +882,36 @@ export default {
         cursor: nesw-resize;
       }
     }
+    .blank-photo-clip-mask{
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      .contener-wrap{
+        position: absolute;
+        display: inline-block;
+        width: 160px;
+        height: 80px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        >div{
+          border:1px solid #fff;
+          border-radius: 4px;
+          height: 35px;
+          line-height: 35px;
+          margin-bottom: 10px;
+          color: #fff;
+          font-weight: 600px;
+          font-size: 14px;
+          &:hover{
+            background-color:rgba(255, 255, 255, .3);
+          }
+        }
+      }
+    }
   }
   .center-handle{
     position: absolute;
@@ -880,6 +920,7 @@ export default {
     width: 400px;
     height: 60px;
     background-color: rgba(0, 0, 0, 0.8);
+    // background-image: url("../../assets/bc.jpg");
     .center-handle-centent{
       display: inline-block;
       position: absolute;

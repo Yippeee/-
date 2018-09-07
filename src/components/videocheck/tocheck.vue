@@ -105,27 +105,37 @@
         <el-collapse-item title="节目海报" name="3">
         <div class="poster-content el-scrollbar">
           <el-scrollbar style="height:100%">
-            <p>320x400竖版海报尺寸 <i class="icon-pencil icon"></i> </p>
+            <p>320x400竖版海报尺寸  </p>
             <div class="imgDiv">
-              <img src="../../assets/example.jpg" alt="">
+              <div class="img-wrap">
+                <img src="../../assets/example.jpg" alt="">
+              </div>
               <span>320x400</span>
             </div>
             <div class="imgDiv">
-              <img src="../../assets/logo.png" alt="">
+              <div class="img-wrap">
+                <img src="../../assets/logo.png" alt="">
+              </div>
               <span>320x400</span>
             </div>
             <div class="imgDiv">
-              <img src="../../assets/logo.png" alt="">
+              <div class="img-wrap">
+                <img src="../../assets/logo.png" alt="">
+              </div>
               <span>320x400</span>
             </div>
-            <p>500x280竖版海报尺寸 <i class="icon-pencil icon"></i></p>
+            <p>500x280竖版海报尺寸 </p>
             <div class="imgDiv">
-              <img src="../../assets/example.jpg" alt="">
+              <div class="img-wrap">
+                <img src="../../assets/example.jpg" alt="">
+              </div>
               <span>500x280</span>
             </div>
-            <p>1280x720 <i class="icon-pencil icon"></i></p>
+            <p>1280x720 </p>
             <div class="imgDiv">
-              <img src="../../assets/logo.png" alt="">
+              <div class="img-wrap">
+                <img src="../../assets/logo.png" alt="">
+              </div>
               <span>1280x720</span>
             </div>
           </el-scrollbar>
@@ -143,27 +153,37 @@
         <el-collapse-item title="视频海报" name="4">
         <div class="poster-content el-scrollbar">
           <el-scrollbar style="height:100%">
-            <p>320x400竖版海报尺寸 <i class="icon-pencil icon"></i> </p>
+            <p>320x400竖版海报尺寸  </p>
             <div class="imgDiv">
-              <img src="../../assets/example.jpg" alt="">
+              <div class="img-wrap">
+                <img src="../../assets/example.jpg" alt="">
+              </div>
               <span>320x400</span>
             </div>
             <div class="imgDiv">
-              <img src="../../assets/logo.png" alt="">
+              <div class="img-wrap">
+                <img src="../../assets/logo.png" alt="">
+              </div>
               <span>320x400</span>
             </div>
             <div class="imgDiv">
-              <img src="../../assets/logo.png" alt="">
+              <div class="img-wrap">
+                <img src="../../assets/logo.png" alt="">
+              </div>
               <span>320x400</span>
             </div>
-            <p>500x280竖版海报尺寸 <i class="icon-pencil icon"></i></p>
+            <p>500x280竖版海报尺寸 </p>
             <div class="imgDiv">
-              <img src="../../assets/example.jpg" alt="">
+              <div class="img-wrap">
+                <img src="../../assets/example.jpg" alt="">
+              </div>
               <span>500x280</span>
             </div>
-            <p>1280x720 <i class="icon-pencil icon"></i></p>
+            <p>1280x720 </p>
             <div class="imgDiv">
-              <img src="../../assets/logo.png" alt="">
+              <div class="img-wrap">
+                <img src="../../assets/logo.png" alt="">
+              </div>
               <span>1280x720</span>
             </div>
           </el-scrollbar>
@@ -265,18 +285,31 @@ export default {
         padding: 30px;
         height: 420px;
         overflow-y: auto;
-        .imgDiv{
+        .imgDiv {
           display: inline-block;
-          width: 140px;
+          width: 160px;
           text-align: center;
           font-size: 14px;
           color: #909399;
-          margin-bottom: 30px;
-          margin-right: 10px;
-          border: 1px dashed #eef1f6;
-          img{
-            width: 140px;
-            height: 140px;
+          .img-wrap{
+            margin-right: 5px;
+            position: relative;
+            display: inline-block;
+            width: 154px;
+            height: 154px;
+            margin: 2px;
+            border: 1px dashed rgba(144,147,153,.5);
+            border-radius: 6px;
+            text-align: center;
+            img {
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%,-50%);
+              box-sizing: border-box;
+              max-width: 150px;
+              max-height: 150px;
+            }
           }
         }
         p{
