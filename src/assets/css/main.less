@@ -89,8 +89,10 @@ body{
 }
 .el-upload-list__item.is-ready::after{
   content: attr(imgName);
-  position: relative;
-  top:-10px;
+  position: absolute;
+  top: 145px;
+  left: 0;
+  line-height: 20px;
   display: inline-block;
   width: 148px;
   white-space: nowrap;
@@ -133,6 +135,21 @@ body{
     float: left;
     line-height: 33px;
     color: #20a0ff
+  }
+  .el-upload-list__item-thumbnail{
+    width: auto!important;
+    height: auto!important;
+    max-width: 146px!important;
+    max-height: 146px!important;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    box-sizing: border-box;
+  }
+  .el-upload-list__item,.el-upload--picture-card{
+    vertical-align: top;
+    margin-top: 20px!important;
   }
 }
 
