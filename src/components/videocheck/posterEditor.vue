@@ -46,11 +46,12 @@
           </div>
           <!-- 本地上传-上传图片 -->
           <div v-if="nowStep == 2">
-            <span class="alter">批量上传前，请检查图片是否已按照规则命好名，如‘500x280’</span>
+            <span class="alert">批量上传前，请检查图片是否已按照规则命好名，如‘500x280’</span>
             <el-upload
               ref="upload"
               multiple
               action= ''
+              accept='image/*'
               class="el-upload2"
               list-type="picture-card"
               :on-remove="handleRemove"
@@ -139,11 +140,12 @@
               </div>
               <div v-else class="blank-photo-clip-mask">
                 <div class="contener-wrap">
-                  <div class="reUploadSmall">
+                  <div class="reUploadSmall" @click="reUploadSmall">
                     <i class="icon icon-reUploadSmall"></i>
                     <span>本地上传</span>
+                    <input type="file" ref="reUploadSmallInput">
                   </div>
-                  <div class="reUploadSmall">
+                  <div class="capture" @click="nowStep = 5">
                     <i class="icon icon-reUploadSmall"></i>
                     <span>截取帧画</span>
                   </div>
@@ -686,6 +688,10 @@ export default {
         return result
       }
       reader.readAsDataURL(blob)
+    },
+
+    reUploadSmall () {
+      this.$refs.reUploadSmallInput.click()
     }
   },
   watch: {
@@ -743,7 +749,7 @@ export default {
     }
   }
 }
-.alter {
+.alert {
   color: red;
   font-size: 14px;
   margin-top: 20px;
@@ -783,7 +789,6 @@ export default {
     font-size: 16px;
     vertical-align: top;
     text-align: center;
-    background-image: url("../../assets/bc.jpg");
     .canvas1 {
       position: absolute;
       left: 50%;
@@ -804,9 +809,6 @@ export default {
         bottom: 50%;
         width: auto;
         background-color: rgba(0, 0, 0, 0.5);
-        // margin-right: 130px;
-        // margin-top: -130px;
-        // margin-bottom: -130px;
       }
       .photo-clip-mask-right {
         position: absolute;
@@ -815,9 +817,6 @@ export default {
         top: 50%;
         bottom: 50%;
         background-color: rgba(0, 0, 0, 0.5);
-        // margin-left: 130px;
-        // margin-top: -130px;
-        // margin-bottom: -130px;
       }
       .photo-clip-mask-top {
         position: absolute;
@@ -826,7 +825,6 @@ export default {
         top: 0px;
         bottom: 50%;
         background-color: rgba(0, 0, 0, 0.5);
-        // margin-bottom: 130px;
       }
       .photo-clip-mask-bottom {
         position: absolute;
@@ -835,7 +833,6 @@ export default {
         top: 50%;
         bottom: 0px;
         background-color: rgba(0, 0, 0, 0.5);
-        // margin-top: 130px;
       }
       .photo-clip-area {
         box-sizing: border-box;
@@ -906,6 +903,7 @@ export default {
           color: #fff;
           font-weight: 600px;
           font-size: 14px;
+          overflow: hidden;
           &:hover{
             background-color:rgba(255, 255, 255, .3);
           }

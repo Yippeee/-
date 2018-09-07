@@ -38,15 +38,15 @@ export default {
           time: '2018-06-18 09:00'
         },
         {
-          info: 'idjfsaifhiasd',
+          info: '你的券还有20天过期',
           time: '2018-06-18 09:00'
         },
         {
-          info: 'idjfsaifhiasd',
+          info: '你的券还有40天过期',
           time: '2018-06-18 09:00'
         },
         {
-          info: 'idjfsaifhiasd',
+          info: '你的券还有40天过期',
           time: '2018-06-18 09:00'
         }
       ]

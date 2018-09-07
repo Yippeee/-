@@ -192,7 +192,8 @@ export default {
       ],
       lilistReal1: [],
       lilistReal2: [],
-      rightPageShow: true
+      rightPageShow: true,
+      slidemode: ''
     }
   },
   created () {
