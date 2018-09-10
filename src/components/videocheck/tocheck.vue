@@ -4,12 +4,13 @@
       <div class="table-wrap">
         <div class="table-content">
           <div class="table-header">
-            <el-checkbox label="节目名称"></el-checkbox>
+            <el-checkbox label="节目名称" v-model="allSelect"></el-checkbox>
             <el-button type="primary" size='small'>一键通过</el-button>
           </div>
           <div class="block">
             <el-tree
               :data="data5"
+              ref="tree"
               show-checkbox
               node-key="id"
               default-expand-all
@@ -245,13 +246,29 @@ export default {
           id: 8,
           label: '二级 3-2'
         }]
-      }]
+      }],
+      allSelect: ''
     }
   },
   methods: {
     // 获取现在选中的界面或者视频节点
     currentChange (data, node) {
       c(j(data, node))
+    }
+  },
+  watch: {
+    allSelect (value) {
+      console.log(value)
+      let arr = []
+      this.data5.forEach((ele, index) => {
+        arr.push(index + 1)
+      })
+      // 全选
+      if (value) {
+        this.$refs.tree.setCheckedKeys(arr)
+      } else {
+        this.$refs.tree.setCheckedKeys([])
+      }
     }
   }
 }
