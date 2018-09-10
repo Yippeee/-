@@ -38,7 +38,7 @@ body{
   padding-left: 10px;
   background-color: #eef1f6;
 }
-//TODO: 海报编辑界面需要加上的全局样式
+//TODO: 海报编辑界面需要加上的全局样式 start
 .center-icon{
   display: inline-block;
   font-style: normal;
@@ -153,6 +153,44 @@ body{
   }
 }
 
+.el-tree-node__content{
+  position: relative;
+  height: 38px!important;
+  border-bottom: 1px solid #eef1f6;
+  .el-checkbox{
+    position: absolute;
+    left: 15px;;
+  }
+  .el-tree-node__expand-icon{
+    position: absolute;
+    left: 40px;
+    background-image: url("../image/file.png");
+    transform:''!important;
+    transition:''!important;
+    &::before{
+      content: ' '
+    }
+    &.expanded {
+      transform: rotate(0deg);
+    }
+  }
+
+  .el-tree-node__label{
+    position: absolute;
+    left: 57px;
+  }
+}
+.el-tree-node__children{
+  .el-tree-node__label{
+    position: absolute;
+    left: 57px;
+  }
+  .el-icon-caret-right{
+    background-image: none
+  }
+}
+
+// 海报编辑界面需要加上的全局样式 end
 
 /*
 **表格相关css配置 #eef1f6

@@ -462,11 +462,11 @@ export default {
       if (spanname === 'photo-clip-area') {
         // 判断是否可以继续移动
         if ((this.maskL.width + moveStep <= idata.left && moveStep < 0) || (this.maskR.left + moveStep >= CANVAS_WIDTH - idata.right && moveStep > 0)) {
-          return false
+          moveStep = 0
         }
 
         if ((this.maskT.height + moveStepReaY <= idata.top && moveStepReaY < 0) || (this.maskB.height - moveStepReaY <= idata.top && moveStepReaY > 0)) {
-          return false
+          moveStepReaY = 0
         }
         newLeft += moveStep
         newTop += moveStepReaY

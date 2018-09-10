@@ -3,8 +3,8 @@
     <div class="left-table">
       <div class="table-wrap">
         <div class="table-content">
-          <el-table
-            style="width: 100%;min-height:600px">
+          <!-- <el-table
+            style="width: 100%">
             <el-table-column
               type="selection"
               width="30">
@@ -12,11 +12,21 @@
             <el-table-column
               label="节目名称"
               width="200">
-            <template slot="do">
-              <el-button type="primary">一键通过</el-button>
-            </template>
             </el-table-column>
-          </el-table>
+          </el-table> -->
+          <div class="table-header">
+            <el-checkbox label="节目名称"></el-checkbox>
+            <el-button type="primary" size='small'>一键通过</el-button>
+          </div>
+          <div class="block">
+                <el-tree
+                  :data="data5"
+                  show-checkbox
+                  node-key="id"
+                  default-expand-all
+                  :expand-on-click-node="false">
+                </el-tree>
+              </div>
         </div>
       </div>
 
@@ -215,7 +225,42 @@ export default {
       videoChecked: [],
       videoInfoChecked: '',
       programChecked: '',
-      activeNames: ['1', '2', '3', '4']
+      activeNames: ['1', '2', '3', '4'],
+      data5: [{
+        id: 1,
+        label: '一级 1',
+        children: [{
+          id: 4,
+          label: '二级 1-1',
+          children: [{
+            id: 9,
+            label: '三级 1-1-1'
+          }, {
+            id: 10,
+            label: '三级 1-1-2'
+          }]
+        }]
+      }, {
+        id: 2,
+        label: '一级 2',
+        children: [{
+          id: 5,
+          label: '二级 2-1'
+        }, {
+          id: 6,
+          label: '二级 2-2'
+        }]
+      }, {
+        id: 3,
+        label: '一级 3',
+        children: [{
+          id: 7,
+          label: '二级 3-1'
+        }, {
+          id: 8,
+          label: '二级 3-2'
+        }]
+      }]
     }
   }
 }
@@ -230,6 +275,17 @@ export default {
     flex: 0 0 230px;
     .table-wrap{
       border: 1px solid #eef1f6;
+      .table-header{
+        height: 40px;
+        line-height: 40px;
+        padding-left: 15px;
+        background-color: #eef1f6;
+      }
+      .el-button{
+        height: 28px;
+        line-height: 10px;
+        margin-left: 45px;
+      }
     }
   }
   .right-table{
