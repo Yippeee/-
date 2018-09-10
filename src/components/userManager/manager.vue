@@ -37,6 +37,9 @@
               label="用户角色"
               max-width="260"
               prop="d"
+              :filters="[{ text: '超级管理员', value: '超级管理员' }, { text: '普通管理员', value: '普通管理员' }, { text: '用户', value: '用户' }]"
+              :filter-method="filterTag"
+              filter-placement="bottom-end"
               >
           </el-table-column>
           <el-table-column
@@ -105,7 +108,7 @@ export default {
           a: 12,
           b: 23,
           c: 34,
-          d: 54,
+          d: '超级管理员',
           e: 435
 
         },
@@ -113,14 +116,14 @@ export default {
           a: 12,
           b: 23,
           c: 34,
-          d: 54,
+          d: '普通管理员',
           e: 435
         },
         {
           a: 12,
           b: 23,
           c: 34,
-          d: 54,
+          d: '用户',
           e: 435
         }
       ],
@@ -134,6 +137,12 @@ export default {
         value: '选项1',
         label: '用户'
       }]
+    }
+  },
+  methods: {
+    filterTag (value, row, column) {
+      const property = column['property']
+      return row[property] === value
     }
   }
 }

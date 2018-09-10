@@ -105,9 +105,9 @@ export default {
       let h = document.hidden
       if (!h) {
         window.document.title = "内容分发系统"
-        console.log('before')
-        await this.sleep(1000)
-        console.log('after')
+        // console.log('before')
+        // await this.sleep(1000)
+        // console.log('after')
       } else {
         window.document.title = "主人~快回来"
       }

@@ -18,13 +18,13 @@
             <div class="body">
               <el-row>
                 <el-col :span="12">
-                  <span>视频上传：</span>
-                  <el-checkbox-group v-model="item.videoUploadList">
-                    <el-checkbox label="sosoAndLook">搜索/查看</el-checkbox>
-                    <el-checkbox label="addAndDelete">添加/删除</el-checkbox>
-                    <el-checkbox label="filter">筛选</el-checkbox>
+                  <span>首页:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;</span>
+                  <el-checkbox-group v-model="item.indexControl">
+                    <el-checkbox label="sosoAndLook">控制内容商停止操作</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
+              </el-row>
+              <el-row>
                 <el-col :span="12">
                   <span>节&nbsp;目&nbsp;库&nbsp;：</span>
                   <el-checkbox-group v-model="item.videoLab">
@@ -32,38 +32,28 @@
                     <el-checkbox label="edit">编辑</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
+                <el-col :span="12">
+                  <span>上传历史：</span>
+                  <el-checkbox-group v-model="item.publishHistory">
+                    <el-checkbox label="Look">查看</el-checkbox>
+                    <el-checkbox label="edit">按内容商搜索</el-checkbox>
+                  </el-checkbox-group>
+                </el-col>
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <span>视频发布：</span>
+                  <span>报表统计：</span>
+                  <el-checkbox-group v-model="item.videoCheck">
+                    <el-checkbox label="check">搜索/查看</el-checkbox>
+                    <el-checkbox label="rejected">下载</el-checkbox>
+                    <el-checkbox label="rejected">按内容商搜索</el-checkbox>
+                  </el-checkbox-group>
+                </el-col>
+                <el-col :span="12">
+                   <span>视频发布：</span>
                   <el-checkbox-group v-model="item.videoPublish">
                     <el-checkbox label="sosoAndLook">搜索/查看</el-checkbox>
-                    <el-checkbox label="edit">编辑</el-checkbox>
-                    <el-checkbox label="publish">发布</el-checkbox>
-                    <el-checkbox label="remove">下架</el-checkbox>
-                  </el-checkbox-group>
-                </el-col>
-                <el-col :span="12">
-                  <span>视频审核：</span>
-                  <el-checkbox-group v-model="item.videoCheck">
-                    <el-checkbox label="check">审核</el-checkbox>
-                    <el-checkbox label="rejected">驳回列表视频管理</el-checkbox>
-                  </el-checkbox-group>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="12">
-                   <span>报表统计：</span>
-                  <el-checkbox-group v-model="item.statistics">
-                    <el-checkbox label="sosoAndLook">搜索/查看</el-checkbox>
                     <el-checkbox label="download">下载</el-checkbox>
-                  </el-checkbox-group>
-                </el-col>
-                <el-col :span="12">
-                  <span>后台用户：</span>
-                  <el-checkbox-group v-model="item.backendUser">
-                    <el-checkbox label="Look">查看</el-checkbox>
-                    <el-checkbox label="addAndDelete">添加/删除</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
               </el-row>
@@ -73,6 +63,31 @@
                   <el-checkbox-group v-model="item.roleManage">
                     <el-checkbox label="Look">查看</el-checkbox>
                     <el-checkbox label="addAndDelete">添加/删除</el-checkbox>
+                  </el-checkbox-group>
+                </el-col>
+                <el-col :span="12">
+                  <span>后台用户：</span>
+                  <el-checkbox-group v-model="item.backendUser">
+                    <el-checkbox label="Look">查看</el-checkbox>
+                    <el-checkbox label="addAndDelete">删除</el-checkbox>
+                  </el-checkbox-group>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <span>系统管理：</span>
+                  <el-checkbox-group v-model="item.systemManager">
+                    <el-checkbox label="Look">内容商管理</el-checkbox>
+                    <el-checkbox label="addAndDelete">分发平台</el-checkbox>
+                    <el-checkbox label="addAndDelete">系统日志</el-checkbox>
+                  </el-checkbox-group>
+                </el-col>
+                <el-col :span="12">
+                  <span>配置管理：</span>
+                  <el-checkbox-group v-model="item.configManager">
+                    <el-checkbox label="Look">系统配置</el-checkbox>
+                    <el-checkbox label="addAndDelete">按内容商搜索</el-checkbox>
+                    <el-checkbox label="Look">是否配置审核</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
               </el-row>
@@ -89,35 +104,38 @@
 
 <script>
 export default {
-  /* eslint-disable*/
-  data() {
+  data () {
     return {
-      adminlist:[]
+      adminlist: []
     }
   },
   methods: {
-    handleAddUser() {
+    handleAddUser () {
       this.adminlist.push({
-        videoUploadList:[],
-        videoLab:[],
-        videoPublish:[],
-        videoCheck:[],
-        statistics:[],
-        backendUser:[],
-        roleManage:[],
-        flag:false,
-        roleName:'普通管理员'
+        indexControl: [],
+        videoUploadList: [],
+        videoLab: [],
+        videoPublish: [],
+        videoCheck: [],
+        statistics: [],
+        backendUser: [],
+        roleManage: [],
+        configManager: [],
+        systemManager: [],
+        publishHistory: [],
+        flag: false,
+        roleName: '普通管理员'
       })
     },
     handleDelete (index) {
-      this.adminlist.splice(index,1)
+      this.adminlist.splice(index, 1)
     },
     handleEdit (index) {
       this.adminlist[index].flag = false
     },
     confirmChange (index) {
-      // this.adminlist[index].roleName = 
-      this.adminlist[index].flag = true      
+      // this.adminlist[index].roleName =
+      this.adminlist[index].flag = true
     }
   }
 }

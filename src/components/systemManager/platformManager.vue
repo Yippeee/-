@@ -30,11 +30,17 @@
               label="合作状态"
               max-width="280"
               prop="c"
+              :filters="[{ text: '上线', value: '上线' }, { text: '下架', value: '下架' }]"
+              :filter-method="filterTag"
+              filter-placement="bottom-end"
               >
           </el-table-column>
           <el-table-column
               label="级别"
               prop="d"
+              :filters="[{ text: '省网', value: '省网' }, { text: '市网', value: '市网' }]"
+              :filter-method="filterTag"
+              filter-placement="bottom-end"
               >
           </el-table-column>
           <el-table-column
@@ -187,10 +193,7 @@ export default {
 .block-el-form{
   display: block;
   .el-input{
-    width: 628px!important;
+    width: 558px!important;
   }
-}
-.marginMore{
-  margin-left: 13px;
 }
 </style>

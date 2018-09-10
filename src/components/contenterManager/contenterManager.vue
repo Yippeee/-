@@ -307,7 +307,7 @@ export default {
 .block-el-form{
   display: block;
   .el-input{
-    width: 728px!important;
+    width: 600px!important;
   }
 }
 //image

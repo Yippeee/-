@@ -76,22 +76,26 @@
               label="容量使用占比"
               max-width="260"
               prop="b"
+              sortable
               >
           </el-table-column>
           <el-table-column
               label="上线平台数量"
               max-width="260"
               prop="c"
+              sortable
               >
           </el-table-column>
           <el-table-column
               label="日上线视频数"
               prop="d"
+              sortable
               >
           </el-table-column>
           <el-table-column
               label="日发布视频量"
               prop="e"
+              sortable
               >
           </el-table-column>
           <el-table-column
@@ -100,7 +104,9 @@
                 <el-switch
                   v-model="scope.row.right"
                   active-color="#13ce66"
+                  active-text="开"
                   inactive-color="#ff4949"
+                  inactive-text="关"
                   active-value="100"
                   inactive-value="0">
                 </el-switch>
@@ -134,8 +140,8 @@ export default {
       pageSizes: [5, 20, 50, 100],
       dataList: [
         {
-          a: 12,
-          b: 23,
+          a: 11,
+          b: 20,
           c: 34,
           d: 54,
           e: 435,
@@ -143,14 +149,14 @@ export default {
         },
         {
           a: 12,
-          b: 23,
+          b: 21,
           c: 34,
           d: 54,
           e: 435,
           right: ''
         },
         {
-          a: 12,
+          a: 13,
           b: 23,
           c: 34,
           d: 54,

@@ -39,6 +39,9 @@
               label="内容商"
               max-width="260"
               prop="c"
+              :filters= filters
+              :filter-method="filterTag"
+              filter-placement="bottom-end"
               >
           </el-table-column>
           <el-table-column
@@ -73,7 +76,8 @@ export default {
   data () {
     return {
       begintime: '',
-      endtime: ''
+      endtime: '',
+      filters: [{ text: 'test', value: 'test' }, { text: 'test1', value: 'test1' }]
     }
   }
 }
