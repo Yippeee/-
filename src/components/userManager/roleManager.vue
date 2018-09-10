@@ -18,7 +18,7 @@
             <div class="body">
               <el-row>
                 <el-col :span="12">
-                  <span>首页:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;</span>
+                  <span>首页:  </span>
                   <el-checkbox-group v-model="item.indexControl">
                     <el-checkbox label="sosoAndLook">控制内容商停止操作</el-checkbox>
                   </el-checkbox-group>
@@ -26,7 +26,7 @@
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <span>节&nbsp;目&nbsp;库&nbsp;：</span>
+                  <span>节目库：</span>
                   <el-checkbox-group v-model="item.videoLab">
                     <el-checkbox label="sosoAndLook">搜索/查看</el-checkbox>
                     <el-checkbox label="edit">编辑</el-checkbox>
@@ -228,5 +228,9 @@ export default {
 .role-wrap{
   padding: 20px;
 }
-
+.el-col{
+  >span{
+    width: 70px!important;
+  }
+}
 </style>

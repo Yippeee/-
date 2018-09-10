@@ -82,7 +82,7 @@
     <el-dialog class="addDialog" title="新建内容商" :visible.sync="dialogFormVisible" top="7vh">
         <el-tabs v-model="addDialogTabs" type="border-card" @tab-click="handleClick">
           <el-tab-pane label="合作信息" name="first">
-            <el-form :model="cooperateForm" label-width="100px" :inline="true">
+            <el-form :model="cooperateForm" label-width="100px" :inline="true" :rules="ruleCooperate">
               <el-form-item label="内容商名称:" prop="name">
                   <el-input v-model="cooperateForm.name"></el-input>
               </el-form-item>
@@ -93,7 +93,14 @@
                   <el-input v-model="cooperateForm.name_en"></el-input>
               </el-form-item>
               <el-form-item label="版权平台:" prop="copyright">
-                  <el-input v-model="cooperateForm.name_en"></el-input>
+                  <el-select v-model="value" placeholder="请选择">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
               </el-form-item>
               <el-form-item label="联系人:" prop="people">
                   <el-input v-model="cooperateForm.name_en"></el-input>
@@ -123,7 +130,7 @@
                       </el-form-item>
                     </el-col>
               </el-form-item>
-              <el-form-item label="合作商类型:" >
+              <el-form-item label="合作商类型:" prop="coop_type">
                   <el-checkbox-group>
                     <el-checkbox label="内容提供商" name="type"></el-checkbox>
                     <el-checkbox label="服务提供商" name="type"></el-checkbox>
@@ -131,7 +138,7 @@
                     <el-checkbox label="版权提供商" name="type"></el-checkbox>
                   </el-checkbox-group>
               </el-form-item>
-              <el-form-item label="权限平台:" class="authority clearfix">
+              <el-form-item label="权限平台:" prop="au_platform" class="authority clearfix">
                 <el-checkbox-group >
                   <el-scrollbar style="height:100%">
                     <el-checkbox label="内容提供商" name="type"></el-checkbox>
@@ -152,26 +159,26 @@
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="内容商信息" name="second">
-            <el-form :model="contenter" label-width="100px" :inline="true">
-              <el-form-item label="内容商编码:" prop="id">
+            <el-form :model="contenter" label-width="100px" :inline="true" :rules="rulecooperation">
+              <el-form-item label="公司全名:" prop="fullName">
+                  <el-input v-model="cooperateForm.fullName"></el-input>
+              </el-form-item>
+              <el-form-item label="公司法人:" prop="legalEntity">
+                  <el-input v-model="cooperateForm.legalEntity"></el-input>
+              </el-form-item>
+              <el-form-item label="公司电话:" prop="2">
                   <el-input v-model="cooperateForm.id"></el-input>
               </el-form-item>
-              <el-form-item label="内容商编码:" prop="id">
+              <el-form-item label="工商注册号:" prop="3">
                   <el-input v-model="cooperateForm.id"></el-input>
               </el-form-item>
-              <el-form-item label="内容商编码:" prop="id">
+              <el-form-item label="组织机构代码:" prop="4">
                   <el-input v-model="cooperateForm.id"></el-input>
               </el-form-item>
-              <el-form-item label="内容商编码:" prop="id">
+              <el-form-item label="统一信用代码:" prop="5">
                   <el-input v-model="cooperateForm.id"></el-input>
               </el-form-item>
-              <el-form-item label="内容商编码:" prop="id">
-                  <el-input v-model="cooperateForm.id"></el-input>
-              </el-form-item>
-              <el-form-item label="内容商编码:" prop="id">
-                  <el-input v-model="cooperateForm.id"></el-input>
-              </el-form-item>
-              <el-form-item label="内容商编码:" prop="id">
+              <el-form-item label="纳税人识别号:" prop="6">
                   <el-input v-model="cooperateForm.id"></el-input>
               </el-form-item>
               <el-form-item label="官网地址:" prop="id" class="block-el-form">
@@ -249,7 +256,51 @@ export default {
           e: 435
         }
       ],
-      cooperateForm: {}
+      cooperateForm: {},
+      options: [{
+        value: '选项1',
+        label: '超级管理员'
+      }, {
+        value: '选项1',
+        label: '普通管理员'
+      }, {
+        value: '选项1',
+        label: '用户'
+      }],
+      ruleCooperate: {
+        name: [
+          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        ],
+        copyright: [
+          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        ],
+        people: [
+          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        ],
+        phone: [
+          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        ],
+        media: [
+          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        ],
+        coop_type: [
+          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        ],
+        coop_time: [
+          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        ],
+        au_platform: [
+          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        ]
+      },
+      rulecooperation: {
+        fullName: [
+          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        ],
+        legalEntity: [
+          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        ]
+      }
     }
   }
 }
@@ -290,7 +341,7 @@ export default {
 .authority{
   position: relative;
   .el-checkbox-group{
-    width: 65%;
+    width: 76%;
     height: 100px;
     box-sizing: border-box;
     position: relative;
@@ -312,7 +363,9 @@ export default {
 }
 //image
 .avatar-uploader{
+  display: inline-block;
   border: 1px solid #eef1f6;
+  width: 62px;
 }
 .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;

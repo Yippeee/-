@@ -66,14 +66,14 @@
       :visible.sync="addDialogShow"
       width="45%"
       :before-close="handleClose">
-      <el-form label-width="100px" :inline="true">
-        <el-form-item label="用户姓名:" prop="id">
+      <el-form label-width="100px" :inline="true" :rules="rules">
+        <el-form-item label="用户姓名:" prop="name">
             <el-input ></el-input>
         </el-form-item>
-        <el-form-item label="登录名:" prop="id" class="marginMore">
+        <el-form-item label="登录名:" prop="loginName" class="marginMore">
             <el-input ></el-input>
         </el-form-item>
-        <el-form-item label="用户角色:" prop="id">
+        <el-form-item label="用户角色:" prop="role">
             <el-select v-model="value" placeholder="请选择">
               <el-option
                 v-for="item in options"
@@ -83,7 +83,7 @@
               </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="邮箱:" prop="id">
+        <el-form-item label="邮箱  :  " prop="mail" style="margin-left:14px">
             <el-input ></el-input>
         </el-form-item>
       </el-form>
@@ -136,7 +136,18 @@ export default {
       }, {
         value: '选项1',
         label: '用户'
-      }]
+      }],
+      rules: {
+        name: [
+          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        ],
+        loginName: [
+          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        ],
+        role: [
+          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
