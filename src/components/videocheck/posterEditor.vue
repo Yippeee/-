@@ -153,7 +153,7 @@
               </div>
             </div>
             <div class="center-handle">
-              <div class="center-handle-centent">
+              <div class="center-handle-centent" v-show="editorImg">
                 <i class="center-icon reUpload"></i>
                 <i class="center-icon save" @click="savePhotoClip"></i>
               </div>
@@ -236,10 +236,6 @@ export default {
         height: CANVAS_HEIGHT,
         left: 0,
         top: 0
-      },
-      mask: {
-        w: 0,
-        h: 0
       },
       maskL: {
         height: 0,
@@ -398,8 +394,7 @@ export default {
             w = CANVAS_WIDTH * radio
             left = (CANVAS_WIDTH - w) / 2
           }
-          // console.log(w,h)
-          // console.log("left:"+left)
+
           ctx1.drawImage(img, left, top, w, h)
           _this.initClip(w, h, left, top)
         }
@@ -421,10 +416,14 @@ export default {
       // 调整裁剪框大小
       let moveStep = e.movementX
       let radio = this.radio
-      let moveStepY = moveStep / radio
       // 真实Y移动距离
       let moveStepReaY = e.movementY
       let idata = this.initClipData
+      // if (Math.abs(moveStep) > 5 || Math.abs(moveStepReaY) > 5) {
+      //   moveStep = moveStep / 5
+      //   moveStepReaY = moveStepReaY / 5
+      // }
+      let moveStepY = moveStep / radio
 
       if (spanname === 'photo-clip-area-bottom-right') {
         this.br.bottom -= moveStepY
@@ -456,29 +455,17 @@ export default {
       // 获取新的裁剪区域的高度个宽度
       let newWeight = tr.offsetLeft - tl.offsetLeft
       let newHeight = br.offsetTop - tr.offsetTop
-      this.mask.w = newWeight + 4
-      this.mask.h = newHeight + 4
       // let editor = this.$refs.editor
       let newLeft = tl.offsetLeft + 4
       let newTop = tl.offsetTop + 4
       // 调整裁剪框位置
       if (spanname === 'photo-clip-area') {
         // 判断是否可以继续移动
-        // 左移
-        if ((this.tl.marginLeft <= idata.left || this.tl.marginLeft - moveStep <= idata.left) && moveStep < 0) {
-          console.log('1')
+        if ((this.maskL.width + moveStep <= idata.left && moveStep < 0) || (this.maskR.left + moveStep >= CANVAS_WIDTH - idata.right && moveStep > 0)) {
           return false
-          // 上移
-        } else if (this.tl.top <= idata.top && moveStepReaY < 0) {
-          console.log('2')
-          return false
-          // 下移
-        } else if (this.bl.bottom <= idata.bottom && moveStepReaY > 0) {
-          console.log('3')
-          return false
-          // 右移
-        } else if (this.br.marginLeft >= -idata.right && moveStep > 0) {
-          console.log('4')
+        }
+
+        if ((this.maskT.height + moveStepReaY <= idata.top && moveStepReaY < 0) || (this.maskB.height - moveStepReaY <= idata.top && moveStepReaY > 0)) {
           return false
         }
         newLeft += moveStep
@@ -547,14 +534,14 @@ export default {
         let m = _this.radio < 1 ? natureH / CANVAS_HEIGHT : natureH / (CANVAS_HEIGHT / _this.radio)
         let sx = _this.maskT.height
         let sy = _this.maskL.width
-        let sWidth = _this.mask.w - 4
-        let sHeight = _this.mask.h - 4
+        let sWidth = _this.clip.width
+        let sHeight = _this.clip.height
 
         // 源图片的宽高需要对比例进行计算后取得，目标宽高就不需用了
         // console.log("裁剪的坐标信息: top: "+(sx-_this.initClipData.top) * n + ' left:' + (sy-_this.initClipData.left)*m)
         // console.log("裁剪的坐标信息: width: "+(sx-_this.initClipData.top) * n + ' left:' + (sy-_this.initClipData.left)*m)
 
-        ctx.drawImage(img, (sy - _this.initClipData.left) * m, (sx - _this.initClipData.top) * n, sWidth * n, sHeight * m, _this.maskL.width, _this.maskT.height, _this.mask.w - 4, _this.mask.h - 4)
+        ctx.drawImage(img, (sy - _this.initClipData.left) * m, (sx - _this.initClipData.top) * n, sWidth * n, sHeight * m, _this.maskL.width, _this.maskT.height, _this.clip.width, _this.clip.height)
 
         // 设置离屏canvas:维持原图的大小
         let offscreenCanvas = document.createElement('canvas')
@@ -590,30 +577,26 @@ export default {
     initClip (width = CANVAS_WIDTH, height = CANVAS_HEIGHT, left = 0, top = 0) {
       console.log('init')
       this.br = {
-        bottom: CANVAS_HEIGHT - height - top,
-        marginLeft: width - CANVAS_WIDTH + left
+        bottom: CANVAS_HEIGHT - height - top - 4,
+        marginLeft: width - CANVAS_WIDTH + left - 4
       }
       this.bl = {
-        bottom: CANVAS_HEIGHT - height - top,
-        marginLeft: left
+        bottom: CANVAS_HEIGHT - height - top - 4,
+        marginLeft: left - 4
       }
       this.tl = {
-        top: top,
-        marginLeft: left
+        top: top - 4,
+        marginLeft: left - 4
       }
       this.tr = {
-        top: top,
-        marginLeft: width - CANVAS_WIDTH + left
+        top: top - 4,
+        marginLeft: width - CANVAS_WIDTH + left - 4
       }
       this.clip = {
         width: width,
         height: height,
         left: left,
         top: top
-      }
-      this.mask = {
-        w: width + 4,
-        h: height + 4
       }
       this.maskL = {
         height: top,
