@@ -61,41 +61,19 @@
             :total="curTotal">
         </el-pagination>
     </div>
-   <el-dialog
-      title="新增后台用户"
-      :visible.sync="addDialogShow"
-      width="45%"
-      :before-close="handleClose">
-      <el-form label-width="100px" :inline="true" :rules="rules">
-        <el-form-item label="用户姓名:" prop="name">
-            <el-input ></el-input>
-        </el-form-item>
-        <el-form-item label="登录名:" prop="loginName" class="marginMore">
-            <el-input ></el-input>
-        </el-form-item>
-        <el-form-item label="用户角色:" prop="role">
-            <el-select v-model="value" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="邮箱  :  " prop="mail" style="margin-left:14px">
-            <el-input ></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="addDialogShow = false">取 消</el-button>
-        <el-button type="primary" @click="addDialogShow   = false">确 定</el-button>
-      </span>
-    </el-dialog>
+   <manager-dialog
+     :addDialogShow = 'addDialogShow'
+     :formData="formData"
+     @close = 'close'
+     ></manager-dialog>
   </div>
 </template>
 <script>
+import managerDialog from './managerDialog'
 export default {
+  components: {
+    managerDialog
+  },
   data () {
     return {
       addDialogShow: false,
@@ -126,34 +104,16 @@ export default {
           d: '用户',
           e: 435
         }
-      ],
-      options: [{
-        value: '选项1',
-        label: '超级管理员'
-      }, {
-        value: '选项1',
-        label: '普通管理员'
-      }, {
-        value: '选项1',
-        label: '用户'
-      }],
-      rules: {
-        name: [
-          { required: true, message: '请输入合作商名称', trigger: 'blur' }
-        ],
-        loginName: [
-          { required: true, message: '请输入合作商名称', trigger: 'blur' }
-        ],
-        role: [
-          { required: true, message: '请输入合作商名称', trigger: 'blur' }
-        ]
-      }
+      ]
     }
   },
   methods: {
     filterTag (value, row, column) {
       const property = column['property']
       return row[property] === value
+    },
+    close () {
+      this.addDialogShow = false
     }
   }
 }
@@ -172,8 +132,5 @@ export default {
       border: 1px solid #ebebeb;
     }
   }
-}
-.marginMore {
-  margin-left: 14px
 }
 </style>
