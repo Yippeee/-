@@ -79,7 +79,7 @@
             :total="curTotal">
         </el-pagination>
       </div>
-    <el-dialog class="addDialog" title="新建内容商" :visible.sync="dialogFormVisible" top="7vh">
+    <el-dialog class="addDialog" title="新建内容商" :visible.sync="dialogFormVisible" top="7vh" width="840px">
         <el-tabs v-model="addDialogTabs" type="border-card" @tab-click="handleClick">
           <el-tab-pane label="合作信息" name="first">
             <el-form :model="cooperateForm" label-width="100px" :inline="true" :rules="ruleCooperate">

@@ -74,7 +74,7 @@
     <el-dialog
       title="新增发布平台"
       :visible.sync="addDialogShow"
-      width="45%"
+      width="770px"
       :before-close="handleClose">
       <el-form label-width="100px" :inline="true">
         <el-form-item label="运营商名称:" prop="id">

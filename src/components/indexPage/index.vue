@@ -99,7 +99,8 @@
               >
           </el-table-column>
           <el-table-column
-              label="操作权限">
+              label="操作权限"
+              prop="right">
               <template slot-scope="scope">
                 <el-switch
                   v-model="scope.row.right"
@@ -107,8 +108,8 @@
                   active-text="开"
                   inactive-color="#ff4949"
                   inactive-text="关"
-                  active-value="100"
-                  inactive-value="0">
+                  active-value="true"
+                  inactive-value="false">
                 </el-switch>
               </template>
           </el-table-column>
@@ -145,7 +146,7 @@ export default {
           c: 34,
           d: 54,
           e: 435,
-          right: ''
+          right: 'true'
         },
         {
           a: 12,
