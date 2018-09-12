@@ -5,15 +5,16 @@
         <div class="table-content">
           <div class="table-header">
             <el-checkbox label="节目名称" v-model="allSelect"></el-checkbox>
-            <el-button type="primary" size='small'>一键通过</el-button>
+            <el-button @click="passAll" type="primary" size='small'>一键通过</el-button>
           </div>
           <div class="block">
             <el-tree
               :data="data5"
+              label='id'
               ref="tree"
               show-checkbox
+              empty-text='待审核节目有空'
               node-key="id"
-              default-expand-all
               @current-change='currentChange'
               :expand-on-click-node="false">
             </el-tree>
@@ -24,183 +25,184 @@
     </div>
     <div class="right-table">
       <div class="right-table-content">
-        <!-- 信息检查 -->
+        <!-- 信息检查 节目：series 视频：video-->
         <el-collapse v-model="activeNames">
-        <!-- 节目信息 -->
-        <el-collapse-item title="节目信息" name="0">
-        <div class="info-content">
-          <span class="info-name">中文名称</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">英文名称</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">导演</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">主演</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">年份</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">国家/地区</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">清晰度</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">视频大小</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">视频时长</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">视频简介</span>
-          <div class="info-value">特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，使用窄设计元素是可以的，不过要当心相应的缺点。特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，使用窄设计元素是可以的，不过要当心相应的缺点。</div>
-        </div>
-        <div class="checksuggest">
-          <span>检查意见</span>
-          <div class="line"></div>
-          <el-checkbox v-model="programChecked">信息填写错误</el-checkbox>
-        </div>
-        </el-collapse-item>
-        <!-- 视频信息 -->
-        <el-collapse-item title="视频信息" name="1">
-        <div class="info-content">
-          <span class="info-name">中文名称</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">英文名称</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">导演</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">主演</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">年份</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">国家/地区</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">清晰度</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">视频大小</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">视频时长</span>
-          <div class="info-value">中文名称</div>
-          <span class="info-name">视频简介</span>
-          <div class="info-value">特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，使用窄设计元素是可以的，不过要当心相应的缺点。特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，使用窄设计元素是可以的，不过要当心相应的缺点。</div>
+          <!-- 节目信息 -->
+          <el-collapse-item title="节目信息" name="0" v-show="selectType === 'series'">
+            <div class="info-content">
+              <span class="info-name">中文名称</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">英文名称</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">导演</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">主演</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">年份</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">国家/地区</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">清晰度</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">视频大小</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">视频时长</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">视频简介</span>
+              <div class="info-value">特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，使用窄设计元素是可以的，不过要当心相应的缺点。特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，使用窄设计元素是可以的，不过要当心相应的缺点。</div>
+            </div>
+            <div class="checksuggest">
+              <span>检查意见</span>
+              <div class="line"></div>
+              <el-checkbox v-model="programChecked">信息填写错误</el-checkbox>
+            </div>
+          </el-collapse-item>
+          <!-- 视频信息 -->
+          <el-collapse-item title="视频信息" name="1" v-show="selectType === 'video'">
+            <div class="info-content">
+              <span class="info-name">中文名称</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">英文名称</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">导演</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">主演</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">年份</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">国家/地区</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">清晰度</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">视频大小</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">视频时长</span>
+              <div class="info-value">中文名称</div>
+              <span class="info-name">视频简介</span>
+              <div class="info-value">特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，使用窄设计元素是可以的，不过要当心相应的缺点。特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，特别是元素可能太窄，以至于每行只能放下几个单词。当然，使用窄设计元素是可以的，不过要当心相应的缺点。</div>
 
-        </div>
-        <div class="checksuggest">
-          <span>检查意见</span>
-          <div class="line"></div>
-          <el-checkbox v-model="videoInfoChecked">信息填写错误</el-checkbox>
-        </div>
-        </el-collapse-item>
-        <!-- 视频检查 -->
-        <el-collapse-item title="视频检查" name="2">
-        <video width="320" height="240" controls>
-          <source src="../../assets/demo.mp4" type="video/mp4">
-          您的浏览器不支持 HTML5 video 标签。
-        </video>
-        <div class="checksuggest">
-          <span>检查意见</span>
-          <div class="line"></div>
-          <el-checkbox-group v-model="videoChecked">
-            <el-checkbox label="预览图数据有误"></el-checkbox>
-            <el-checkbox label="预览图数据丢失"></el-checkbox>
-          </el-checkbox-group>
-        </div>
-        </el-collapse-item>
-        <!-- 节目海报 -->
-        <el-collapse-item title="节目海报" name="3">
-        <div class="poster-content el-scrollbar">
-          <el-scrollbar style="height:100%">
-            <p>320x400竖版海报尺寸  </p>
-            <div class="imgDiv">
-              <div class="img-wrap">
-                <img src="../../assets/example.jpg" alt="">
-              </div>
-              <span>320x400</span>
             </div>
-            <div class="imgDiv">
-              <div class="img-wrap">
-                <img src="../../assets/logo.png" alt="">
-              </div>
-              <span>320x400</span>
+            <div class="checksuggest">
+              <span>检查意见</span>
+              <div class="line"></div>
+              <el-checkbox v-model="videoInfoChecked">信息填写错误</el-checkbox>
             </div>
-            <div class="imgDiv">
-              <div class="img-wrap">
-                <img src="../../assets/logo.png" alt="">
-              </div>
-              <span>320x400</span>
+          </el-collapse-item>
+          <!-- 视频检查 -->
+          <el-collapse-item title="视频检查" name="2" v-show="selectType === 'video'">
+            <video width="320" height="240" controls>
+              <source src="../../assets/demo.mp4" type="video/mp4">
+              您的浏览器不支持 HTML5 video 标签。
+            </video>
+            <div class="checksuggest">
+              <span>检查意见</span>
+              <div class="line"></div>
+              <el-checkbox-group v-model="videoChecked">
+                <el-checkbox label="预览图数据有误"></el-checkbox>
+                <el-checkbox label="预览图数据丢失"></el-checkbox>
+              </el-checkbox-group>
             </div>
-            <p>500x280竖版海报尺寸 </p>
-            <div class="imgDiv">
-              <div class="img-wrap">
-                <img src="../../assets/example.jpg" alt="">
-              </div>
-              <span>500x280</span>
+          </el-collapse-item>
+          <!-- 节目海报 -->
+          <el-collapse-item title="节目海报" name="3" v-show="selectType === 'series'">
+            <div class="poster-content el-scrollbar">
+              <el-scrollbar style="height:100%">
+                <p>320x400竖版海报尺寸  </p>
+                <div class="imgDiv">
+                  <div class="img-wrap">
+                    <img src="../../assets/example.jpg" alt="">
+                  </div>
+                  <span>320x400</span>
+                </div>
+                <div class="imgDiv">
+                  <div class="img-wrap">
+                    <img src="../../assets/logo.png" alt="">
+                  </div>
+                  <span>320x400</span>
+                </div>
+                <div class="imgDiv">
+                  <div class="img-wrap">
+                    <img src="../../assets/logo.png" alt="">
+                  </div>
+                  <span>320x400</span>
+                </div>
+                <p>500x280竖版海报尺寸 </p>
+                <div class="imgDiv">
+                  <div class="img-wrap">
+                    <img src="../../assets/example.jpg" alt="">
+                  </div>
+                  <span>500x280</span>
+                </div>
+                <p>1280x720 </p>
+                <div class="imgDiv">
+                  <div class="img-wrap">
+                    <img src="../../assets/logo.png" alt="">
+                  </div>
+                  <span>1280x720</span>
+                </div>
+              </el-scrollbar>
             </div>
-            <p>1280x720 </p>
-            <div class="imgDiv">
-              <div class="img-wrap">
-                <img src="../../assets/logo.png" alt="">
-              </div>
-              <span>1280x720</span>
+            <div class="checksuggest">
+              <span>检查意见</span>
+              <div class="line"></div>
+              <el-checkbox-group v-model="programPosterChecked">
+                <el-checkbox label="预览图数据有误"></el-checkbox>
+                <el-checkbox label="预览图数据丢失"></el-checkbox>
+              </el-checkbox-group>
             </div>
-          </el-scrollbar>
-        </div>
-        <div class="checksuggest">
-          <span>检查意见</span>
-          <div class="line"></div>
-          <el-checkbox-group v-model="programPosterChecked">
-            <el-checkbox label="预览图数据有误"></el-checkbox>
-            <el-checkbox label="预览图数据丢失"></el-checkbox>
-          </el-checkbox-group>
-        </div>
-        </el-collapse-item>
-        <!-- 视频海报 -->
-        <el-collapse-item title="视频海报" name="4">
-        <div class="poster-content el-scrollbar">
-          <el-scrollbar style="height:100%">
-            <p>320x400竖版海报尺寸  </p>
-            <div class="imgDiv">
-              <div class="img-wrap">
-                <img src="../../assets/example.jpg" alt="">
-              </div>
-              <span>320x400</span>
+          </el-collapse-item>
+          <!-- 视频海报 -->
+          <el-collapse-item title="视频海报" name="4" v-show="selectType === 'video'">
+            <div class="poster-content el-scrollbar">
+              <el-scrollbar style="height:100%">
+                <p>320x400竖版海报尺寸  </p>
+                <div class="imgDiv">
+                  <div class="img-wrap">
+                    <img src="../../assets/example.jpg" alt="">
+                  </div>
+                  <span>320x400</span>
+                </div>
+                <div class="imgDiv">
+                  <div class="img-wrap">
+                    <img src="../../assets/logo.png" alt="">
+                  </div>
+                  <span>320x400</span>
+                </div>
+                <div class="imgDiv">
+                  <div class="img-wrap">
+                    <img src="../../assets/logo.png" alt="">
+                  </div>
+                  <span>320x400</span>
+                </div>
+                <p>500x280竖版海报尺寸 </p>
+                <div class="imgDiv">
+                  <div class="img-wrap">
+                    <img src="../../assets/example.jpg" alt="">
+                  </div>
+                  <span>500x280</span>
+                </div>
+                <p>1280x720 </p>
+                <div class="imgDiv">
+                  <div class="img-wrap">
+                    <img src="../../assets/logo.png" alt="">
+                  </div>
+                  <span>1280x720</span>
+                </div>
+              </el-scrollbar>
             </div>
-            <div class="imgDiv">
-              <div class="img-wrap">
-                <img src="../../assets/logo.png" alt="">
-              </div>
-              <span>320x400</span>
+            <div class="checksuggest">
+              <span>检查意见</span>
+              <div class="line"></div>
+              <el-checkbox-group v-model="videoPosterChecked">
+                <el-checkbox label="预览图数据有误"></el-checkbox>
+                <el-checkbox label="预览图数据丢失"></el-checkbox>
+              </el-checkbox-group>
             </div>
-            <div class="imgDiv">
-              <div class="img-wrap">
-                <img src="../../assets/logo.png" alt="">
-              </div>
-              <span>320x400</span>
-            </div>
-            <p>500x280竖版海报尺寸 </p>
-            <div class="imgDiv">
-              <div class="img-wrap">
-                <img src="../../assets/example.jpg" alt="">
-              </div>
-              <span>500x280</span>
-            </div>
-            <p>1280x720 </p>
-            <div class="imgDiv">
-              <div class="img-wrap">
-                <img src="../../assets/logo.png" alt="">
-              </div>
-              <span>1280x720</span>
-            </div>
-          </el-scrollbar>
-        </div>
-        <div class="checksuggest">
-          <span>检查意见</span>
-          <div class="line"></div>
-          <el-checkbox-group v-model="videoPosterChecked">
-            <el-checkbox label="预览图数据有误"></el-checkbox>
-            <el-checkbox label="预览图数据丢失"></el-checkbox>
-          </el-checkbox-group>
-        </div>
-        </el-collapse-item>
+          </el-collapse-item>
         </el-collapse>
+        <div class="emptyDiv" v-show="!selectType">暂无信息~点击左侧选择节目/视频</div>
       </div>
-      <div class="button-wrap">
+      <div class="button-wrap" v-show="selectType">
         <el-button type="primary">通过</el-button>
         <el-button>驳回</el-button>
       </div>
@@ -214,11 +216,12 @@ export default {
   data () {
     return {
       videoPosterChecked: [],
+      selectType: '',
       programPosterChecked: [],
       videoChecked: [],
       videoInfoChecked: '',
       programChecked: '',
-      activeNames: ['1', '2', '3', '4'],
+      activeNames: [],
       data5: [{
         id: 1,
         label: '一级 1',
@@ -247,13 +250,24 @@ export default {
           label: '二级 3-2'
         }]
       }],
-      allSelect: ''
+      allSelect: '',
+      selectedItem: ''
     }
   },
   methods: {
     // 获取现在选中的界面或者视频节点
     currentChange (data, node) {
-      c(j(data, node))
+      this.selectedItem = data
+      c(j(data))
+      if (data.children) {
+        this.selectType = 'series'
+      } else {
+        this.selectType = 'video'
+      }
+    },
+    passAll () {
+      let ids = this.$refs.tree.getCheckedKeys()
+      c(ids)
     }
   },
   watch: {
@@ -388,6 +402,12 @@ export default {
       .el-button{
         width: 92px;
       }
+    }
+    .emptyDiv{
+      text-align: center;
+      min-height: 300px;
+      line-height: 300px;
+      color: #000;
     }
   }
   video{

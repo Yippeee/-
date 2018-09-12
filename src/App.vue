@@ -51,6 +51,7 @@ export default {
       isLogin: true,
       username: '',
       routerMap: {},
+      systemname: '',
       bread: [{
         name: "首页",
         to: "/index"
@@ -58,7 +59,8 @@ export default {
     }
   },
   created () {
-    window.document.title = "内容分发系统"
+    this.systemname = this.$('systemname')
+    window.document.title = this.systemname
     this.username = this.$('username')
     let routes = this.$router.options.routes
     for (let i in routes) {
@@ -95,26 +97,15 @@ export default {
     }
     this.bread = this.routerMap[this.util.getCookies("bread") ? this.util.getCookies("bread") : '首页']
     document.addEventListener("visibilitychange", this.handleVisibilityChange, false)
-    // console.log(document.hidden)
-    // let geo = navigator.geolocation
-    // geo.getCurrentPosition((position) => {
-    //   console.log(position.coords)
-    // })
   },
   methods: {
     async handleVisibilityChange () {
       let h = document.hidden
       if (!h) {
-        window.document.title = "内容分发系统"
-        // console.log('before')
-        // await this.sleep(1000)
-        // console.log('after')
+        window.document.title = this.systemname
       } else {
         window.document.title = "主人~快回来"
       }
-    },
-    sleep (time) {
-      return new Promise(resolve => setTimeout(resolve, time))
     }
   },
   watch: {
@@ -122,7 +113,6 @@ export default {
       immediate: true,
       deep: true,
       handler (to, from) {
-        // const path = to.path
         const name = to.name
         this.bread = this.routerMap[name]
         if (this.bread) {

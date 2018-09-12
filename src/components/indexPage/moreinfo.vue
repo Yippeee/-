@@ -3,7 +3,7 @@
     <div class="table-wrap">
       <div class="table-content">
         <ul>
-          <li v-for="item in tableData" :key="item">
+          <li v-for="(item,index) in tableData" :key="index">
             <el-badge is-dot class="item"><i class="icon-message"></i></el-badge>
             <span class="info">{{item.info}}</span>
             <span class="timer">{{item.time}}</span>
@@ -54,9 +54,8 @@ export default {
     }
   },
   methods: {
-    changePageSize (s) {
-
-    }
+    changePageSize (s) {},
+    changePageIdx () {}
   }
 }
 </script>
