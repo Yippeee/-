@@ -183,7 +183,6 @@
 </template>
 <script>
 
-import Axios from "axios"
 import _ from 'lodash'
 
 const CANVAS_WIDTH = 400
@@ -346,12 +345,23 @@ export default {
         formData.append("seriesId", 1)
         formData.append("videoNumber", 1)
 
-        let config = {
-          headers: { "Content-Type": "multipart/form-data" }
-        }
-        Axios.post(url, formData, config).then(response => {
-          console.log(response.data.msg)
+        this.$http({
+          url: url,
+          type: 'post',
+          data: formData
         })
+          .then((res) => {
+            let type
+            if (res.data) {
+              type = 'success'
+            } else {
+              type = 'warning'
+            }
+            this.$message({
+              message: res.msg,
+              type: type
+            })
+          })
       }
 
       this.nowStep++
@@ -691,20 +701,18 @@ export default {
   },
   mounted () {
     let demo = document.getElementById("demo")
-    Axios.get("http://192.168.21.29:8099/poster/posters/page", {
-      params: {
+    this.$http({
+      type: 'get',
+      url: 'http://192.168.21.29:8099/poster/posters/page',
+      data: {
         seriesId: 1,
         videoNumber: 1,
         pageNum: 1,
         pageSize: 1
       }
     })
-      .then(function (response) {
-        demo.src =
-          "data:image/png;base64," + response.data.rows[0].base64String
-      })
-      .catch(function (error) {
-        console.log(error)
+      .then(function (res) {
+        demo.src = "data:image/png;base64," + res.rows[0].base64String
       })
   }
 }

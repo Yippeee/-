@@ -40,7 +40,6 @@
               max-width="260"
               prop="c"
               :filters= filters
-              :filter-method="filterTag"
               filter-placement="bottom-end"
               >
           </el-table-column>
@@ -74,11 +73,25 @@
 <script>
 export default {
   data () {
+    const pageSizes = this.$('pageSizes')
     return {
+      dataList: [],
+      pageSize: 0,
+      pageSizes: pageSizes,
       begintime: '',
+      curPageIdx: 0,
+      curTotal: 0,
+      curPageSize: 0,
+      total: 0,
       endtime: '',
       filters: [{ text: 'test', value: 'test' }, { text: 'test1', value: 'test1' }]
     }
+  },
+  methods: {
+    changePageSize (s) {
+
+    },
+    changePageIdx () {}
   }
 }
 </script>

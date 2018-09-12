@@ -33,9 +33,10 @@
 </template>
 <script>
 export default {
-  props: ['addDialogShow'],
+  props: ['addDialogShow', 'formData'],
   data () {
     return {
+      value: '',
       options: [{
         value: '选项1',
         label: '超级管理员'

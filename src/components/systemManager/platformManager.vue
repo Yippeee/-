@@ -85,7 +85,9 @@ export default {
     platformDialog
   },
   data () {
+    const pageSizes = this.$('pageSizes')
     return {
+      pageSizes: pageSizes,
       addDialogShow: false,
       dataList: [
         {
@@ -116,6 +118,12 @@ export default {
   methods: {
     closeDialog () {
       this.addDialogShow = false
+    },
+    changePageSize (s) {
+
+    },
+    changePageIdx (c) {
+      this.curPageIdx = c
     }
   }
 }

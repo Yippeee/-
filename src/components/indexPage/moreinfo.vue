@@ -27,11 +27,12 @@
 <script>
 export default {
   data () {
+    const pageSizes = this.$('pageSizes')
     return {
       curPageIdx: 1,
       curPageSize: 50,
       curTotal: 10000,
-      pageSizes: [5, 20, 50, 100],
+      pageSizes: pageSizes,
       tableData: [
         {
           info: '你的券还有10天过期',
@@ -50,6 +51,11 @@ export default {
           time: '2018-06-18 09:00'
         }
       ]
+    }
+  },
+  methods: {
+    changePageSize (s) {
+
     }
   }
 }

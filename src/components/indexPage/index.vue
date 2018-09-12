@@ -133,12 +133,13 @@
 <script>
 export default {
   data () {
+    const pageSizes = this.$('pageSizes')
     return {
       curPageIdx: 1,
       curPageSize: 50,
       curTotal: 0,
       rightPage: 0,
-      pageSizes: [5, 20, 50, 100],
+      pageSizes: pageSizes,
       dataList: [
         {
           a: 11,

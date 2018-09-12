@@ -93,6 +93,7 @@ export default {
     contenterDialog
   },
   data () {
+    const pageSizes = this.$('pageSizes')
     return {
       cooperateForm: {},
       dialogFormVisible: false,
@@ -100,7 +101,7 @@ export default {
       curPageIdx: 1,
       curPageSize: 50,
       curTotal: 0,
-      pageSizes: [5, 20, 50, 100],
+      pageSizes: pageSizes,
       dataList: [
         {
           a: 12,
@@ -130,6 +131,12 @@ export default {
   methods: {
     close () {
       this.dialogFormVisible = false
+    },
+    changePageSize (s) {
+
+    },
+    changePageIdx (c) {
+      this.curPageIdx = c
     }
   }
 }

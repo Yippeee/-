@@ -49,7 +49,7 @@ export default {
   data () {
     return {
       isLogin: true,
-      username: "海贼王",
+      username: '',
       routerMap: {},
       bread: [{
         name: "首页",
@@ -59,6 +59,7 @@ export default {
   },
   created () {
     window.document.title = "内容分发系统"
+    this.username = this.$('username')
     let routes = this.$router.options.routes
     for (let i in routes) {
       let item = routes[i]

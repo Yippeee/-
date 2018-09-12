@@ -75,12 +75,15 @@ export default {
     managerDialog
   },
   data () {
+    const pageSizes = this.$('pageSizes')
     return {
+      pageSizes: pageSizes,
       addDialogShow: false,
       curPageIdx: 1,
       curPageSize: 50,
       curTotal: 0,
-      pageSizes: [5, 20, 50, 100],
+      formData: '',
+      value: '',
       dataList: [
         {
           a: 12,
@@ -114,6 +117,12 @@ export default {
     },
     close () {
       this.addDialogShow = false
+    },
+    changePageSize (s) {
+
+    },
+    changePageIdx (c) {
+      this.curPageIdx = c
     }
   }
 }

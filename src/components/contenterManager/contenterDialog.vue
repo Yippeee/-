@@ -151,6 +151,9 @@ export default {
   data () {
     return {
       addDialogTabs: 'first',
+      value: '',
+      contenter: '',
+      imageUrl: '',
       options: [{
         value: '选项1',
         label: '超级管理员'
@@ -200,7 +203,14 @@ export default {
   methods: {
     close () {
       this.$emit('close')
-    }
+    },
+    handleClick () {
+
+    },
+    handleAvatarSuccess () {
+
+    },
+    beforeAvatarUpload () {}
   }
 }
 </script>
