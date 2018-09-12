@@ -27,7 +27,7 @@
         <router-view></router-view>
       </div>
     </div>
-    <login v-else></login>
+    <login @loginSuccess='loginSuccess' v-else></login>
 
     <!-- 版权申请区域 -->
     <app-footer></app-footer>
@@ -38,17 +38,18 @@
 import menuHeader from "@/components/common/header"
 import menuContent from "@/components/common/menu"
 import AppFooter from "@/components/common/AppFooter"
-
+import login from "@/components/Login"
 export default {
   name: "App",
   components: {
     menuHeader,
     menuContent,
-    AppFooter
+    AppFooter,
+    login
   },
   data () {
     return {
-      isLogin: true,
+      isLogin: false,
       username: '',
       routerMap: {},
       systemname: '',
@@ -63,6 +64,9 @@ export default {
     window.document.title = this.systemname
     this.username = this.$('username')
     let routes = this.$router.options.routes
+    if (this.util.getCookies('password') && this.util.getCookies('username')) {
+      this.isLogin = true
+    }
     for (let i in routes) {
       let item = routes[i]
       let name = item.name
@@ -97,6 +101,7 @@ export default {
     }
     this.bread = this.routerMap[this.util.getCookies("bread") ? this.util.getCookies("bread") : '首页']
     document.addEventListener("visibilitychange", this.handleVisibilityChange, false)
+    let token = this.util.getCookies('accesstoken')
   },
   methods: {
     async handleVisibilityChange () {
@@ -106,6 +111,9 @@ export default {
       } else {
         window.document.title = "主人~快回来"
       }
+    },
+    loginSuccess () {
+      this.isLogin = true
     }
   },
   watch: {

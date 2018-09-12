@@ -9,7 +9,7 @@
       <div class="poster-content">
         <el-scrollbar style="height:100%">
           <!-- 海报 -->
-          <div ref="firstStep" v-if="nowStep == 1" class=" el-scrollbar" @click="turnToActive($event)" @dblclick="turnToActiveDbl($event)">
+          <div ref="firstStep" v-if="nowStep == 1 || nowStep == 3 || nowStep == 6" class=" el-scrollbar" @click="turnToActive($event)" @dblclick="turnToActiveDbl($event)">
               <p>320x400竖版海报尺寸 <i class="icon-pencil icon"></i> </p>
               <div class="imgDiv">
                 <div class="img-wrap">

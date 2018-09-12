@@ -13,7 +13,7 @@
               label='id'
               ref="tree"
               show-checkbox
-              empty-text='待审核节目有空'
+              empty-text='待审核节目为空'
               node-key="id"
               @current-change='currentChange'
               :expand-on-click-node="false">
