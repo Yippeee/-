@@ -9,7 +9,7 @@
 
       <!-- 导航提示 -->
       <el-breadcrumb class="router-tips" separator=">">
-        <el-breadcrumb-item v-for="(b,index) in bread" :to="b.path" :key="index">{{b.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="(b,index) in bread" :to="b.to" :key="index">{{b.name}}</el-breadcrumb-item>
       </el-breadcrumb>
       <!-- 头部信息 -->
       <div class="user">
@@ -101,7 +101,7 @@ export default {
     }
     this.bread = this.routerMap[this.util.getCookies("bread") ? this.util.getCookies("bread") : '首页']
     document.addEventListener("visibilitychange", this.handleVisibilityChange, false)
-    let token = this.util.getCookies('accesstoken')
+    // let token = this.util.getCookies('accesstoken')
   },
   methods: {
     async handleVisibilityChange () {

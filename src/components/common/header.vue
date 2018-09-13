@@ -7,8 +7,9 @@
 <script>
 export default {
   data () {
+    const title = this.$('systemname')
     return {
-      title: "内容分发平台"
+      title: title
     }
   }
 }
