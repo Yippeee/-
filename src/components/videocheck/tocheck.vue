@@ -207,6 +207,9 @@
         <el-button>驳回</el-button>
       </div>
     </div>
+    <transition name="fade">
+      <div v-show="top" class="page-component-up" style="" @click="backToTop"><i class="el-icon-caret-top"></i></div>
+    </transition>
   </div>
 </template>
 <script>
@@ -215,6 +218,7 @@ const j = JSON.stringify
 export default {
   data () {
     return {
+      top: false,
       videoPosterChecked: [],
       selectType: '',
       programPosterChecked: [],
@@ -416,6 +420,35 @@ export default {
     transform: translateX(-50%);
     width:710px;
     height: 400px;
+  }
+  .page-component-up{
+    position: fixed;
+    right: 80px;
+    bottom: 180px;
+    opacity: 0.8;
+
+    background-color: #58b7ff;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    cursor: pointer;
+    opacity: .4;
+    transition: .3s;
+  }
+  .page-component-up:hover{
+      cursor: pointer;
+      opacity: 1;
+  }
+  .page-component-up i{
+      color: #fff;
+      display: block;
+      line-height: 50px;
+      text-align: center;
+      font-size: 22px;
+  }
+  .fade-enter, .fade-leave-to{
+    opacity: 0;
+    transform: translateY(-30px);
   }
 }
 </style>

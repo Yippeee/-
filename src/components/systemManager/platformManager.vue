@@ -2,7 +2,7 @@
   <div class="platformManager">
     <div class="control-wrap">
       <el-button type="primary" @click="addDialogShow = true"><i class="el-icon-circle-plus-outline"></i>新增发布平台</el-button>
-      <el-button type="primary"><i class="el-icon-circle-close-outline" @click="visible2 = true"></i>删除</el-button>
+      <el-button ><i class="el-icon-circle-close-outline" @click="visible2 = true"></i>删除</el-button>
     </div>
     <div class="table-wrap">
       <div class="table-content">

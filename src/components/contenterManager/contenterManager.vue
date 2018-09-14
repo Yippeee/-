@@ -11,7 +11,7 @@
           <el-button type="primary" size="mini" @click="visible2 = false">确定</el-button>
           <el-button size="mini" type="text" @click="visible2 = false">取消</el-button>
         </div>
-        <el-button type="primary" slot="reference"><i class="el-icon-circle-close-outline" @click="visible2 = true"></i> 删除</el-button>
+        <el-button slot="reference"><i class="el-icon-circle-close-outline" @click="visible2 = true"></i> 删除</el-button>
       </el-popover>
     </div>
     <div class="table-wrap">

@@ -31,7 +31,7 @@
             </el-option>
           </el-select>
       </el-form-item>
-      <el-form-item label="所属地区:" prop="id">
+      <el-form-item label="所属地区:" prop="id" class="marginMore">
           <el-select v-model="value" placeholder="请选择">
             <el-option
               v-for="item in options"
