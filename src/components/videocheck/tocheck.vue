@@ -208,7 +208,7 @@
       </div>
     </div>
     <transition name="fade">
-      <div v-show="top" class="page-component-up" style="" @click="backToTop"><i class="el-icon-caret-top"></i></div>
+      <div v-show="top" class="page-component-up"><i class="el-icon-caret-top"></i></div>
     </transition>
   </div>
 </template>

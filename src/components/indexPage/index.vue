@@ -4,9 +4,9 @@
       <div class="left-header">
         <span class="header-name">系统运行情况</span>
         <div class="card">
-          <el-progress type="circle" :percentage="75" color="#8e71c7" :stroke-width='10' :width='100'></el-progress>
+          <el-progress type="circle" :percentage="progressPercent" :color="progressColor" :stroke-width='10' :width='100'></el-progress>
           <div class="card-content">
-            <p class="percent">75%</p>
+            <p class="percent">{{this.progressPercent}}%</p>
             <p>内存使用占比</p>
           </div>
         </div>
@@ -27,7 +27,7 @@
       </div>
       <div class="right-header">
         <div class="header">
-          <span class="header-name">事件提醒</span>
+          <span class="header-name" @click="show">事件提醒</span>
           <span class="more" @click="showMore">更多
             <i class="el-icon-arrow-right"></i>
           </span>
@@ -128,10 +128,15 @@
       </el-pagination>
     </div>
     <router-view></router-view>
+    <notification message='dddddddddddd' :dialogVisible='dialogVisible' @handleClose='handleClose'></notification>
   </div>
 </template>
 <script>
+import notification from './notification'
 export default {
+  components: {
+    notification
+  },
   data () {
     const pageSizes = this.$('pageSizes')
     return {
@@ -140,6 +145,8 @@ export default {
       curTotal: 0,
       rightPage: 0,
       pageSizes: pageSizes,
+      progressPercent: 91,
+      dialogVisible: false,
       dataList: [
         {
           a: 11,
@@ -220,7 +227,24 @@ export default {
       }
     }
   },
+  computed: {
+    progressColor () {
+      if (this.progressPercent <= 50) {
+        return '#67C23A'
+      } else if (this.progressPercent <= 90) {
+        return '#E6A23C'
+      } else {
+        return '#F56C6C'
+      }
+    }
+  },
   methods: {
+    handleClose () {
+      this.dialogVisible = false
+    },
+    show () {
+      this.dialogVisible = true
+    },
     turnLeft () {},
     turnRight () {},
     showMore () {
@@ -240,151 +264,156 @@ export default {
   padding: 20px;
   height: 100%;
   box-sizing:border-box;
-  .left-header {
-    position: relative;
-    display: inline-block;
-    width: 890px;
-    height: 140px;
-    padding: 60px 30px 30px 30px;
-    border: 1px solid #eef1f6;
-    background-color: #FAFAFA;
-    .header-name {
-      position: absolute;
-      top: 20px;
-      font-weight: 700;
-      color: gray;
-    }
-    .card {
-      height: 100px;
-      background-color: #fff;
-      width: 246px;
-      padding: 20px;
+  .header {
+    display: flex;
+    .left-header {
+      flex: 0 0.8 900px;
+      position: relative;
       display: inline-block;
+      width: 890px;
+      height: 140px;
+      padding: 60px 30px 30px 30px;
       border: 1px solid #eef1f6;
-      vertical-align: top;
-      .el-progress-circle {
-        width: 100px;
-        height: 100px;
-      }
-      .card-content {
-        display: inline-block;
-        vertical-align: top;
-        position: relative;
-        left: 20px;
-        line-height: 48px;
-        p{
-          height: 48px;
-        }
-        .percent {
-          font-size: 48px;
-        }
-        .rate {
-          font-size: 24px;
-        }
-      }
-      i {
-        display: inline-block;
-        width: 100px;
-        height: 100px;
-        background-size: 100px;
-        background-repeat: no-repeat;
-      }
-    }
-  }
-  .right-header {
-    position: relative;
-    display: inline-block;
-    height: 230px;
-    width: 475px;
-    vertical-align: top;
-    margin-left: 10px;
-    border: 1px solid #eef1f6;
-    .header {
-      background-color: #EFF2F7;
-      display: inline-block;
-      height: 45px;
-      width: 100%;
-      line-height: 45px;
+      background-color: #FAFAFA;
       .header-name {
-        font-size: 16px;
-        padding-left: 10px;
+        position: absolute;
+        top: 20px;
         font-weight: 700;
         color: gray;
       }
-      .more {
-        position: absolute;
-        right: 15px;
-        cursor: pointer;
-      }
-    }
-    .right-content {
-      position: relative;
-      .el-badge {
-        margin-right: 10px;
+      .card {
+        height: 100px;
+        background-color: #fff;
+        width: 246px;
+        padding: 20px;
         display: inline-block;
-        height: 20px;
+        border: 1px solid #eef1f6;
+        vertical-align: top;
+        .el-progress-circle {
+          width: 100px;
+          height: 100px;
+        }
+        .card-content {
+          display: inline-block;
+          vertical-align: top;
+          position: relative;
+          left: 20px;
+          line-height: 48px;
+          p{
+            height: 48px;
+          }
+          .percent {
+            font-size: 48px;
+          }
+          .rate {
+            font-size: 24px;
+          }
+        }
         i {
-          width: 20px;
+          display: inline-block;
+          width: 100px;
+          height: 100px;
+          background-size: 100px;
+          background-repeat: no-repeat;
         }
       }
-      i {
+    }
+    .right-header {
+      flex: 1 1 500px;
+      position: relative;
+      display: inline-block;
+      height: 230px;
+      width: 475px;
+      vertical-align: top;
+      margin-left: 10px;
+      border: 1px solid #eef1f6;
+      .header {
+        background-color: #EFF2F7;
         display: inline-block;
-        width: 30px;
-        height: 20px;
-        background-size: 20px;
-        background-repeat: no-repeat;
-        position: relative;
-      }
-      ul{
-        position: absolute;
+        height: 45px;
         width: 100%;
-        background-color: #fff;
-      }
-      li {
-        vertical-align: top;
-        height: 24px;
-        padding: 10px 20px;
-        .li-time {
+        line-height: 45px;
+        .header-name {
+          font-size: 16px;
+          padding-left: 10px;
+          font-weight: 700;
+          color: gray;
+        }
+        .more {
           position: absolute;
           right: 15px;
+          cursor: pointer;
         }
       }
-      span {
-        line-height: 24px;
-        font-size: 16px;
+      .right-content {
+        position: relative;
+        .el-badge {
+          margin-right: 10px;
+          display: inline-block;
+          height: 20px;
+          i {
+            width: 20px;
+          }
+        }
+        i {
+          display: inline-block;
+          width: 30px;
+          height: 20px;
+          background-size: 20px;
+          background-repeat: no-repeat;
+          position: relative;
+        }
+        ul{
+          position: absolute;
+          width: 100%;
+          background-color: #fff;
+        }
+        li {
+          vertical-align: top;
+          height: 24px;
+          padding: 10px 20px;
+          .li-time {
+            position: absolute;
+            right: 15px;
+          }
+        }
+        span {
+          line-height: 24px;
+          font-size: 16px;
+        }
       }
-    }
-    // 滑动动画相关
-    .slideleft-enter-active,.slideleft-leave-active,.slideright-enter-active,.slideright-leave-active{
-      transition: all .8s;
-      }
-    .slideleft-enter,.slideleft-leave-to,.slideright-enter,.slideright-leave-to{
-      opacity: 0;
-      }
-    .slideright-enter {
-      transform: translateX(+50%);
-      }
-    .slideright-leave-active {
-      transform: translateX(-50%);
-      }
-    .slideleft-enter {
-      transform: translateX(-50%);
-      }
-    .slideleft-leave-active {
-      transform: translateX(+50%);
-      }
-    .right-controler {
-      position: absolute;
-      bottom: 10px;
-      text-align: center;
-      display: inline-block;
-      width: 100%;
-      i {
-        cursor: not-allowed;;
-      }
-      .blueI{
-        color: #20a0ff;
-        cursor: pointer;
+      // 滑动动画相关
+      .slideleft-enter-active,.slideleft-leave-active,.slideright-enter-active,.slideright-leave-active{
+        transition: all .8s;
+        }
+      .slideleft-enter,.slideleft-leave-to,.slideright-enter,.slideright-leave-to{
+        opacity: 0;
+        }
+      .slideright-enter {
+        transform: translateX(+50%);
+        }
+      .slideright-leave-active {
+        transform: translateX(-50%);
+        }
+      .slideleft-enter {
+        transform: translateX(-50%);
+        }
+      .slideleft-leave-active {
+        transform: translateX(+50%);
+        }
+      .right-controler {
+        position: absolute;
+        bottom: 10px;
+        text-align: center;
+        display: inline-block;
+        width: 100%;
+        i {
+          cursor: not-allowed;;
+        }
+        .blueI{
+          color: #20a0ff;
+          cursor: pointer;
+        }
       }
     }
   }

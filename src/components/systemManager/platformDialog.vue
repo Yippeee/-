@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     title="新增发布平台"
-    :visible.sync="addDialogShow"
+    :visible.sync="addDialogShow1"
     width="770px"
     @close="handleClose">
     <el-form label-width="100px" :inline="true" :model="formData">
@@ -44,16 +44,16 @@
       <el-form-item label="端口:" prop="id" class="marginMore">
           <el-input ></el-input>
       </el-form-item>
-      <el-form-item label="服务器地址:" prop="id" class="block-el-form">
+      <el-form-item label="服务器地址:" prop="id1" class="block-el-form">
           <el-input v-model="cooperateForm.id"></el-input>
       </el-form-item>
-      <el-form-item label="ftp地址:" prop="id" class="block-el-form">
+      <el-form-item label="ftp地址:" prop="id2" class="block-el-form">
           <el-input v-model="cooperateForm.id"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="addDialogShow = false">取 消</el-button>
-      <el-button type="primary" @click="addDialogShow   = false">确 定</el-button>
+      <el-button @click="handleClose">取 消</el-button>
+      <el-button type="primary" @click="handleClose">确 定</el-button>
     </span>
   </el-dialog>
 </template>
@@ -68,6 +68,14 @@ export default {
   methods: {
     handleClose () {
       this.$emit('close')
+    }
+  },
+  computed: {
+    addDialogShow1: {
+      get () {
+        return this.addDialogShow
+      },
+      set () {}
     }
   }
 }

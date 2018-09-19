@@ -12,6 +12,7 @@ import systemManager from '@/components/systemManager/systemManager'
 import userManager from '@/components/userManager/userManager'
 import posterEditor from '@/components/videocheck/posterEditor'
 import tocheck from '@/components/videocheck/tocheck'
+import notFind from '@/page/404'
 /**
  * indexPage 首页
  * contenterManager 内容商管理
@@ -95,6 +96,15 @@ export default new Router({
       path: "/tocheck",
       name: "待审核列表",
       component: tocheck
+    },
+    {
+      path: '/404',
+      name: '404',
+      component: notFind
+    },
+    {
+      path: "*",
+      redirect: '/404'
     }
   ]
 })

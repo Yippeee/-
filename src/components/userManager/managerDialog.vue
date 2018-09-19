@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     title="新增后台用户"
-    :visible.sync="addDialogShow"
+    :visible.sync="addDialogShow1"
     width="800px"
     @close="handleClose">
     <el-form label-width="100px" :inline="true" :rules="rules" :model="formData">
@@ -63,6 +63,14 @@ export default {
   methods: {
     handleClose () {
       this.$emit('close')
+    }
+  },
+  computed: {
+    addDialogShow1: {
+      get () {
+        return this.addDialogShow
+      },
+      set () {}
     }
   }
 }

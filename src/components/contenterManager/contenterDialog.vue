@@ -1,7 +1,7 @@
 <template>
   <el-dialog class="addDialog"
     title="新建内容商"
-    :visible.sync="dialogFormVisible"
+    :visible.sync="dialogFormVisible1"
     @close = 'close'
     top="7vh"
     width="840px">
@@ -140,8 +140,8 @@
       </el-tab-pane>
     </el-tabs>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="dialogFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      <el-button @click="close">取 消</el-button>
+      <el-button type="primary" @click="close">确 定</el-button>
     </div>
   </el-dialog>
 </template>
@@ -211,6 +211,14 @@ export default {
 
     },
     beforeAvatarUpload () {}
+  },
+  computed: {
+    dialogFormVisible1: {
+      get () {
+        return this.dialogFormVisible
+      },
+      set () {}
+    }
   }
 }
 </script>

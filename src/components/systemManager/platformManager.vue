@@ -31,7 +31,6 @@
               max-width="280"
               prop="c"
               :filters="[{ text: '上线', value: '上线' }, { text: '下架', value: '下架' }]"
-              :filter-method="filterTag"
               filter-placement="bottom-end"
               >
           </el-table-column>
@@ -39,7 +38,6 @@
               label="级别"
               prop="d"
               :filters="[{ text: '省网', value: '省网' }, { text: '市网', value: '市网' }]"
-              :filter-method="filterTag"
               filter-placement="bottom-end"
               >
           </el-table-column>

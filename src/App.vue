@@ -13,7 +13,7 @@
       </el-breadcrumb>
       <!-- 头部信息 -->
       <div class="user">
-        <i class="icon icon-single"></i>
+        <i class="icon icon-single" @dblclick="fullScreen"></i>
         <span class="user-name">{{username}}</span>
       </div>
       <div class="line"></div>
@@ -114,6 +114,20 @@ export default {
     },
     loginSuccess () {
       this.isLogin = true
+    },
+    fullScreen () {
+      this.launchFullScreen(document.documentElement)
+    },
+    launchFullScreen (element) {
+      if (element.requestFullscreen) {
+        element.requestFullscreen()
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen()
+      } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen()
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen()
+      }
     }
   },
   watch: {
