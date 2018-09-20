@@ -281,7 +281,14 @@ export default {
       }
     },
     toTop () {
-      this.dom.scrollTop = 0
+      let time = 15
+      let step = this.dom.scrollTop / time
+      let Interval = setInterval(() => {
+        this.dom.scrollTop -= step
+        if (this.dom.scrollTop <= 0) {
+          clearInterval(Interval)
+        }
+      }, time)
     }
   },
   watch: {
