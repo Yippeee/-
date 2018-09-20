@@ -107,7 +107,7 @@ export default {
     async handleVisibilityChange () {
       let h = document.hidden
       if (!h) {
-        window.document.title = this.systemname
+        window.document.title = this.systemname + " | " + this.util.getCookies("bread")
       } else {
         window.document.title = "主人~快回来"
       }
@@ -140,6 +140,7 @@ export default {
         if (this.bread) {
           let length = this.bread.length - 1
           this.util.setCookie('bread', this.bread[length].name)
+          window.document.title = this.systemname + " | " + this.util.getCookies("bread")
         }
       }
     }

@@ -208,7 +208,7 @@
       </div>
     </div>
     <transition name="fade">
-      <div v-show="top" class="page-component-up"><i class="el-icon-caret-top"></i></div>
+      <div v-show="top" class="page-component-up" @click="toTop"><i class="el-icon-caret-top"></i></div>
     </transition>
   </div>
 </template>
@@ -255,7 +255,8 @@ export default {
         }]
       }],
       allSelect: '',
-      selectedItem: ''
+      selectedItem: '',
+      dom: ''
     }
   },
   methods: {
@@ -272,6 +273,15 @@ export default {
     passAll () {
       let ids = this.$refs.tree.getCheckedKeys()
       c(ids)
+    },
+    srcoll () {
+      this.top = true
+      if (this.dom.scrollTop < 10) {
+        this.top = false
+      }
+    },
+    toTop () {
+      this.dom.scrollTop = 0
     }
   },
   watch: {
@@ -288,6 +298,10 @@ export default {
         this.$refs.tree.setCheckedKeys([])
       }
     }
+  },
+  mounted () {
+    this.dom = document.querySelector('.tocheck').parentNode
+    this.dom.onscroll = this.srcoll
   }
 }
 </script>
