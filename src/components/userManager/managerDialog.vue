@@ -1,68 +1,85 @@
 <template>
   <el-dialog
-    title="新增后台用户"
+    :title=title
     :visible.sync="addDialogShow1"
     width="800px"
     @close="handleClose">
     <el-form label-width="100px" :inline="true" :rules="rules" :model="formData">
-      <el-form-item label="用户姓名:" prop="name">
-          <el-input ></el-input>
+      <el-form-item label="用户姓名:" prop="userName">
+          <el-input v-model="formData.userName"></el-input>
       </el-form-item>
       <el-form-item label="登录名:" prop="loginName" class="marginMore">
-          <el-input ></el-input>
+          <el-input v-model="formData.loginName" :disabled="action === 'edit'"></el-input>
       </el-form-item>
-      <el-form-item label="用户角色:" prop="role">
-          <el-select v-model="value" placeholder="请选择">
+      <el-form-item label="用户角色:" prop="roleName">
+          <el-select v-model="formData.roleName" placeholder="请选择">
             <el-option
-              v-for="item in options"
+              v-for="item in roleList"
               :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              :label="item.value"
+              :value="item.id">
             </el-option>
           </el-select>
       </el-form-item>
-      <el-form-item label="邮箱  :  " prop="mail" style="margin-left:14px">
-          <el-input ></el-input>
+      <el-form-item label="邮箱  :  " prop="email" style="margin-left:14px">
+          <el-input v-model="formData.email"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="handleClose">取 消</el-button>
-      <el-button type="primary" @click="handleClose">确 定</el-button>
+      <el-button type="primary" @click="confirm">确 定</el-button>
     </span>
   </el-dialog>
 </template>
 <script>
 export default {
-  props: ['addDialogShow', 'formData'],
+  props: ['addDialogShow', 'formData', 'roleList', 'action'],
   data () {
     return {
-      value: '',
-      options: [{
-        value: '选项1',
-        label: '超级管理员'
-      }, {
-        value: '选项1',
-        label: '普通管理员'
-      }, {
-        value: '选项1',
-        label: '用户'
-      }],
       rules: {
-        name: [
+        userName: [
           { required: true, message: '请输入用户姓名', trigger: 'blur' }
         ],
         loginName: [
           { required: true, message: '请输入登录名', trigger: 'blur' }
         ],
-        role: [
+        roleName: [
           { required: true, message: '请输入用户角色', trigger: 'blur' }
         ]
-      }
+      },
+      title: ''
     }
   },
   methods: {
     handleClose () {
       this.$emit('close')
+    },
+    confirm () {
+      let url
+      let roleId
+      if (this.action === 'edit') {
+        url = 'editBack'
+        // TODO: 有问题
+        roleId = this.roleList.indexOf(this.formData.loginName)
+        console.log(roleId, url)
+      } else {
+        url = 'addBack'
+        roleId = this.formData.roleName
+      }
+      this.$http({
+        url: url,
+        type: 'post',
+        data: {
+          userName: this.formData.userName,
+          loginName: this.formData.loginName,
+          roleId: roleId,
+          email: this.formData.email
+        }
+      })
+        .then(res => {
+          this.$message(res.msg)
+          this.$emit('close')
+        })
     }
   },
   computed: {
@@ -71,6 +88,17 @@ export default {
         return this.addDialogShow
       },
       set () {}
+    }
+  },
+  watch: {
+    action (val) {
+      if (val === 'edit') {
+        val = '编辑'
+      } else {
+        val = '新增'
+      }
+      this.title = val + '后台用户'
+      console.log(this.action, this.action === 'add')
     }
   }
 }

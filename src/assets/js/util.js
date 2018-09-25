@@ -48,12 +48,19 @@ const util = {
 
     if (type === 'get') {
       Object.assign(axiosSettings, {
-        params: options.data
+        params: options.data,
+        headers: {
+          "Accept": "*/*",
+          "Authorization": util.getCookies('accesstoken') || CONFIG.token
+        }
       })
     }
-    if (type === 'post') {
+    if (type === 'post' || type === 'delete') {
       Object.assign(axiosSettings, {
-        data: options.data
+        data: options.data,
+        headers: {
+          "Authorization": util.getCookies('accesstoken') || CONFIG.token
+        }
       })
     }
 

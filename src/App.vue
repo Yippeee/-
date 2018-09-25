@@ -101,7 +101,6 @@ export default {
     }
     this.bread = this.routerMap[this.util.getCookies("bread") ? this.util.getCookies("bread") : '首页']
     document.addEventListener("visibilitychange", this.handleVisibilityChange, false)
-    // let token = this.util.getCookies('accesstoken')
   },
   methods: {
     async handleVisibilityChange () {

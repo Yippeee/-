@@ -18,13 +18,28 @@ const CONFIG = {
   pagesizes: [20, 30, 50, 100]
 }
 // eslint-disable-next-line
-const ipanelAddr = JAVA_API + 'user/ipanel/'
+const ipanelAddr = JAVA_API
 
 // 系统接口
 const API = {
 
   // 登录
-  'login': ipanelAddr + 'login'
+  'login': ipanelAddr + 'user/ipanel/login',
+
+  // 查看后台用户
+  'provider': ipanelAddr + '/user/user/authority/provider',
+
+  // role
+  'role': ipanelAddr + '/user/role/provider',
+
+  // add back user
+  'backAdd': ipanelAddr + '/user/backstage/user/add',
+
+  // delete back user
+  'deleteBack': ipanelAddr + '/user/users/ids',
+
+  // edit the back user
+  'addBack': ipanelAddr + '/user/backstage/user/edit'
 }
 
 export {

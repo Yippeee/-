@@ -1,14 +1,15 @@
 <template>
   <div class="manager">
     <div class="button-wrap">
-      <el-button type="primary" @click="addDialogShow = true"><i class="el-icon-circle-plus-outline"></i> 新建后台用户</el-button>
-      <el-button ><i class="el-icon-edit-outline"></i> 编辑</el-button>
-      <el-button ><i class="el-icon-circle-close-outline" @click="visible2 = true"></i> 删除</el-button>
+      <el-button type="primary" @click="addBack"><i class="el-icon-circle-plus-outline"></i> 新建后台用户</el-button>
+      <el-button  @click='editBack' :disabled="selection.length !== 1"><i class="el-icon-edit-outline"></i> 编辑</el-button>
+      <el-button :disabled="selection.length <= 0" @click="deleteBack"><i class="el-icon-circle-close-outline"></i> 删除</el-button>
     </div>
     <div class="table-wrap">
       <div class="table-content">
         <el-table
           :data="dataList"
+          @select="toggleSelect"
           style="height:100%;"
           height="100%">
           <el-table-column
@@ -17,34 +18,34 @@
           </el-table-column>
           <el-table-column
               label="序号"
-              max-width="160"
-              prop="a"
+              width="100"
+              type="index"
               >
           </el-table-column>
           <el-table-column
               label="用户名称"
               max-width="260"
-              prop="b"
+              prop="userName"
               >
           </el-table-column>
           <el-table-column
               label="登录名"
               max-width="260"
-              prop="c"
+              prop="loginName"
               >
           </el-table-column>
           <el-table-column
               label="用户角色"
               max-width="260"
-              prop="d"
-              :filters="[{ text: '超级管理员', value: '超级管理员' }, { text: '普通管理员', value: '普通管理员' }, { text: '用户', value: '用户' }]"
+              prop="roleName"
+              :filters=this.filters
               :filter-method="filterTag"
               filter-placement="bottom-end"
               >
           </el-table-column>
           <el-table-column
               label="权限"
-              prop="e"
+              prop="mainPermissionNames"
               >
           </el-table-column>
         </el-table>
@@ -64,6 +65,8 @@
    <manager-dialog
      :addDialogShow = 'addDialogShow'
      :formData="formData"
+     :roleList="filters"
+     :action='action'
      @close = 'close'
      ></manager-dialog>
   </div>
@@ -82,40 +85,43 @@ export default {
       curPageIdx: 1,
       curPageSize: 50,
       curTotal: 0,
-      formData: '',
+      action: '',
+      formData: {},
       value: '',
-      dataList: [
-        {
-          a: 12,
-          b: 23,
-          c: 34,
-          d: '超级管理员',
-          e: 435
-
-        },
-        {
-          a: 12,
-          b: 23,
-          c: 34,
-          d: '普通管理员',
-          e: 435
-        },
-        {
-          a: 12,
-          b: 23,
-          c: 34,
-          d: '用户',
-          e: 435
-        }
-      ]
+      dataList: [],
+      selection: [],
+      filters: []
     }
   },
+  mounted () {
+    this.getDatalist()
+    this.$http({
+      'url': 'role'
+    })
+      .then(res => {
+        let data = res.data
+        data.forEach(item => {
+          this.filters.push(
+            {
+              text: item.name,
+              value: item.name,
+              id: item.nameId
+            }
+          )
+        })
+      })
+  },
   methods: {
+    toggleSelect (selection) {
+      this.selection = selection
+    },
     filterTag (value, row, column) {
       const property = column['property']
       return row[property] === value
     },
     close () {
+      this.getDatalist()
+      this.selection = []
       this.addDialogShow = false
     },
     changePageSize (s) {
@@ -123,6 +129,38 @@ export default {
     },
     changePageIdx (c) {
       this.curPageIdx = c
+    },
+    getDatalist () {
+      this.$http({
+        'url': 'provider'
+      })
+        .then((res) => {
+          this.dataList = res.data
+        })
+    },
+    editBack () {
+      this.formData = this.selection[0]
+      this.action = 'edit'
+      this.addDialogShow = true
+    },
+    addBack () {
+      this.formData = {}
+      this.action = 'add'
+      this.addDialogShow = true
+    },
+    deleteBack () {
+      let ids = this.selection.map(item => item.userId)
+      this.$http({
+        url: 'deleteBack',
+        type: 'delete',
+        data: {
+          list: ids
+        }
+      })
+        .then(res => {
+          this.getDatalist()
+          this.$message(res.msg)
+        })
     }
   }
 }
