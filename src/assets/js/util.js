@@ -29,10 +29,11 @@ const util = {
   /**
    * 封装axios (仅仅是test版本，注意修改以及完善)
    * @param  {[Object]} options [请求相关参数]
+   * url type data
    */
   http (options) {
     let url = options.url
-    let type = options.type
+    let type = options.type || 'get'
     type = type.toLowerCase()
     if (!url) {
       return new Error('请求地址为空，请检查！')
@@ -69,7 +70,7 @@ if (CONFIG.dev) {
 export default{
   install: function (vm) {
     vm.prototype.util = util
-    vm.prototype.$http = util.http
+    vm.prototype.$http = vm.$http = util.http
     vm.prototype.$ = (x) => CONFIG[x]
     window.log = console.log
   }

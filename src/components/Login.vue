@@ -47,9 +47,25 @@ export default {
         this.pwdTip = '请输入密码!'
         return false
       }
-      this.util.setCookie('username', this.username)
-      this.util.setCookie('password', this.password)
-      this.$emit('loginSuccess')
+      this.$http({
+        url: 'login',
+        type: 'post',
+        data: {
+          "loginName": this.username,
+          "password": this.password
+        }
+      })
+        .then((res) => {
+          if (res.code === 0) {
+            this.util.setCookie('accesstoken', res.data.token)
+            this.$emit('loginSuccess')
+          } else {
+            this.$message(res.msg)
+          }
+        })
+        .catch((res) => {
+          this.$message(res.msg)
+        })
     }
   }
 }

@@ -60,13 +60,13 @@ export default {
     }
   },
   created () {
+    if (this.util.getCookies("accesstoken")) {
+      this.isLogin = true
+    }
     this.systemname = this.$('systemname')
     window.document.title = this.systemname
     this.username = this.$('username')
     let routes = this.$router.options.routes
-    if (this.util.getCookies('password') && this.util.getCookies('username')) {
-      this.isLogin = true
-    }
     for (let i in routes) {
       let item = routes[i]
       let name = item.name

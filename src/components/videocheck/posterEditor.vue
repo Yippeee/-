@@ -1,3 +1,9 @@
+/*
+ * @Author: 唐聪
+ * @Date: 2018-09-20 17:17:01
+ * @Last Modified by: 唐聪
+ * @Last Modified time: 2018-09-20 17:17:38
+ */
 <template>
   <div class="posterEditor">
     <img id="demo" alt="" style="width:auto;max-height:100px">
