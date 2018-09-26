@@ -20,26 +20,26 @@ const CONFIG = {
 // eslint-disable-next-line
 const ipanelAddr = JAVA_API
 
-// 系统接口
+// 系统接口配置
 const API = {
 
-  // 登录
+  // login
   'login': ipanelAddr + 'user/ipanel/login',
 
-  // 查看后台用户
+  // view back user
   'provider': ipanelAddr + '/user/user/authority/provider',
 
   // role
   'role': ipanelAddr + '/user/role/provider',
 
   // add back user
-  'backAdd': ipanelAddr + '/user/backstage/user/add',
+  'addBack': ipanelAddr + '/user/backstage/user/add',
 
   // delete back user
   'deleteBack': ipanelAddr + '/user/users/ids',
 
   // edit the back user
-  'addBack': ipanelAddr + '/user/backstage/user/edit'
+  'editBack': ipanelAddr + '/user/backstage/user/edit'
 }
 
 export {

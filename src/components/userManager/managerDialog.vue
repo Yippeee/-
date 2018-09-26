@@ -57,11 +57,15 @@ export default {
     confirm () {
       let url
       let roleId
+      let i
       if (this.action === 'edit') {
         url = 'editBack'
-        // TODO: 有问题
-        roleId = this.roleList.indexOf(this.formData.loginName)
-        console.log(roleId, url)
+        this.roleList.forEach((element, index) => {
+          if (element.text === this.formData.roleName) {
+            i = element.id
+          }
+        })
+        roleId = i
       } else {
         url = 'addBack'
         roleId = this.formData.roleName
@@ -73,7 +77,8 @@ export default {
           userName: this.formData.userName,
           loginName: this.formData.loginName,
           roleId: roleId,
-          email: this.formData.email
+          email: this.formData.email,
+          userId: this.formData.userId
         }
       })
         .then(res => {

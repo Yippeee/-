@@ -136,6 +136,7 @@ export default {
       })
         .then((res) => {
           this.dataList = res.data
+          this.curTotal = this.dataList.length
         })
     },
     editBack () {
