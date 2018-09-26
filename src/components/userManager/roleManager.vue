@@ -157,20 +157,23 @@ export default {
       this.adminlist[index].flag = false
     },
     confirmChange (index) {
+      let permissionIds = []
+      let roleName = this.adminlist[index].roleName
+      let roleId = this.adminlist[index].roleId
+      for (let item in this.adminlist[index]) {
+        if (item === 'permissionVOList') continue 
+        let i = this.adminlist[index][item]
+        if (i.length > 0 && Array.isArray(i)) {
+          permissionIds = permissionIds.concat(i)
+        }
+      }
       // new
       if (index + 1 > this.currentLength) {
-        let permissionIds = []
-        for (let item in this.adminlist[index]) {
-          let i = this.adminlist[index][item]
-          if (i.length > 0 && Array.isArray(i)) {
-            permissionIds = permissionIds.concat(i)
-          }
-        }
         this.$http({
           url: 'addRole',
           type: 'post',
           data: {
-            roleName: this.adminlist[index].roleName,
+            roleName: roleName,
             permissionIds: permissionIds
           }
         })
@@ -180,6 +183,19 @@ export default {
               message: res.msg
             })
             this.getDataList()
+          })
+      } else { // edit
+        this.$http({
+          type: 'post',
+          url: 'editRole',
+          data: {
+            permissionIds: permissionIds,
+            roleId: roleId,
+            roleName: roleName
+          }
+        })
+          .then(res => {
+            this.$message(res.msg)
           })
       }
       this.adminlist[index].flag = true

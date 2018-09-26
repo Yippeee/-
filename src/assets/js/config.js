@@ -48,7 +48,10 @@ const API = {
   'addRole': ipanelAddr + '/user/role/add',
 
   // delete role
-  'deleteRole': ipanelAddr + '/user/role/id'
+  'deleteRole': ipanelAddr + '/user/role/id',
+
+  // edit role
+  'editRole': ipanelAddr + '/user/role/edit'
 }
 
 export {

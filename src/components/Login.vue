@@ -4,7 +4,7 @@
     <div class="login-center">
       <p>内容分发平台</p>
       <div class="login-info">
-        <el-input placeholder="请输入用户名" v-model.lazy="username">
+        <el-input placeholder="请输入登录名" v-model.lazy="username">
         </el-input>
         <span class="errTip">{{userTip}}</span>
         <el-input placeholder="请输入密码" v-model="password" type="password" @keyup.enter.native='login'>
@@ -40,7 +40,7 @@ export default {
     login () {
       this.userTip = this.pwdTip = ''
       if (!this.username) {
-        this.userTip = '请输入用户名!'
+        this.userTip = '请输入登录名!'
         return false
       }
       if (!this.password) {
