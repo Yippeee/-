@@ -7,7 +7,9 @@
           <div class="title">
             <span class="admin-name" v-show="item.flag">{{item.roleName}}</span>
             <div class="input" v-show="!item.flag">
-              <el-input size="mini" placeholder="请输入角色名称" v-model="item.roleName"></el-input><el-button @click="confirmChange(index)" size="mini" type="primary">确认</el-button>
+              <el-input size="mini" placeholder="请输入角色名称" v-model="item.roleName"></el-input>
+              <el-button @click="confirmChange(index)" size="mini" type="primary">确认</el-button>
+              <el-button @click="item.flag = true" size="mini" type="primary">取消</el-button>
             </div>
             <div class="button-right">
               <span class="edit-button" @click="handleEdit(index)"><i class="el-icon-edit"></i>编辑</span>
@@ -20,13 +22,13 @@
                 <el-col :span="12">
                   <span>首页:  </span>
                   <el-checkbox-group v-model="item.indexControl">
-                    <el-checkbox label="44">编辑</el-checkbox>
+                    <el-checkbox label="44" :disabled="item.flag">编辑</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
                 <el-col :span="12">
                   <span>内容商管理：</span>
                   <el-checkbox-group v-model="item.contenter">
-                    <el-checkbox label="45">编辑</el-checkbox>
+                    <el-checkbox label="45" :disabled="item.flag">编辑</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
               </el-row>
@@ -34,14 +36,14 @@
                 <el-col :span="12">
                   <span>报表统计：</span>
                   <el-checkbox-group v-model="item.statistics">
-                    <el-checkbox label="46">查看</el-checkbox>
+                    <el-checkbox label="46" :disabled="item.flag">查看</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
                 <el-col :span="12">
                    <span>管理员：</span>
                   <el-checkbox-group v-model="item.manager">
-                    <el-checkbox label="47">查看</el-checkbox>
-                    <el-checkbox label="48">编辑</el-checkbox>
+                    <el-checkbox label="47" :disabled="item.flag">查看</el-checkbox>
+                    <el-checkbox label="48" :disabled="item.flag">编辑</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
               </el-row>
@@ -49,14 +51,14 @@
                 <el-col :span="12">
                   <span>角色管理：</span>
                   <el-checkbox-group v-model="item.roleManage">
-                    <el-checkbox label="49">查看</el-checkbox>
-                    <el-checkbox label="50">编辑</el-checkbox>
+                    <el-checkbox label="49" :disabled="item.flag">查看</el-checkbox>
+                    <el-checkbox label="50" :disabled="item.flag">编辑</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
                 <el-col :span="12">
                   <span>系统管理：</span>
                   <el-checkbox-group v-model="item.systemManager">
-                    <el-checkbox label="51">编辑</el-checkbox>
+                    <el-checkbox label="51" :disabled="item.flag">编辑</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
               </el-row>
