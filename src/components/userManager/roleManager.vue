@@ -20,40 +20,28 @@
                 <el-col :span="12">
                   <span>首页:  </span>
                   <el-checkbox-group v-model="item.indexControl">
-                    <el-checkbox label="sosoAndLook">控制内容商停止操作</el-checkbox>
-                  </el-checkbox-group>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="12">
-                  <span>节目库：</span>
-                  <el-checkbox-group v-model="item.videoLab">
-                    <el-checkbox label="sosoAndLook">搜索/查看</el-checkbox>
-                    <el-checkbox label="edit">编辑</el-checkbox>
+                    <el-checkbox label="44">编辑</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
                 <el-col :span="12">
-                  <span>上传历史：</span>
-                  <el-checkbox-group v-model="item.publishHistory">
-                    <el-checkbox label="Look">查看</el-checkbox>
-                    <el-checkbox label="edit">按内容商搜索</el-checkbox>
+                  <span>内容商管理：</span>
+                  <el-checkbox-group v-model="item.contenter">
+                    <el-checkbox label="45">编辑</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="12">
                   <span>报表统计：</span>
-                  <el-checkbox-group v-model="item.videoCheck">
-                    <el-checkbox label="check">搜索/查看</el-checkbox>
-                    <el-checkbox label="rejected">下载</el-checkbox>
-                    <el-checkbox label="rejected">按内容商搜索</el-checkbox>
+                  <el-checkbox-group v-model="item.statistics">
+                    <el-checkbox label="46">查看</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
                 <el-col :span="12">
-                   <span>视频发布：</span>
-                  <el-checkbox-group v-model="item.videoPublish">
-                    <el-checkbox label="sosoAndLook">搜索/查看</el-checkbox>
-                    <el-checkbox label="download">下载</el-checkbox>
+                   <span>管理员：</span>
+                  <el-checkbox-group v-model="item.manager">
+                    <el-checkbox label="47">查看</el-checkbox>
+                    <el-checkbox label="48">编辑</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
               </el-row>
@@ -61,33 +49,14 @@
                 <el-col :span="12">
                   <span>角色管理：</span>
                   <el-checkbox-group v-model="item.roleManage">
-                    <el-checkbox label="Look">查看</el-checkbox>
-                    <el-checkbox label="addAndDelete">添加/删除</el-checkbox>
+                    <el-checkbox label="49">查看</el-checkbox>
+                    <el-checkbox label="50">编辑</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
-                <el-col :span="12">
-                  <span>后台用户：</span>
-                  <el-checkbox-group v-model="item.backendUser">
-                    <el-checkbox label="Look">查看</el-checkbox>
-                    <el-checkbox label="addAndDelete">删除</el-checkbox>
-                  </el-checkbox-group>
-                </el-col>
-              </el-row>
-              <el-row>
                 <el-col :span="12">
                   <span>系统管理：</span>
                   <el-checkbox-group v-model="item.systemManager">
-                    <el-checkbox label="Look">内容商管理</el-checkbox>
-                    <el-checkbox label="addAndDelete">分发平台</el-checkbox>
-                    <el-checkbox label="addAndDelete">系统日志</el-checkbox>
-                  </el-checkbox-group>
-                </el-col>
-                <el-col :span="12">
-                  <span>配置管理：</span>
-                  <el-checkbox-group v-model="item.configManager">
-                    <el-checkbox label="Look">系统配置</el-checkbox>
-                    <el-checkbox label="addAndDelete">按内容商搜索</el-checkbox>
-                    <el-checkbox label="Look">是否配置审核</el-checkbox>
+                    <el-checkbox label="51">编辑</el-checkbox>
                   </el-checkbox-group>
                 </el-col>
               </el-row>
@@ -103,38 +72,116 @@
 </template>
 
 <script>
+import Vue from 'vue'
 export default {
   data () {
     return {
-      adminlist: []
+      adminlist: [],
+      currentLength: 0
     }
   },
+  mounted () {
+    this.getDataList()
+  },
   methods: {
+    getDataList () {
+      this.$http({
+        url: 'getRoleList'
+      })
+        .then((res) => {
+          this.currentLength = res.data.length
+          this.adminlist = res.data
+          this.adminlist.forEach(item => {
+            let arr = {}
+            let managers = []
+            let roleManages = []
+            item.permissionVOList.forEach(item2 => {
+              arr[item2.permissionId] = true
+            })
+            Vue.set(item, 'contenter', arr[45] ? ['45'] : [])
+            Vue.set(item, 'indexControl', arr[44] ? ['44'] : [])
+            if (arr[47]) {
+              managers.push('47')
+            } else if (arr[48]) {
+              managers.push('48')
+            }
+            Vue.set(item, 'manager', managers)
+            if (arr[49]) {
+              roleManages.push('49')
+            } else if (arr[50]) {
+              roleManages.push('50')
+            }
+            Vue.set(item, 'roleManage', roleManages)
+            Vue.set(item, 'statistics', arr[46] ? ['46'] : [])
+            Vue.set(item, 'systemManager', arr[51] ? ['51'] : [])
+            Vue.set(item, 'flag', true)
+          })
+        })
+    },
     handleAddUser () {
       this.adminlist.push({
         indexControl: [],
-        videoUploadList: [],
-        videoLab: [],
-        videoPublish: [],
-        videoCheck: [],
         statistics: [],
-        backendUser: [],
         roleManage: [],
-        configManager: [],
         systemManager: [],
-        publishHistory: [],
+        manager: [],
+        contenter: [],
         flag: false,
-        roleName: '普通管理员'
+        roleName: ''
       })
     },
     handleDelete (index) {
-      this.adminlist.splice(index, 1)
+      if (index + 1 <= this.currentLength) {
+        this.$http({
+          type: 'delete',
+          url: 'deleteRole',
+          data: {
+            roleId: this.adminlist[index].roleId
+          }
+        })
+          .then((res) => {
+            this.$message(res.msg)
+            this.adminlist.splice(index, 1)
+          })
+          .catch(res => {
+            this.$message({
+              type: 'error',
+              message: '删除失败，联系后台开发人员！'
+            })
+          })
+      } else {
+        this.adminlist.splice(index, 1)
+      }
     },
     handleEdit (index) {
       this.adminlist[index].flag = false
     },
     confirmChange (index) {
-      // this.adminlist[index].roleName =
+      // new
+      if (index + 1 > this.currentLength) {
+        let permissionIds = []
+        for (let item in this.adminlist[index]) {
+          let i = this.adminlist[index][item]
+          if (i.length > 0 && Array.isArray(i)) {
+            permissionIds = permissionIds.concat(i)
+          }
+        }
+        this.$http({
+          url: 'addRole',
+          type: 'post',
+          data: {
+            roleName: this.adminlist[index].roleName,
+            permissionIds: permissionIds
+          }
+        })
+          .then((res) => {
+            this.$message({
+              type: 'success',
+              message: res.msg
+            })
+            this.getDataList()
+          })
+      }
       this.adminlist[index].flag = true
     }
   }
@@ -230,7 +277,7 @@ export default {
 }
 .el-col{
   >span{
-    width: 70px!important;
+    width: 90px!important;
   }
 }
 </style>

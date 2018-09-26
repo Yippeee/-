@@ -39,7 +39,16 @@ const API = {
   'deleteBack': ipanelAddr + '/user/users/ids',
 
   // edit the back user
-  'editBack': ipanelAddr + '/user/backstage/user/edit'
+  'editBack': ipanelAddr + '/user/backstage/user/edit',
+
+  // get the role list
+  'getRoleList': ipanelAddr + '/user/role/permissions/provider',
+
+  // new role
+  'addRole': ipanelAddr + '/user/role/add',
+
+  // delete role
+  'deleteRole': ipanelAddr + '/user/role/id'
 }
 
 export {

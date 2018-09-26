@@ -3,7 +3,18 @@
     <div class="button-wrap">
       <el-button type="primary" @click="addBack"><i class="el-icon-circle-plus-outline"></i> 新建后台用户</el-button>
       <el-button  @click='editBack' :disabled="selection.length !== 1"><i class="el-icon-edit-outline"></i> 编辑</el-button>
-      <el-button :disabled="selection.length <= 0" @click="deleteBack"><i class="el-icon-circle-close-outline"></i> 删除</el-button>
+      <el-popover
+        placement="top"
+        width="160"
+        v-model="visible2">
+        <p>确定删除该管理员吗？</p>
+        <div style="text-align: right; margin: 0">
+          <el-button type="primary" size="mini" @click="deleteBack">确定</el-button>
+          <el-button size="mini" type="text" @click="visible2 = false">取消</el-button>
+        </div>
+        <!-- <el-button ><i class="el-icon-circle-close-outline" @click="visible2 = true"></i> 删除</el-button> -->
+        <el-button slot="reference" :disabled="selection.length <= 0" @click="visible2 = true"><i class="el-icon-circle-close-outline"></i> 删除</el-button>
+      </el-popover>
     </div>
     <div class="table-wrap">
       <div class="table-content">
@@ -81,6 +92,7 @@ export default {
     const pageSizes = this.$('pageSizes')
     return {
       pageSizes: pageSizes,
+      visible2: false,
       addDialogShow: false,
       curPageIdx: 1,
       curPageSize: 50,
@@ -96,7 +108,7 @@ export default {
   mounted () {
     this.getDatalist()
     this.$http({
-      'url': 'role'
+      url: 'role'
     })
       .then(res => {
         let data = res.data
@@ -132,7 +144,10 @@ export default {
     },
     getDatalist () {
       this.$http({
-        'url': 'provider'
+        url: 'provider',
+        data: {
+          list: [ ]
+        }
       })
         .then((res) => {
           this.dataList = res.data
@@ -159,6 +174,8 @@ export default {
         }
       })
         .then(res => {
+          this.visible2 = false
+          this.selection.length = 0
           this.getDatalist()
           this.$message(res.msg)
         })
