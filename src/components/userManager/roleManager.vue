@@ -9,7 +9,7 @@
             <div class="input" v-show="!item.flag">
               <el-input size="mini" placeholder="请输入角色名称" v-model="item.roleName"></el-input>
               <el-button @click="confirmChange(index)" size="mini" type="primary">确认</el-button>
-              <el-button @click="item.flag = true" size="mini" type="primary">取消</el-button>
+              <el-button @click="cancleChange(index)" size="mini" type="primary">取消</el-button>
             </div>
             <div class="button-right">
               <span class="edit-button" @click="handleEdit(index)"><i class="el-icon-edit"></i>编辑</span>
@@ -201,6 +201,13 @@ export default {
           })
       }
       this.adminlist[index].flag = true
+    },
+    cancleChange (index) {
+      if (index + 1 > this.currentLength) {
+        this.handleDelete(index)
+      } else {
+        this.adminlist[index].flag = true
+      }
     }
   }
 }
