@@ -163,7 +163,7 @@ export default {
       let roleName = this.adminlist[index].roleName
       let roleId = this.adminlist[index].roleId
       for (let item in this.adminlist[index]) {
-        if (item === 'permissionVOList') continue 
+        if (item === 'permissionVOList') continue
         let i = this.adminlist[index][item]
         if (i.length > 0 && Array.isArray(i)) {
           permissionIds = permissionIds.concat(i)

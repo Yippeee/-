@@ -17,7 +17,7 @@
         <span class="user-name">{{username}}</span>
       </div>
       <div class="line"></div>
-      <div class="logout">
+      <div class="logout" @click="logOut">
         <i class="icon icon-logout"></i>
         <span>退出</span>
       </div>
@@ -127,6 +127,9 @@ export default {
       } else if (element.msRequestFullscreen) {
         element.msRequestFullscreen()
       }
+    },
+    logOut () {
+      this.isLogin = false
     }
   },
   watch: {
@@ -211,6 +214,7 @@ export default {
   height: 40px;
   right: 20px;
   display: inline-block;
+  cursor: pointer;
   span {
     line-height: 40px;
     color: #1296db;

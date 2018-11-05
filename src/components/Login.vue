@@ -60,11 +60,11 @@ export default {
             this.util.setCookie('accesstoken', res.data.token)
             this.$emit('loginSuccess')
           } else {
-            this.$message(res.msg)
+            this.$message(res.msg || '登录失败')
           }
         })
         .catch((res) => {
-          this.$message(res.msg)
+          this.$message(res.msg || '登录失败')
         })
     }
   }

@@ -147,7 +147,7 @@ export default {
       pageSizes: pageSizes,
       progressPercent: 91,
       dialogVisible: false,
-      dataList: [
+      dataList: [ // 内容商运行情况data数据
         {
           a: 11,
           b: 20,

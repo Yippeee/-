@@ -8,17 +8,17 @@
     <el-tabs v-model="addDialogTabs" type="border-card" @tab-click="handleClick">
       <el-tab-pane label="合作信息" name="first">
         <el-form :model="cooperateForm" label-width="100px" :inline="true" :rules="ruleCooperate" >
-          <el-form-item label="内容商名称:" prop="name">
-              <el-input v-model="cooperateForm.name"></el-input>
+          <el-form-item label="内容商名称:" prop="providerName">
+              <el-input v-model="cooperateForm.providerName"></el-input>
           </el-form-item>
-          <el-form-item label="内容商编码:" prop="id">
-              <el-input v-model="cooperateForm.id"></el-input>
+          <el-form-item label="内容商编码:" prop="cpId">
+              <el-input v-model="cooperateForm.cpId"></el-input>
           </el-form-item>
-          <el-form-item label="英文名:" prop="name_en">
-              <el-input v-model="cooperateForm.name_en"></el-input>
+          <el-form-item label="英文名:" prop="englishName">
+              <el-input v-model="cooperateForm.englishName"></el-input>
           </el-form-item>
-          <el-form-item label="版权平台:" prop="copyright">
-              <el-select v-model="value" placeholder="请选择">
+          <el-form-item label="版权平台:" prop="platform">
+              <el-select v-model="cooperateForm.platform" placeholder="请选择">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -27,112 +27,100 @@
                 </el-option>
               </el-select>
           </el-form-item>
-          <el-form-item label="联系人:" prop="people">
-              <el-input v-model="cooperateForm.name_en"></el-input>
+          <el-form-item label="联系人:" prop="contact">
+              <el-input v-model="cooperateForm.contact"></el-input>
           </el-form-item>
-          <el-form-item label="职位:" prop="worker">
-              <el-input v-model="cooperateForm.name_en"></el-input>
+          <el-form-item label="职位:" prop="position">
+              <el-input v-model="cooperateForm.position"></el-input>
           </el-form-item>
-          <el-form-item label="电话:" prop="phone">
-              <el-input v-model="cooperateForm.name_en"></el-input>
+          <el-form-item label="电话:" prop="contactPhone">
+              <el-input v-model="cooperateForm.contactPhone"></el-input>
           </el-form-item>
-          <el-form-item label="邮箱:" prop="mail">
-              <el-input v-model="cooperateForm.name_en"></el-input>
+          <el-form-item label="邮箱:" prop="contactEmail">
+              <el-input v-model="cooperateForm.contactEmail"></el-input>
           </el-form-item>
-          <el-form-item label="媒资容量:" prop="media">
-              <el-input v-model="cooperateForm.name_en"></el-input>
+          <el-form-item label="媒资容量:" prop="contentCapacity">
+              <el-input v-model="cooperateForm.contentCapacity"></el-input>
           </el-form-item>
           <el-form-item label="合作时间:" prop="coop_time">
                 <el-col :span="11">
                   <el-form-item >
-                    <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>
+                    <el-date-picker type="date" placeholder="选择日期" style="width: 100%;" v-model="cooperateForm.effectiveTime"></el-date-picker>
                   </el-form-item>
                 </el-col>
                 <el-col class="line" :span="2">-</el-col>
                 <el-col :span="11">
                   <el-form-item >
-                    <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>
+                    <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"
+                    v-model="cooperateForm.expiredTime"></el-date-picker>
                   </el-form-item>
                 </el-col>
           </el-form-item>
-          <el-form-item label="合作商类型:" prop="coop_type">
-              <el-checkbox-group>
-                <el-checkbox label="内容提供商" name="type"></el-checkbox>
-                <el-checkbox label="服务提供商" name="type"></el-checkbox>
-                <el-checkbox label="直播提供商" name="type"></el-checkbox>
-                <el-checkbox label="版权提供商" name="type"></el-checkbox>
-              </el-checkbox-group>
+          <el-form-item label="合作商类型:" prop="type">
+            <el-radio v-model="cooperateForm.type" label="内容提供商">内容提供商</el-radio>
+            <el-radio v-model="cooperateForm.type" label="服务提供商">服务提供商</el-radio>
+            <el-radio v-model="cooperateForm.type" label="直播提供商">直播提供商</el-radio>
+            <el-radio v-model="cooperateForm.type" label="版权提供商">版权提供商</el-radio>
           </el-form-item>
           <el-form-item label="权限平台:" prop="au_platform" class="authority clearfix">
-            <el-checkbox-group >
+            <el-checkbox-group v-model="checkRightList">
               <el-scrollbar style="height:100%">
-                <el-checkbox label="内容提供商" name="type"></el-checkbox>
-                <el-checkbox label="服务提供商" name="type"></el-checkbox>
-                <el-checkbox label="直播提供商" name="type"></el-checkbox>
-                <el-checkbox label="版权提供商" name="type"></el-checkbox>
-                <el-checkbox label="内容提供商" name="type" class="five"></el-checkbox>
-                <el-checkbox label="服务提供商" name="type"></el-checkbox>
-                <el-checkbox label="直播提供商" name="type"></el-checkbox>
-                <el-checkbox label="版权提供商" name="type"></el-checkbox>
-                <el-checkbox label="内容提供商" name="type" class="five"></el-checkbox>
-                <el-checkbox label="服务提供商" name="type"></el-checkbox>
-                <el-checkbox label="直播提供商" name="type"></el-checkbox>
-                <el-checkbox label="版权提供商" name="type"></el-checkbox>
+                <el-checkbox  v-for="(item, index) in playForm" :key="index" :label="item.operatorName" name="type" :class="{five: index % 4 === 0 && index != 0}"></el-checkbox>
               </el-scrollbar>
             </el-checkbox-group>
           </el-form-item>
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="内容商信息" name="second">
-        <el-form :model="contenter" label-width="100px" :inline="true" :rules="rulecooperation">
-          <el-form-item label="公司全名:" prop="fullName">
-              <el-input v-model="cooperateForm.fullName"></el-input>
+        <el-form label-width="120px" :inline="true" :rules="rulecooperation">
+          <el-form-item label="公司全名:" prop="companyName">
+              <el-input v-model="cooperateForm.companyName"></el-input>
           </el-form-item>
           <el-form-item label="公司法人:" prop="legalEntity">
-              <el-input v-model="cooperateForm.legalEntity"></el-input>
+              <el-input v-model="cooperateForm.legalPerson"></el-input>
           </el-form-item>
-          <el-form-item label="公司电话:" prop="2">
-              <el-input v-model="cooperateForm.id"></el-input>
+          <el-form-item label="公司电话:" prop="companyPhone">
+              <el-input v-model="cooperateForm.companyPhone"></el-input>
           </el-form-item>
-          <el-form-item label="工商注册号:" prop="3">
-              <el-input v-model="cooperateForm.id"></el-input>
+          <el-form-item label="工商注册号:" prop="registrationNum">
+              <el-input v-model="cooperateForm.registrationNum"></el-input>
           </el-form-item>
-          <el-form-item label="组织机构代码:" prop="4">
-              <el-input v-model="cooperateForm.id"></el-input>
+          <el-form-item label="组织机构代码:" prop="organizationCode">
+              <el-input v-model="cooperateForm.organizationCode"></el-input>
           </el-form-item>
-          <el-form-item label="统一信用代码:" prop="5">
-              <el-input v-model="cooperateForm.id"></el-input>
+          <el-form-item label="统一信用代码:" prop="creditCode">
+              <el-input v-model="cooperateForm.creditCode"></el-input>
           </el-form-item>
-          <el-form-item label="纳税人识别号:" prop="6">
-              <el-input v-model="cooperateForm.id"></el-input>
+          <el-form-item label="纳税人识别号:" prop="taxpayerNum">
+              <el-input v-model="cooperateForm.taxpayerNum"></el-input>
           </el-form-item>
-          <el-form-item label="官网地址:" prop="id" class="block-el-form">
-              <el-input v-model="cooperateForm.id"></el-input>
+          <el-form-item label="官网地址:" prop="companyWebsite" class="block-el-form">
+              <el-input v-model="cooperateForm.companyWebsite"></el-input>
           </el-form-item>
           <el-form-item label="公司官网:" prop="id" class="block-el-form">
-              <el-input v-model="cooperateForm.id"></el-input>
+              <el-input v-model="cooperateForm.companyWebsite"></el-input>
           </el-form-item>
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="合同信息" name="third">
         <el-form label-width="100px" :inline="true">
-          <el-form-item label="合同编号:" prop="id">
-              <el-input v-model="cooperateForm.id"></el-input>
+          <el-form-item label="合同编号:" prop="contractNum">
+              <el-input v-model="cooperateForm.contractNum"></el-input>
           </el-form-item>
-          <el-form-item label="签订日期:" prop="id">
+          <el-form-item label="签订日期:" prop="contractDate">
               <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>
           </el-form-item>
-          <el-form-item label="合同负责人:" prop="id">
+          <el-form-item label="合同负责人:" prop="contractPrincipal">
               <el-input v-model="cooperateForm.id"></el-input>
           </el-form-item>
-          <el-form-item label="合同负责人:" prop="id" class="block-el-form">
+          <el-form-item label="合同负责人:" prop="contractImage" class="block-el-form">
               <el-upload
                 class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action=""
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload">
-                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                <img v-if="cooperateForm.contractImage" :src="contractImageSrc" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
           </el-form-item>
@@ -153,35 +141,40 @@ export default {
       addDialogTabs: 'first',
       value: '',
       contenter: '',
-      imageUrl: '',
+      contractImage: '',
+      playForm: [], // 权限平台所有数据
+      checkRightList: [], // 当前选中的权限平台数据
       options: [{
         value: '选项1',
-        label: '超级管理员'
+        label: '手机'
       }, {
-        value: '选项1',
-        label: '普通管理员'
+        value: '选项2',
+        label: '电视'
       }, {
-        value: '选项1',
-        label: '用户'
+        value: '选项3',
+        label: 'PC'
       }],
       ruleCooperate: {
-        name: [
-          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        providerName: [
+          { required: true, message: '请输入内容商名称', trigger: 'blur' }
         ],
-        copyright: [
-          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        cpId: [
+          { required: true, message: '请输入内容商编码', trigger: 'blur' }
         ],
-        people: [
-          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        platform: [
+          { required: true, message: '请输入版权平台', trigger: 'blur' }
         ],
-        phone: [
-          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        contact: [
+          { required: true, message: '请输入联系人', trigger: 'blur' }
         ],
-        media: [
-          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        contactPhone: [
+          { required: true, message: '请输入电话', trigger: 'blur' }
         ],
-        coop_type: [
-          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        contentCapacity: [
+          { required: true, message: '请输入媒资容量', trigger: 'blur' }
+        ],
+        type: [
+          { required: true, message: '请输入合作商类型', trigger: 'blur' }
         ],
         coop_time: [
           { required: true, message: '请输入合作商名称', trigger: 'blur' }
@@ -191,11 +184,26 @@ export default {
         ]
       },
       rulecooperation: {
-        fullName: [
-          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+        companyName: [
+          { required: true, message: '请输入公司全名', trigger: 'blur' }
         ],
         legalEntity: [
-          { required: true, message: '请输入合作商名称', trigger: 'blur' }
+          { required: true, message: '请输入公司法人', trigger: 'blur' }
+        ],
+        companyPhone: [
+          { required: true, message: '请输入公司电话', trigger: 'blur' }
+        ],
+        registrationNum: [
+          { required: true, message: '请输入公司工商注册号', trigger: 'blur' }
+        ],
+        organizationCode: [
+          { required: true, message: '请输入组织机构代码', trigger: 'blur' }
+        ],
+        creditCode: [
+          { required: true, message: '请输入统一信用代码', trigger: 'blur' }
+        ],
+        taxpayerNum: [
+          { required: true, message: '请输入纳税人识别号', trigger: 'blur' }
         ]
       }
     }
@@ -215,10 +223,31 @@ export default {
   computed: {
     dialogFormVisible1: {
       get () {
+        this.checkRightList = this.cooperateForm.idList.map((item, index) => {
+          let name
+          this.playForm.forEach(item2 => {
+            if (item2.id === item) {
+              name = item2.operatorName
+            }
+          })
+          return name
+        })
         return this.dialogFormVisible
       },
       set () {}
+    },
+    contractImageSrc: {
+      get () {
+        return "data:image/png;base64," + this.cooperateForm.contractImage
+      }
     }
+  },
+  mounted () {
+    this.$http({
+      url: 'getRightPlayform'
+    }).then((res) => {
+      this.playForm = res.data
+    })
   }
 }
 </script>
@@ -226,12 +255,12 @@ export default {
 .authority{
   position: relative;
   .el-checkbox-group{
-    width: 76%;
+    width: 90%;
     height: 100px;
     box-sizing: border-box;
     position: relative;
-    left: 100px;
-    top: -40px;
+    left: 0px;
+    top: 0px;
     text-align: left;
     border: 1px solid #eef1f6;
     padding: 5px;

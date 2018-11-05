@@ -51,7 +51,7 @@ const util = {
         params: options.data,
         headers: {
           "Accept": "*/*",
-          "Authorization": util.getCookies('accesstoken') || CONFIG.token
+          "Authorization": util.getCookies('accesstoken')
         }
       })
     }
@@ -59,7 +59,7 @@ const util = {
       Object.assign(axiosSettings, {
         data: options.data,
         headers: {
-          "Authorization": util.getCookies('accesstoken') || CONFIG.token
+          "Authorization": util.getCookies('accesstoken')
         }
       })
     }

@@ -51,7 +51,17 @@ const API = {
   'deleteRole': ipanelAddr + '/user/role/id',
 
   // edit role
-  'editRole': ipanelAddr + '/user/role/edit'
+  'editRole': ipanelAddr + '/user/role/edit',
+
+  // get the contenterManager list
+  'getContenterManager': ipanelAddr + '/provider/all',
+
+  // get the contenterManager detail
+  'getContenterManagerDetail': ipanelAddr + '/provider/id',
+
+  // get the right playform 获得所有权限平台
+  'getRightPlayform': ipanelAddr + 'operators/all/online'
+
 }
 
 export {

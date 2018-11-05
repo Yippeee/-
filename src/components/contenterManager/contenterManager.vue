@@ -27,41 +27,43 @@
           <el-table-column
               label="序号"
               max-width="160"
-              prop="a"
+              type="index"
               >
           </el-table-column>
           <el-table-column
               label="内容商名称"
               max-width="260"
-              prop="b"
+              prop="providerName"
               >
           </el-table-column>
           <el-table-column
               label="英文名称"
               max-width="260"
-              prop="c"
+              prop="englishName"
               >
           </el-table-column>
           <el-table-column
               label="合作商类型"
               max-width="260"
-              prop="d"
+              prop="type"
               >
           </el-table-column>
           <el-table-column
               label="媒资容量(G)"
               max-width="260"
-              prop="e"
+              prop="contentCapacity"
               >
           </el-table-column>
           <el-table-column
-              label="有效期">
+              label="有效期"
+              prop="expiredTime"
+              >
           </el-table-column>
           <el-table-column
               label="操作"
               max-width="160">
               <template slot-scope="scope">
-                <i class="el-icon-edit-outline"></i>
+                <i class="el-icon-edit-outline" @click = editRow(scope.row.id)></i>
                 <i class="el-icon-delete"></i>
               </template>
           </el-table-column>
@@ -95,48 +97,86 @@ export default {
   data () {
     const pageSizes = this.$('pageSizes')
     return {
-      cooperateForm: {},
+      cooperateForm: {
+        'companyAddress': null,
+        'companyName': null,
+        'companyPhone': null,
+        'companyWebsite': null,
+        'contact': null,
+        'contactEmail': null,
+        'contactPhone': null,
+        'contentCapacity': null,
+        'contractDate': null,
+        'contractImage': null,
+        'contractNum': null,
+        'contractPrincipal': null,
+        'cpId': "",
+        'creditCode': null,
+        'effectiveTime': null,
+        'englishName': "",
+        'expiredTime': null,
+        'idList': [],
+        'legalPerson': null,
+        'organizationCode': null,
+        'platform': null,
+        'position': null,
+        'providerId': '',
+        'providerName': "",
+        'registrationNum': null,
+        'taxpayerNum': null,
+        'type': null
+      },
       dialogFormVisible: false,
       visible2: false,
       curPageIdx: 1,
       curPageSize: 50,
       curTotal: 0,
       pageSizes: pageSizes,
-      dataList: [
-        {
-          a: 12,
-          b: 23,
-          c: 34,
-          d: 54,
-          e: 435
-
-        },
-        {
-          a: 12,
-          b: 23,
-          c: 34,
-          d: 54,
-          e: 435
-        },
-        {
-          a: 12,
-          b: 23,
-          c: 34,
-          d: 54,
-          e: 435
-        }
-      ]
+      dataList: []
     }
   },
+  mounted () {
+    this.getDate()
+  },
   methods: {
+    getDate () {
+      this.$http({
+        url: 'getContenterManager',
+        data: {
+          pageNum: this.curPageIdx,
+          pageSize: this.curPageSize
+        }
+      }).then((res) => {
+        this.dataList = res.data.rows
+        this.curTotal = res.data.rows.length
+      }).catch((error) => {
+        this.$message({
+          type: 'error',
+          message: error || '获取数据失败'
+        })
+      })
+    },
+    editRow (id) {
+      this.$http({
+        url: 'getContenterManagerDetail',
+        data: {
+          providerId: id
+        }
+      }).then(res => {
+        this.dialogFormVisible = true
+        this.cooperateForm = res.data
+      })
+    },
     close () {
       this.dialogFormVisible = false
     },
     changePageSize (s) {
-
+      this.pageSize = s
+      this.getDate()
     },
     changePageIdx (c) {
       this.curPageIdx = c
+      this.getDate()
     }
   }
 }
