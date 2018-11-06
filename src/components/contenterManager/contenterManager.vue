@@ -1,7 +1,7 @@
 <template>
   <div class="contenter-manager">
     <div class="button-wrap">
-      <el-button type="primary" @click="dialogFormVisible = true"><i class="el-icon-circle-plus-outline"></i> 新建内容商</el-button>
+      <el-button type="primary" @click="addContenter"><i class="el-icon-circle-plus-outline"></i> 新建内容商</el-button>
       <el-popover
         placement="top"
         width="160"
@@ -85,6 +85,7 @@
       :dialogFormVisible = 'dialogFormVisible'
       @close = 'close'
       :cooperateForm = 'cooperateForm'
+      :dialogStatus = 'dialogStatus'
       ></contenter-dialog>
   </div>
 </template>
@@ -98,33 +99,33 @@ export default {
     const pageSizes = this.$('pageSizes')
     return {
       cooperateForm: {
-        'companyAddress': null,
-        'companyName': null,
-        'companyPhone': null,
-        'companyWebsite': null,
-        'contact': null,
-        'contactEmail': null,
-        'contactPhone': null,
-        'contentCapacity': null,
-        'contractDate': null,
-        'contractImage': null,
-        'contractNum': null,
-        'contractPrincipal': null,
+        'companyAddress': "",
+        'companyName': "",
+        'companyPhone': "",
+        'companyWebsite': "",
+        'contact': "",
+        'contactEmail': "",
+        'contactPhone': "",
+        'contentCapacity': 0,
+        'contractDate': "",
+        'contractImage': "",
+        'contractNum': "",
+        'contractPrincipal': "",
         'cpId': "",
-        'creditCode': null,
-        'effectiveTime': null,
+        'creditCode': "",
+        'effectiveTime': "",
         'englishName': "",
-        'expiredTime': null,
+        'expiredTime': "",
         'idList': [],
-        'legalPerson': null,
-        'organizationCode': null,
-        'platform': null,
-        'position': null,
-        'providerId': '',
+        'legalPerson': "",
+        'organizationCode': "",
+        'platform': "",
+        'position': "",
+        // 'providerId': '',
         'providerName': "",
-        'registrationNum': null,
-        'taxpayerNum': null,
-        'type': null
+        'registrationNum': "",
+        'taxpayerNum': "",
+        'type': ""
       },
       dialogFormVisible: false,
       visible2: false,
@@ -132,7 +133,8 @@ export default {
       curPageSize: 50,
       curTotal: 0,
       pageSizes: pageSizes,
-      dataList: []
+      dataList: [],
+      dialogStatus: 0 // 0是查看修改，1是新建
     }
   },
   mounted () {
@@ -165,10 +167,44 @@ export default {
       }).then(res => {
         this.dialogFormVisible = true
         this.cooperateForm = res.data
+        this.dialogStatus = 0
       })
     },
     close () {
       this.dialogFormVisible = false
+    },
+    addContenter () {
+      this.dialogFormVisible = true
+      this.cooperateForm = {
+        'companyAddress': "",
+        'companyName': "",
+        'companyPhone': "",
+        'companyWebsite': "",
+        'contact': "",
+        'contactEmail': "",
+        'contactPhone': "",
+        'contentCapacity': 0,
+        'contractDate': "",
+        'contractImage': "",
+        'contractNum': "",
+        'contractPrincipal': "",
+        'cpId': "",
+        'creditCode': "",
+        'effectiveTime': "",
+        'englishName': "",
+        'expiredTime': "",
+        'idList': [],
+        'legalPerson': "",
+        'organizationCode': "",
+        'platform': "",
+        'position': "",
+        // 'providerId': '',
+        'providerName': "",
+        'registrationNum': "",
+        'taxpayerNum': "",
+        'type': ""
+      }
+      this.dialogStatus = 1
     },
     changePageSize (s) {
       this.pageSize = s

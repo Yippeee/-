@@ -60,7 +60,10 @@ const API = {
   'getContenterManagerDetail': ipanelAddr + '/provider/id',
 
   // get the right playform 获得所有权限平台
-  'getRightPlayform': ipanelAddr + 'operators/all/online'
+  'getRightPlayform': ipanelAddr + 'operators/all/online',
+
+  // 新增内容商
+  'addContenter': ipanelAddr + '/provider'
 
 }
 
