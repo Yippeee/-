@@ -69,7 +69,10 @@ const API = {
   'editContenter': ipanelAddr + '/provider/edit',
 
   // 删除内容商
-  'deleteContenter': ipanelAddr + '/provider/id'
+  'deleteContenter': ipanelAddr + '/provider/id',
+
+  // 获取系统日志列表
+  'getSysLog': ipanelAddr + '/sys/log'
 
 }
 

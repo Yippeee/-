@@ -254,7 +254,6 @@ export default {
           let arr = []
           this.checkRightList.map(i => {
             this.playForm.forEach((i2, index) => {
-              console.log(i2.operatorName)
               if (i2.operatorName === i) {
                 arr.push(i2.id)
               }
@@ -265,7 +264,6 @@ export default {
         }
 
         if (item === 'effectiveTime' || item === 'expiredTime') {
-          console.log('12')
           itemName = item + 'String'
           itemData = itemData.toString().slice(0, 10)
         }
@@ -279,7 +277,6 @@ export default {
 
       for (let i of formData.entries()) {
         console.log(i[0] + ', ' + i[1])
-        console.log(typeof i[1])
       }
 
       // 新增的情况下，保存数据
@@ -289,7 +286,17 @@ export default {
           type: 'post',
           data: formData
         }).then((res) => {
-          console.log(res)
+          if (res.code === 0) {
+            this.$message({
+              type: 'success',
+              message: '保存成功'
+            })
+          } else {
+            this.$message({
+              type: 'error',
+              message: '保存失败'
+            })
+          }
           this.close()
         })
       } else { // 编辑的情况下保存数据
@@ -299,7 +306,17 @@ export default {
           type: 'post',
           data: formData
         }).then((res) => {
-          console.log(res)
+          if (res.code === 0) {
+            this.$message({
+              type: 'success',
+              message: '保存成功'
+            })
+          } else {
+            this.$message({
+              type: 'error',
+              message: '保存失败'
+            })
+          }
           this.close()
         })
       }

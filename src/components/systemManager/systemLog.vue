@@ -2,16 +2,26 @@
   <div class="systemLog">
     <div class="control-wrap">
       <el-date-picker
-      v-model="begintime"
+      v-model="beginDate"
       type="date"
+      format="yyyy 年 MM 月 dd 日"
+      value-format="yyyy-MM-dd"
       align="right"
       placeholder="选择开始日期">
     </el-date-picker>
     <el-date-picker
-      v-model="endtime"
+      v-model="endDate"
       type="date"
+      format="yyyy 年 MM 月 dd 日"
+      value-format="yyyy-MM-dd"
       placeholder="选择结束日期">
     </el-date-picker>
+    <el-input
+      class="keyWords"
+      placeholder="请输入内容"
+      v-model="keyWords">
+      <i slot="suffix" class="el-input__icon el-icon-search" @click="search"></i>
+    </el-input>
     </div>
     <div class="table-wrap">
       <div class="table-content">
@@ -26,32 +36,32 @@
           <el-table-column
               label="序号"
               max-width="160"
-              prop="a"
+              type="index"
               >
           </el-table-column>
           <el-table-column
               label="操作人"
               max-width="260"
-              prop="b"
+              prop="userName"
               >
           </el-table-column>
           <el-table-column
               label="内容商"
               max-width="260"
-              prop="c"
+              prop="providerName"
               :filters= filters
               filter-placement="bottom-end"
               >
           </el-table-column>
           <el-table-column
               label="操作"
-              prop="d"
+              prop="operation"
               >
           </el-table-column>
           <el-table-column
               label="操作时间"
               max-width="130"
-              prop="e"
+              prop="createTime"
               >
           </el-table-column>
         </el-table>
@@ -79,19 +89,46 @@ export default {
       pageSize: 0,
       pageSizes: pageSizes,
       begintime: '',
-      curPageIdx: 0,
+      curPageIdx: 1,
       curTotal: 0,
-      curPageSize: 0,
+      curPageSize: 10,
       total: 0,
-      endtime: '',
+      beginDate: '',
+      endDate: '',
+      keyWords: '',
       filters: [{ text: 'test', value: 'test' }, { text: 'test1', value: 'test1' }]
     }
   },
+  mounted () {
+    this.getData()
+  },
   methods: {
-    changePageSize (s) {
-
+    getData () {
+      this.$http({
+        url: 'getSysLog',
+        data: {
+          pageNum: this.curPageIdx,
+          pageSize: this.curPageSize,
+          beginDate: this.beginDate,
+          endDate: this.endDate,
+          keyWords: this.keyWords
+        }
+      }).then(res => {
+        this.dataList = res.data.rows
+        this.curTotal = res.data.total
+      })
     },
-    changePageIdx () {}
+    search () {
+      this.getData()
+    },
+    changePageSize (s) {
+      this.curPageSize = s
+      this.getData()
+    },
+    changePageIdx (id) {
+      this.curPageIdx = id
+      this.getData()
+    }
   }
 }
 </script>
@@ -103,6 +140,10 @@ export default {
   .control-wrap{
     height: 40px;
     margin-bottom: 30px;
+    .keyWords{
+      width: 300px;
+      float: right;
+    }
   }
   .table-wrap{
     height: calc(~"100% - 102px");
