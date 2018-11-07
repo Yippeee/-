@@ -8,16 +8,17 @@
         v-model="visible2">
         <p>确定删除该内容运营商吗？</p>
         <div style="text-align: right; margin: 0">
-          <el-button type="primary" size="mini" @click="visible2 = false">确定</el-button>
+          <el-button type="primary" size="mini" @click="deleteRow">确定</el-button>
           <el-button size="mini" type="text" @click="visible2 = false">取消</el-button>
         </div>
-        <el-button slot="reference"><i class="el-icon-circle-close-outline" @click="visible2 = true"></i> 删除</el-button>
+        <el-button slot="reference" :disabled="!selections.length > 0"><i class="el-icon-circle-close-outline" @click="visible2 = true"></i> 删除</el-button>
       </el-popover>
     </div>
     <div class="table-wrap">
       <div class="table-content">
         <el-table
           :data="dataList"
+          @selection-change = 'selectionChange'
           style="height:100%;"
           height="100%">
           <el-table-column
@@ -64,7 +65,7 @@
               max-width="160">
               <template slot-scope="scope">
                 <i class="el-icon-edit-outline" @click = editRow(scope.row.id)></i>
-                <i class="el-icon-delete"></i>
+                <i class="el-icon-delete" @click = deleteRow(scope.row.id)></i>
               </template>
           </el-table-column>
         </el-table>
@@ -83,6 +84,7 @@
       </div>
     <contenter-dialog
       :dialogFormVisible = 'dialogFormVisible'
+      :providerId = 'providerId'
       @close = 'close'
       :cooperateForm = 'cooperateForm'
       :dialogStatus = 'dialogStatus'
@@ -134,14 +136,16 @@ export default {
       curTotal: 0,
       pageSizes: pageSizes,
       dataList: [],
+      providerId: 0,
+      selections: [],
       dialogStatus: 0 // 0是查看修改，1是新建
     }
   },
   mounted () {
-    this.getDate()
+    this.getData()
   },
   methods: {
-    getDate () {
+    getData () {
       this.$http({
         url: 'getContenterManager',
         data: {
@@ -159,6 +163,7 @@ export default {
       })
     },
     editRow (id) {
+      this.providerId = id
       this.$http({
         url: 'getContenterManagerDetail',
         data: {
@@ -170,8 +175,61 @@ export default {
         this.dialogStatus = 0
       })
     },
+    deleteRow (id) {
+      let ids = []
+      if (id.type === 'click') {
+        ids = JSON.parse(JSON.stringify(this.selections))
+      } else {
+        ids = Array.isArray(id) ? id : [id]
+      }
+      console.log(ids)
+      let pid = ids.pop()
+      const p = new Promise((resolve, reject) => {
+        this.$http({
+          url: 'deleteContenter',
+          type: 'delete',
+          data: {
+            id: pid
+          }
+        }).then(res => {
+          if (res.code === 0) {
+            resolve()
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.msg || '删除失败'
+            })
+            reject(res.msg)
+          }
+        })
+      })
+
+      p.then(res => {
+        if (ids.length > 0) {
+          this.deleteRow(ids)
+        } else {
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          })
+          this.getData()
+          this.visible2 = false
+        }
+      }).catch((error) => {
+        this.$message({
+          type: 'error',
+          message: error || '服务器错误'
+        })
+      })
+    },
+    selectionChange (selections) {
+      this.selections = selections.map(i => {
+        return i.id
+      })
+    },
     close () {
       this.dialogFormVisible = false
+      this.getData()
     },
     addContenter () {
       this.dialogFormVisible = true
@@ -207,12 +265,12 @@ export default {
       this.dialogStatus = 1
     },
     changePageSize (s) {
-      this.pageSize = s
-      this.getDate()
+      this.curPageSize = s
+      this.getData()
     },
     changePageIdx (c) {
       this.curPageIdx = c
-      this.getDate()
+      this.getData()
     }
   }
 }

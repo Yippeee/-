@@ -63,7 +63,13 @@ const API = {
   'getRightPlayform': ipanelAddr + 'operators/all/online',
 
   // 新增内容商
-  'addContenter': ipanelAddr + '/provider'
+  'addContenter': ipanelAddr + '/provider',
+
+  // 修改内容商
+  'editContenter': ipanelAddr + '/provider/edit',
+
+  // 删除内容商
+  'deleteContenter': ipanelAddr + '/provider/id'
 
 }
 

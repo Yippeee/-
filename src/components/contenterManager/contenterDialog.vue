@@ -46,14 +46,26 @@
             <el-form-item label="合作时间:" prop="coop_time">
                   <el-col :span="11">
                     <el-form-item >
-                      <el-date-picker type="date" placeholder="选择日期" style="width: 100%;" v-model="cooperateForm.effectiveTime"></el-date-picker>
+                      <el-date-picker type="date"
+                        placeholder="选择日期"
+                        style="width: 100%;"
+                        v-model="cooperateForm.effectiveTime"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd">
+                        </el-date-picker>
                     </el-form-item>
                   </el-col>
                   <el-col class="line" :span="2">-</el-col>
                   <el-col :span="11">
                     <el-form-item >
-                      <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"
-                      v-model="cooperateForm.expiredTime"></el-date-picker>
+                      <el-date-picker
+                        type="date"
+                        placeholder="选择日期"
+                        style="width: 100%;"
+                        v-model="cooperateForm.expiredTime"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd">
+                        </el-date-picker>
                     </el-form-item>
                   </el-col>
             </el-form-item>
@@ -109,7 +121,14 @@
                 <el-input v-model="cooperateForm.contractNum"></el-input>
             </el-form-item>
             <el-form-item label="签订日期:" prop="contractDate">
-                <el-date-picker v-model="cooperateForm.contractDate" type="date" placeholder="选择日期" style="width: 100%;" ></el-date-picker>
+                <el-date-picker
+                  v-model="cooperateForm.contractDate"
+                  type="date"
+                  format="yyyy 年 MM 月 dd 日"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择日期"
+                  style="width: 100%;">
+                  </el-date-picker>
             </el-form-item>
             <el-form-item label="合同负责人:" prop="contractPrincipal">
                 <el-input v-model="cooperateForm.contractPrincipal"></el-input>
@@ -121,6 +140,7 @@
                 action= ''
                 accept='image/*'
                 class="el-upload2"
+                :on-remove="onRomove"
                 :on-change="uploadChange"
                 list-type="picture-card"
                 :file-list="fileList"
@@ -140,7 +160,7 @@
 </template>
 <script>
 export default {
-  props: ['dialogFormVisible', 'cooperateForm', 'dialogStatus'],
+  props: ['dialogFormVisible', 'cooperateForm', 'dialogStatus', 'providerId'],
   data () {
     return {
       addDialogTabs: 'first',
@@ -150,13 +170,13 @@ export default {
       playForm: [], // 权限平台所有数据
       checkRightList: [], // 当前选中的权限平台数据
       options: [{
-        value: '选项1',
+        value: '手机',
         label: '手机'
       }, {
-        value: '选项2',
+        value: '电视',
         label: '电视'
       }, {
-        value: '选项3',
+        value: 'PC',
         label: 'PC'
       }],
       ruleCooperate: {
@@ -224,6 +244,8 @@ export default {
 
       for (let item in this.cooperateForm) {
         let itemData = this.cooperateForm[item]
+        let itemName = item
+
         if (item === 'contractImage') {
           continue
         }
@@ -238,15 +260,26 @@ export default {
               }
             })
           })
+          itemName = 'operatorIds'
           itemData = arr.join('-')
         }
 
-        formData.append(item, itemData)
+        if (item === 'effectiveTime' || item === 'expiredTime') {
+          console.log('12')
+          itemName = item + 'String'
+          itemData = itemData.toString().slice(0, 10)
+        }
+
+        formData.append(itemName, itemData)
+      }
+      // 如果上传了图片或者修改了图，才上传
+      if (this.hasChangeImg) {
+        formData.append('file', inputDom.files[0])
       }
 
-      formData.append('file', inputDom.files[0])
       for (let i of formData.entries()) {
         console.log(i[0] + ', ' + i[1])
+        console.log(typeof i[1])
       }
 
       // 新增的情况下，保存数据
@@ -257,9 +290,18 @@ export default {
           data: formData
         }).then((res) => {
           console.log(res)
+          this.close()
         })
       } else { // 编辑的情况下保存数据
-
+        formData.append('providerId', this.providerId)
+        this.$http({
+          url: 'editContenter',
+          type: 'post',
+          data: formData
+        }).then((res) => {
+          console.log(res)
+          this.close()
+        })
       }
     },
     handleAvatarSuccess () {
@@ -271,7 +313,8 @@ export default {
       let dom = document.getElementsByClassName('el-upload-list')[0]
       dom.innerHTML = ''
       this.hasChangeImg = true
-    }
+    },
+    onRomove () {}
   },
   computed: {
     dialogFormVisible1: {
