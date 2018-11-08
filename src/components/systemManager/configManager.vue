@@ -86,7 +86,6 @@ export default {
   },
   watch: {
     visible1Str (val) {
-      console.log(val)
       if (val) {
         this.visible1 = true
       } else {
@@ -102,17 +101,14 @@ export default {
     },
     issueTimes: {
       handler (val) {
-        console.log(val)
         this.disabled2 = false
         let arr = JSON.parse(JSON.stringify(val))
         arr.sort()
         for (var i = 0; i < arr.length; i++) {
           if (arr[i] === arr[i + 1]) {
-            console.log('有重复的了')
             this.disabled2 = true
           }
         }
-        // this.issueTimes = arr
       },
       deep: true
     }
@@ -161,15 +157,12 @@ export default {
         })
         Object.assign(param, {releaseTime: releaseTime, releaseTimeList: releaseTimeList})
       }
-      log(param)
-      // return
       // sent request
       this.$http({
         url: 'editConfiguration',
         type: 'post',
         data: param
       }).then(res => {
-        log(res)
         if (res.code === 0) {
           this.getData()
           this.$message({
