@@ -81,7 +81,7 @@ export default {
       return (this.strategyStr !== this.strategy || this.savaTime !== this.savaTimeStr)
     },
     visible2Str () {
-      return (this.intime !== this.intimeStr || this.publishTime !== this.publishTimeStr || this.issueTimes.toString() !==this.issueTimesStr.toString())
+      return (this.intime !== this.intimeStr || this.publishTime !== this.publishTimeStr || this.issueTimes.toString() !== this.issueTimesStr.toString())
     }
   },
   watch: {
@@ -155,6 +155,9 @@ export default {
             time: i
           }
         })
+        if (releaseTime === '0') {
+          releaseTimeList = null
+        }
         Object.assign(param, {releaseTime: releaseTime, releaseTimeList: releaseTimeList})
       }
       // sent request

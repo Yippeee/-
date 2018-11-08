@@ -102,15 +102,18 @@ export default {
             })
             Vue.set(item, 'contenter', arr[45] ? ['45'] : [])
             Vue.set(item, 'indexControl', arr[44] ? ['44'] : [])
+            // 两个权限不冲突，都加上
             if (arr[47]) {
               managers.push('47')
-            } else if (arr[48]) {
+            }
+            if (arr[48]) {
               managers.push('48')
             }
             Vue.set(item, 'manager', managers)
             if (arr[49]) {
               roleManages.push('49')
-            } else if (arr[50]) {
+            }
+            if (arr[50]) {
               roleManages.push('50')
             }
             Vue.set(item, 'roleManage', roleManages)
