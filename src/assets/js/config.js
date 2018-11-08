@@ -72,7 +72,13 @@ const API = {
   'deleteContenter': ipanelAddr + '/provider/id',
 
   // 获取系统日志列表
-  'getSysLog': ipanelAddr + '/sys/log'
+  'getSysLog': ipanelAddr + '/sys/log',
+
+  // 获取系统配置管理
+  'getConfiguration': ipanelAddr + '/sys/configuration',
+
+  // 修改系统配置管理
+  'editConfiguration': ipanelAddr + '/sys/configuration/edit'
 
 }
 

@@ -57,7 +57,7 @@
           </el-table-column>
           <el-table-column
               label="有效期"
-              prop="expiredTime"
+              prop="expiredTimeStr"
               >
           </el-table-column>
           <el-table-column
@@ -154,6 +154,9 @@ export default {
         }
       }).then((res) => {
         this.dataList = res.data.rows
+        this.dataList.forEach((item) => {
+          item.expiredTimeStr = item.expiredTime.split('T')[0]
+        })
         this.curTotal = res.data.rows.length
       }).catch((error) => {
         this.$message({

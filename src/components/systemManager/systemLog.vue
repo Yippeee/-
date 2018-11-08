@@ -115,6 +115,9 @@ export default {
         }
       }).then(res => {
         this.dataList = res.data.rows
+        this.dataList.forEach(item => {
+          item.createTime = item.createTime.replace('T', ' ')
+        })
         this.curTotal = res.data.total
       })
     },
