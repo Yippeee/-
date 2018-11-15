@@ -78,7 +78,22 @@ const API = {
   'getConfiguration': ipanelAddr + '/sys/configuration',
 
   // 修改系统配置管理
-  'editConfiguration': ipanelAddr + '/sys/configuration/edit'
+  'editConfiguration': ipanelAddr + '/sys/configuration/edit',
+
+  // 新增内容运营商/上线地列表/发布平台
+  'addPlayForm': ipanelAddr + '/operators',
+
+  // 根据条件获得内容运营商/上线地列表/发布平台
+  'getPlayForm': ipanelAddr + '/operators/condition',
+
+  // 编辑内容运营商/上线地列表/发布平台
+  'editPlayForm': ipanelAddr + '/operators/id',
+
+  // 根据状态获取内容运营商/上线地列表/发布平台
+  'statusGetPlayForm': ipanelAddr + '/operators/list/status',
+
+  // 修改状态内容运营商/上线地列表/发布平台
+  'statusPlayForm': ipanelAddr + '/operators/status'
 
 }
 
