@@ -22,6 +22,7 @@
   </div>
 </template>
 <script>
+import md5 from '../assets/js/md5.js'
 export default {
   data () {
     return {
@@ -52,7 +53,7 @@ export default {
         type: 'post',
         data: {
           "loginName": this.username,
-          "password": this.password
+          "password": md5(this.password)
         }
       })
         .then((res) => {
