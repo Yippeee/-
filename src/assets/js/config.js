@@ -26,6 +26,21 @@ const API = {
   // login
   'login': ipanelAddr + 'user/ipanel/login',
 
+  // 首页内容商信息获取
+  'getIndexContent': ipanelAddr + '/provider/home',
+
+  // 首页内容商操作权限开关
+  'statusIndexContent': ipanelAddr + '/provider/enabled',
+
+  // 首页系统运行情况获取
+  'getIndexSysStatus': ipanelAddr + '/sys/system/inform',
+
+  // 首页获取消息通知接口
+  'getIndexInfoList': ipanelAddr + '/sys/message/list',
+
+  // 首页消息通知标记接口
+  'editIndexContent': ipanelAddr + '/sys/message/edit',
+
   // view back user
   'provider': ipanelAddr + '/user/user/authority/provider',
 

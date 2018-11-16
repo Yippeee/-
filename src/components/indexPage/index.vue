@@ -13,14 +13,14 @@
         <div class="card">
           <i class="icon-upload"></i>
           <div class="card-content">
-            <p><span class="percent">1</span> <span class="rate"> M/s</span></p>
+            <p><span class="percent">{{this.videoUploadSpeed}}</span> <span class="rate"> M/s</span></p>
             <p>平均上传速度</p>
           </div>
         </div>
         <div class="card">
           <i class="icon-domnload"></i>
           <div class="card-content">
-            <p><span class="percent">1</span> <span class="rate"> M/s</span></p>
+            <p><span class="percent">{{this.videoReleaseSpeed}}</span> <span class="rate"> M/s</span></p>
             <p>平均下发速度</p>
           </div>
         </div>
@@ -36,18 +36,18 @@
           <transition :name="slidemode">
             <ul v-if="rightPageShow" key="one">
               <li v-for="(item,index) in lilistReal1" :key="index">
-                <el-badge v-if="item.isnew" is-dot class="item"><i  class="icon-message"></i></el-badge>
+                <el-badge v-if="!item.status" is-dot class="item"><i  class="icon-message"></i></el-badge>
                 <i v-else class="icon-message"></i>
-                <span class="li-info">{{item.info}}</span>
-                <span class="li-time">{{item.time}}</span>
+                <span class="li-info">{{item.subject}}</span>
+                <span class="li-time">{{item.createTime}}</span>
               </li>
             </ul>
             <ul v-else key="two">
               <li v-for="(item,index) in lilistReal2" :key="index">
-                <el-badge v-if="item.isnew" is-dot class="item"><i  class="icon-message"></i></el-badge>
+                <el-badge v-if="!item.status" is-dot class="item"><i  class="icon-message"></i></el-badge>
                 <i v-else class="icon-message"></i>
-                <span class="li-info">{{item.info}}</span>
-                <span class="li-time">{{item.time}}</span>
+                <span class="li-info">{{item.subject}}</span>
+                <span class="li-time">{{item.createTime}}</span>
               </li>
             </ul>
           </transition>
@@ -69,41 +69,41 @@
           <el-table-column
               label="内容商"
               max-width="260"
-              prop="a"
+              prop="providerName"
               >
           </el-table-column>
           <el-table-column
               label="容量使用占比"
               max-width="260"
-              prop="b"
+              prop="capacityRate"
               sortable
               >
           </el-table-column>
           <el-table-column
               label="上线平台数量"
               max-width="260"
-              prop="c"
+              prop="operatorNum"
               sortable
               >
           </el-table-column>
           <el-table-column
               label="日上线视频数"
-              prop="d"
+              prop="onlineVideoNum"
               sortable
               >
           </el-table-column>
           <el-table-column
               label="日发布视频量"
-              prop="e"
+              prop="releaseVideoNum"
               sortable
               >
           </el-table-column>
           <el-table-column
               label="操作权限"
-              prop="right">
+              prop="adminState">
               <template slot-scope="scope">
                 <el-switch
-                  v-model="scope.row.right"
+                  v-model="scope.row.adminState"
                   active-color="#13ce66"
                   active-text="开"
                   inactive-color="#ff4949"
@@ -137,6 +137,11 @@ export default {
   components: {
     notification
   },
+  mounted () {
+    // this.getStatusData()
+    this.getContentData()
+    this.getListData()
+  },
   data () {
     const pageSizes = this.$('pageSizes')
     return {
@@ -145,75 +150,17 @@ export default {
       curTotal: 0,
       rightPage: 0,
       pageSizes: pageSizes,
-      progressPercent: 91,
+      progressPercent: 0,
+      videoUploadSpeed: 0,
+      videoReleaseSpeed: 0,
       dialogVisible: false,
-      dataList: [ // 内容商运行情况data数据
-        {
-          a: 11,
-          b: 20,
-          c: 34,
-          d: 54,
-          e: 435,
-          right: 'true'
-        },
-        {
-          a: 12,
-          b: 21,
-          c: 34,
-          d: 54,
-          e: 435,
-          right: ''
-        },
-        {
-          a: 13,
-          b: 23,
-          c: 34,
-          d: 54,
-          e: 435,
-          right: ''
-        }
-      ],
-      lilist: [
-        {
-          info: '如果说这就是在浪费时间的话',
-          time: '06:33',
-          isnew: true
-        },
-        {
-          info: '如果说这就是在浪费时间的话',
-          time: '06:33',
-          isnew: false
-        },
-        {
-          info: '如果说这就是在浪费时间的话',
-          time: '06:33',
-          isnew: true
-        },
-        {
-          info: '如果这都不算爱',
-          time: '17:33',
-          isnew: false
-        },
-        {
-          info: '如果这都不算爱2',
-          time: '17:33',
-          isnew: true
-        },
-        {
-          info: '如果这都不算爱3',
-          time: '17:33',
-          isnew: true
-        }
-      ],
+      dataList: [], // 内容商运行情况data数据
+      lilist: [],
       lilistReal1: [],
       lilistReal2: [],
       rightPageShow: true,
       slidemode: ''
     }
-  },
-  created () {
-    this.lilistReal1 = this.lilist.slice(0, 3)
-    this.lilistReal2 = this.lilist.slice(3, 6)
   },
   watch: {
     rightPage (value) {
@@ -239,6 +186,44 @@ export default {
     }
   },
   methods: {
+    getContentData () {
+      this.$http({
+        url: 'getIndexContent',
+        data: {
+          pageNum: this.curPageIdx,
+          pageSize: this.curPageSize
+        }
+      }).then(res => {
+        console.log(res)
+        this.dataList = res.data.rows
+        this.curTotal = res.data.rows.length
+      })
+    },
+    getStatusData () {
+      this.$http({
+        url: 'getIndexSysStatus'
+      }).then(res => {
+        let d = res.data
+        this.progressPercent = Math.round(d.videoTotalRate * 10000) / 100
+        this.videoUploadSpeed = Math.round(d.videoUploadSpeed * 100) / 100
+        this.videoReleaseSpeed = Math.round(d.videoReleaseSpeed * 100) / 100
+        setTimeout(_ => {
+          this.getStatusData()
+        }, 2000)
+      })
+    },
+    getListData () {
+      this.$http({
+        url: 'getIndexInfoList'
+      }).then(res => {
+        res.data.rows.forEach(element => {
+          element.createTime = element.createTime.replace(/T/, ' ')
+        })
+        this.lilist = res.data.rows
+        this.lilistReal1 = this.lilist.slice(0, 3)
+        this.lilistReal2 = this.lilist.slice(3, 6)
+      })
+    },
     handleClose () {
       this.dialogVisible = false
     },
@@ -252,9 +237,11 @@ export default {
     },
     changePageSize (s) {
       this.pageSizes = s
+      this.getContentData()
     },
     changePageIdx (c) {
       this.curPageIdx = c
+      this.getContentData()
     }
   }
 }
@@ -284,7 +271,7 @@ export default {
       .card {
         height: 100px;
         background-color: #fff;
-        width: 246px;
+        width: 253px;
         padding: 20px;
         display: inline-block;
         border: 1px solid #eef1f6;

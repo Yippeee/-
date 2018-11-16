@@ -5,9 +5,9 @@
     <div class="card-border">
       <p>
         <span class="p-name">保存策略</span>
-        <el-radio v-model="strategy" label='0'>到期自己删除</el-radio>
+        <el-radio v-model="strategy" label='0'>到期自动删除</el-radio>
         <el-radio v-model="strategy" label='-1'>到期转入回收站</el-radio>
-        <span style="color:red; font-size:14px" v-if="this.strategy == 0">tips: 到期自己删除 不需要选择时间</span>
+        <span style="color:red; font-size:14px" v-if="this.strategy == 0">tips: 到期自动删除 不需要选择时间</span>
       </p>
       <p class="margin-p">
         <span class="p-name">保存时间</span>

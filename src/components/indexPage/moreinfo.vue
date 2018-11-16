@@ -4,9 +4,10 @@
       <div class="table-content">
         <ul>
           <li v-for="(item,index) in tableData" :key="index">
-            <el-badge is-dot class="item"><i class="icon-message"></i></el-badge>
-            <span class="info">{{item.info}}</span>
-            <span class="timer">{{item.time}}</span>
+            <el-badge @click="changeStatus(item.id)" v-if="!item.status" is-dot class="item"><i class="icon-message"></i></el-badge>
+            <i v-else class="icon-message"></i>
+            <span class="info item" @click="changeStatus(item.id)">{{item.details}}</span>
+            <span class="timer">{{item.createTime}}</span>
           </li>
         </ul>
       </div>
@@ -31,31 +32,50 @@ export default {
     return {
       curPageIdx: 1,
       curPageSize: 50,
-      curTotal: 10000,
+      curTotal: 0,
       pageSizes: pageSizes,
-      tableData: [
-        {
-          info: '你的券还有10天过期',
-          time: '2018-06-18 09:00'
-        },
-        {
-          info: '你的券还有20天过期',
-          time: '2018-06-18 09:00'
-        },
-        {
-          info: '你的券还有40天过期',
-          time: '2018-06-18 09:00'
-        },
-        {
-          info: '你的券还有40天过期',
-          time: '2018-06-18 09:00'
-        }
-      ]
+      tableData: []
     }
   },
+  mounted () {
+    this.getData()
+  },
   methods: {
-    changePageSize (s) {},
-    changePageIdx () {}
+    getData () {
+      this.$http({
+        url: 'getIndexInfoList',
+        data: {
+          pageNum: this.curPageIdx,
+          pageSize: this.curPageSize
+        }
+      }).then(res => {
+        res.data.rows.forEach(element => {
+          element.createTime = element.createTime.replace(/T/, ' ')
+        })
+        this.tableData = res.data.rows
+        this.curTotal = res.data.rows.length
+      })
+    },
+    changeStatus (id) {
+      console.log(id)
+      this.$http({
+        url: 'editIndexContent',
+        type: 'post',
+        data: {
+          messageId: id
+        }
+      }).then(res => {
+        this.getData()
+      })
+    },
+    changePageSize (s) {
+      this.curPageSize = s
+      this.getData()
+    },
+    changePageIdx (s) {
+      this.curPageIdx = s
+      this.getData()
+    }
   }
 }
 </script>
@@ -79,6 +99,9 @@ export default {
         position: relative;
         .info{
           margin-left: 8px;
+        }
+        .item{
+          cursor: pointer;
         }
         i{
           display: inline-block;
