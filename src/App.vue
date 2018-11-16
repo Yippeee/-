@@ -108,7 +108,7 @@ export default {
       if (!h) {
         window.document.title = this.systemname + " | " + this.util.getCookies("bread")
       } else {
-        window.document.title = "主人~快回来"
+        window.document.title = "(●´ω｀●)ゞ"
       }
     },
     loginSuccess () {

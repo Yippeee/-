@@ -379,7 +379,7 @@ export default {
 .authority{
   position: relative;
   .el-checkbox-group{
-    width: 90%;
+    width: 560px;
     height: 100px;
     box-sizing: border-box;
     position: relative;

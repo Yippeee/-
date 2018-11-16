@@ -1,6 +1,7 @@
 // 封装全局方法
 import Axios from "axios"
 import { API, CONFIG } from "./config"
+import Vue from "vue"
 
 const util = {
   /**
@@ -68,6 +69,20 @@ const util = {
       let res = response.data || {}
       return res
     })
+  },
+
+  afterRequest (res) {
+    if (res.code === 0) {
+      Vue.prototype.$message({
+        type: 'success',
+        message: res.msg || '操作成功'
+      })
+    } else {
+      Vue.prototype.$message({
+        type: 'error',
+        message: res.msg || '操作失败'
+      })
+    }
   }
 }
 // 开发者环境自动生成token

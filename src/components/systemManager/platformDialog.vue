@@ -8,7 +8,7 @@
       <el-form-item label="运营商名称:" prop="id">
           <el-input v-model="formData.operatorName"></el-input>
       </el-form-item>
-      <el-form-item label="编号:" prop="id" class="marginMore">
+      <el-form-item label="编号:" prop="id" v-show="formData.id">
           <!-- <el-input v-model="formData.id"></el-input> -->
           {{formData.id}}
       </el-form-item>
@@ -22,7 +22,7 @@
             </el-option>
           </el-select>
       </el-form-item>
-      <el-form-item label="级别:" prop="id">
+      <el-form-item label="级别:" prop="rank">
           <el-select v-model="formData.rank" placeholder="请选择">
             <el-option
               v-for="item in rankArr"
@@ -32,7 +32,7 @@
             </el-option>
           </el-select>
       </el-form-item>
-      <el-form-item label="所属地区:" prop="id" class="marginMore">
+      <el-form-item label="所属地区:" prop="region">
           <el-cascader
             v-model="formData.region"
             placeholder="试试搜索"
@@ -41,13 +41,13 @@
             change-on-select
           ></el-cascader>
       </el-form-item>
-      <el-form-item label="端口:" prop="id" class="marginMore">
+      <el-form-item label="端口:" prop="port">
           <el-input v-model="formData.port"></el-input>
       </el-form-item>
-      <el-form-item label="服务器地址:" prop="id1" class="block-el-form">
+      <el-form-item label="服务器地址:" prop="url" class="block-el-form">
           <el-input v-model="formData.url"></el-input>
       </el-form-item>
-      <el-form-item label="ftp地址:" prop="id2" class="block-el-form">
+      <el-form-item label="ftp地址:" prop="ftp" class="block-el-form">
           <el-input v-model="formData.ftp"></el-input>
       </el-form-item>
     </el-form>
@@ -66,6 +66,14 @@ export default {
       cooperateForm: '',
       options: [],
       value: '',
+      statusMap: {
+        '下线': '0',
+        '上线': '1'
+      },
+      rankMap: {
+        '省网': '1',
+        '市网': '2'
+      },
       statusArr: [{
         value: '1',
         label: '上线'
@@ -98,18 +106,37 @@ export default {
     comfirmDialog () {
       let param = this.formData
       param.region = param.region.join('/')
-      log(param.region)
+      param.rank = this.rankMap[param.rank] || param.rank
+      param.status = this.statusMap[param.status] || param.status
       if (this.formData.id) { // 编辑的情况
-        log('编辑啊')
+        param.operatorId = this.formData.id
+        this.$http({
+          url: 'editPlayForm',
+          type: 'post',
+          data: param
+        }).then(res => {
+          if (res.code === 0) {
+            this.$message({
+              type: 'success',
+              message: '修改成功'
+            })
+          } else {
+            this.$message({
+              type: 'error',
+              message: res.msg || '修改失败'
+            })
+          }
+          this.handleClose()
+        })
       } else { // 新增的情况
         this.$http({
           url: 'addPlayForm',
           type: 'post',
           data: param
         }).then(res => {
-          log(res)
+          this.util.afterRequest(res)
+          this.handleClose()
         })
-        log('sss')
       }
     }
   },

@@ -2,13 +2,14 @@
   <div class="platformManager">
     <div class="control-wrap">
       <el-button type="primary" @click="formData = {};addDialogShow = true"><i class="el-icon-circle-plus-outline"></i>新增发布平台</el-button>
-      <el-button ><i class="el-icon-circle-close-outline" @click="visible2 = true"></i>删除</el-button>
+      <el-button @click='deleteRow' :disabled="!selection.length > 0"><i class="el-icon-circle-close-outline"></i>删除</el-button>
     </div>
     <div class="table-wrap">
       <div class="table-content">
         <el-table
           :data="dataList"
           style="height:100%;"
+          @select="toggleSelect"
           height="100%">
           <el-table-column
             type="selection"
@@ -29,7 +30,7 @@
           <el-table-column
               label="合作状态"
               max-width="280"
-              prop="statusStr"
+              prop="status"
               :filters="[{ text: '上线', value: '上线' }, { text: '下架', value: '下架' }]"
               filter-placement="bottom-end"
               >
@@ -97,7 +98,16 @@ export default {
       },
       pageSizes: pageSizes,
       addDialogShow: false,
-      formData: {},
+      formData: {
+        operatorName: '',
+        status: 0,
+        rank: 1,
+        region: [],
+        port: '',
+        url: '',
+        ftp: ''
+      },
+      selection: [],
       dataList: [],
       curTotal: 0
     }
@@ -117,15 +127,17 @@ export default {
         if (res.code === 0) {
           this.dataList = res.data.rows
           this.dataList.forEach(i => {
-            i.statusStr = this.statusMap[i.status]
+            i.status = this.statusMap[i.status]
             i.rank = this.rankMap[i.rank]
             i.region = i.region.split('/')
           })
+          this.curTotal = res.data.rows.length
         }
       })
     },
     closeDialog () {
       this.addDialogShow = false
+      this.getData()
     },
     changePageSize (s) {
       this.curPageSize = s
@@ -136,15 +148,66 @@ export default {
       this.getData()
     },
     editRow (row) {
-      log(row.region)
       this.formData = row
       this.addDialogShow = true
     },
     offShore (id) {
-      log(id)
+      this.$confirm('确定下线该发布平台吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(() => {
+        this.$http({
+          url: 'statusPlayForm',
+          type: 'post',
+          data: {
+            operatorId: id,
+            status: 0
+          }
+        }).then(res => {
+          this.util.afterRequest(res)
+          this.getData()
+        })
+      })
     },
     deleteRow (id) {
-      log(id)
+      this.$confirm('确定删除该发布平台吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(() => {
+        let idss = this.selection.map(i => {
+          return i.id
+        })
+        let ids = id.type !== 'click' ? [id] : idss
+        console.log(ids)
+        this.deleteRow1(ids)
+      })
+    },
+    deleteRow1 (ids) {
+      let id = ids.pop()
+      console.log(id)
+      const p = new Promise((resolve, reject) => {
+        this.$http({
+          url: 'editPlayForm',
+          type: 'delete',
+          data: {
+            id: id
+          }
+        }).then(res => {
+          this.util.afterRequest(res)
+          resolve()
+        })
+      })
+      p.then(_ => {
+        if (ids.length > 0) {
+          this.deleteRow1(ids)
+        } else {
+          this.getData()
+          return p
+        }
+      })
+    },
+    toggleSelect (selection) {
+      this.selection = selection
     }
   }
 }
