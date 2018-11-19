@@ -47,9 +47,13 @@ export default {
     AppFooter,
     login
   },
+  computed: {
+    isLogin () {
+      return this.$store.state.loginStatus
+    }
+  },
   data () {
     return {
-      isLogin: false,
       username: '',
       routerMap: {},
       systemname: '',
@@ -61,7 +65,7 @@ export default {
   },
   created () {
     if (this.util.getCookies("accesstoken")) {
-      this.isLogin = true
+      this.$store.commit('login')
     }
     this.systemname = this.$('systemname')
     window.document.title = this.systemname
@@ -112,7 +116,7 @@ export default {
       }
     },
     loginSuccess () {
-      this.isLogin = true
+      this.$store.commit('login')
     },
     fullScreen () {
       this.launchFullScreen(document.documentElement)
@@ -129,7 +133,7 @@ export default {
       }
     },
     logOut () {
-      this.isLogin = false
+      this.$store.commit('logout')
     }
   },
   watch: {

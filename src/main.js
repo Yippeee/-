@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
+import store from './store'
 
 // eslint-disable-next-line
 import '!style-loader!css-loader!less-loader!@/assets/css/main.less'
@@ -19,6 +20,7 @@ Vue.use(ElementUI)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   components: { App },
   template: '<App/>'

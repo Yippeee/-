@@ -60,6 +60,7 @@ export default {
           if (res.code === 0) {
             this.util.setCookie('accesstoken', res.data.token)
             this.$emit('loginSuccess')
+            this.$store.commit('indexDialogShow')
           } else {
             this.$message(res.msg || '登录失败')
           }

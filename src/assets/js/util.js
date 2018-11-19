@@ -69,10 +69,15 @@ const util = {
       let res = response.data || {}
       return res
     }, () => {
-      Vue.prototype.$message({
+      this.$message({
         type: 'error',
         message: '认证失效，请重新登录'
       })
+      try {
+        this.$store.commit('logout')
+      } catch (e) {
+        console.log(e)
+      }
     })
   },
 

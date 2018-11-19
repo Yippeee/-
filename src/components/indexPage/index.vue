@@ -27,7 +27,7 @@
       </div>
       <div class="right-header">
         <div class="header">
-          <span class="header-name" @click="show">事件提醒</span>
+          <span class="header-name" @click="showRemind">事件提醒</span>
           <span class="more" @click="showMore">更多
             <i class="el-icon-arrow-right"></i>
           </span>
@@ -159,7 +159,6 @@ export default {
       progressPercent: 0,
       videoUploadSpeed: 0,
       videoReleaseSpeed: 0,
-      dialogVisible: false,
       dataList: [], // 内容商运行情况data数据
       lilist: [],
       lilistReal1: [],
@@ -191,6 +190,9 @@ export default {
       } else {
         return '#F56C6C'
       }
+    },
+    dialogVisible () {
+      return this.$store.state.indexDialogVisible
     }
   },
   methods: {
@@ -253,10 +255,10 @@ export default {
       })
     },
     handleClose () {
-      this.dialogVisible = false
+      this.$store.commit('indexDialogDisappear')
     },
-    show () {
-      this.dialogVisible = true
+    showRemind () {
+      this.$store.commit('indexDialogShow')
     },
     turnLeft () {},
     turnRight () {},
