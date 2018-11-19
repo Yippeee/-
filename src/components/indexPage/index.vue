@@ -104,6 +104,7 @@
               <template slot-scope="scope">
                 <el-switch
                   v-model="scope.row.adminState"
+                  @change="changeRowStatus(scope.row)"
                   active-color="#13ce66"
                   active-text="开"
                   inactive-color="#ff4949"
@@ -138,9 +139,13 @@ export default {
     notification
   },
   mounted () {
-    // this.getStatusData()
+    this.getStatusData()
     this.getContentData()
     this.getListData()
+  },
+  destroyed () {
+    console.log('destroyed')
+    this.setTimeoutFlag = false
   },
   data () {
     const pageSizes = this.$('pageSizes')
@@ -159,6 +164,7 @@ export default {
       lilistReal1: [],
       lilistReal2: [],
       rightPageShow: true,
+      setTimeoutFlag: true,
       slidemode: ''
     }
   },
@@ -195,11 +201,15 @@ export default {
         }
       }).then(res => {
         console.log(res)
+        res.data.rows.forEach(i => {
+          i.adminState = !!i.adminState + ''
+        })
         this.dataList = res.data.rows
         this.curTotal = res.data.rows.length
       })
     },
     getStatusData () {
+      if (!this.setTimeoutFlag) return
       this.$http({
         url: 'getIndexSysStatus'
       }).then(res => {
@@ -209,7 +219,7 @@ export default {
         this.videoReleaseSpeed = Math.round(d.videoReleaseSpeed * 100) / 100
         setTimeout(_ => {
           this.getStatusData()
-        }, 2000)
+        }, 10000)
       })
     },
     getListData () {
@@ -224,6 +234,22 @@ export default {
         this.lilistReal2 = this.lilist.slice(3, 6)
       })
     },
+    changeRowStatus (row) {
+      console.log(row.id)
+      console.log(row.adminState)
+      let state = row.adminState === 'true' ? 1 : 0
+      console.log(state)
+      this.$http({
+        url: 'statusIndexContent',
+        type: 'post',
+        data: {
+          providerId: row.id,
+          state: state
+        }
+      }).then(res => {
+        this.util.afterRequest(res)
+      })
+    },
     handleClose () {
       this.dialogVisible = false
     },
@@ -236,7 +262,7 @@ export default {
       this.$router.push({path: 'index/moreinfo'})
     },
     changePageSize (s) {
-      this.pageSizes = s
+      this.curPageSize = s
       this.getContentData()
     },
     changePageIdx (c) {
@@ -334,6 +360,14 @@ export default {
       }
       .right-content {
         position: relative;
+        .item{
+          .icon-message{
+            top:0px;
+          }
+        }
+        .icon-message{
+          top:7px;
+        }
         .el-badge {
           margin-right: 10px;
           display: inline-block;

@@ -1,5 +1,6 @@
 <template>
   <div class="moreInfo">
+    <!-- <el-button class="button" size="small">一键全部已读</el-button> -->
     <div class="table-wrap">
       <div class="table-content">
         <ul>
@@ -62,7 +63,7 @@ export default {
         url: 'editIndexContent',
         type: 'post',
         data: {
-          messageId: id
+          id: id
         }
       }).then(res => {
         this.getData()
@@ -87,7 +88,14 @@ export default {
   width: 100%;
   height: 100%;
   background-color: #ffffff;
+  .button{
+    position: relative;
+    margin-top: 10px;
+    left: 20px;
+  }
   .table-wrap{
+    left: 10px;
+    position: relative;
     height: calc(~"100% - 32px");
     ul{
       margin: 10px;
@@ -102,6 +110,12 @@ export default {
         }
         .item{
           cursor: pointer;
+          .icon-message{
+            top:0px;
+          }
+        }
+        .icon-message{
+          top:7px;
         }
         i{
           display: inline-block;
