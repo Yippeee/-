@@ -2,7 +2,7 @@
   <div class="index-page">
     <div class="header">
       <div class="left-header">
-        <span class="header-name">系统运行情况</span>
+        <span class="header-name">系统运行情况<span style="font-size:12px; color:red"> ({{this.updateTime}}s刷新一次)</span></span>
         <div class="card">
           <el-progress type="circle" :percentage="progressPercent" :color="progressColor" :stroke-width='10' :width='100'></el-progress>
           <div class="card-content">
@@ -149,6 +149,7 @@ export default {
   },
   data () {
     const pageSizes = this.$('pageSizes')
+    const updateTime = 10 // 系统运行情况刷新时间，单位秒
     return {
       curPageIdx: 1,
       curPageSize: 50,
@@ -165,6 +166,7 @@ export default {
       lilistReal2: [],
       rightPageShow: true,
       setTimeoutFlag: true,
+      updateTime: updateTime,
       slidemode: ''
     }
   },
@@ -219,7 +221,7 @@ export default {
         this.videoReleaseSpeed = Math.round(d.videoReleaseSpeed * 100) / 100
         setTimeout(_ => {
           this.getStatusData()
-        }, 10000)
+        }, this.updateTime * 1000)
       })
     },
     getListData () {
@@ -243,7 +245,7 @@ export default {
         url: 'statusIndexContent',
         type: 'post',
         data: {
-          providerId: row.id,
+          providerId: row.providerId,
           state: state
         }
       }).then(res => {

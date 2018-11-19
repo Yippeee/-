@@ -65,7 +65,7 @@ export default {
           }
         })
         .catch((res) => {
-          this.$message(res.msg || '登录失败')
+          this.$message(res.msg || '服务器异常')
         })
     }
   }

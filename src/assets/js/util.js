@@ -68,6 +68,11 @@ const util = {
     return Axios(axiosSettings).then((response) => {
       let res = response.data || {}
       return res
+    }, () => {
+      Vue.prototype.$message({
+        type: 'error',
+        message: '认证失效，请重新登录'
+      })
     })
   },
 
