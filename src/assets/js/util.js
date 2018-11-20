@@ -28,7 +28,7 @@ const util = {
     }
   },
   /**
-   * 封装axios (仅仅是test版本，注意修改以及完善)
+   * 封装axios
    * @param  {[Object]} options [请求相关参数]
    * url type data
    */
@@ -68,15 +68,18 @@ const util = {
     return Axios(axiosSettings).then((response) => {
       let res = response.data || {}
       return res
-    }, () => {
+    }, (err) => {
+      let data = err.response
       this.$message({
         type: 'error',
-        message: '认证失效，请重新登录'
+        message: data.data.data || '系统错误'
       })
-      try {
-        this.$store.commit('logout')
-      } catch (e) {
-        console.log(e)
+      if (data.data.data === '没有通过认证') {
+        try {
+          this.$store.commit('logout')
+        } catch (e) {
+          console.log(e)
+        }
       }
     })
   },
