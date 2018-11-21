@@ -2,13 +2,13 @@
   <div>
     <el-form ref="ruleForm" class="form" status-icon label-position="right" label-width="180px" :model="formData" :rules="rules">
       <el-form-item label="旧密码" prop="oldPsaaword">
-        <el-input v-model="formData.oldPsaaword"></el-input>
+        <el-input type="password" v-model="formData.oldPsaaword"></el-input>
       </el-form-item>
       <el-form-item label="新密码" prop="newPsaawordOne">
-        <el-input v-model="formData.newPsaawordOne"></el-input>
+        <el-input type="password" v-model="formData.newPsaawordOne"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="newPsaawordTwo">
-        <el-input v-model="formData.newPsaawordTwo"></el-input>
+        <el-input type="password" v-model="formData.newPsaawordTwo"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -75,11 +75,12 @@ export default {
             url: 'chPsw',
             type: 'post',
             data: {
-              newSecret: md5(this.formData.oldPsaaword),
-              oldSecret: md5(this.formData.newPsaawordOne)
+              newSecret: md5(this.formData.newPsaawordOne),
+              oldSecret: md5(this.formData.oldPsaaword)
             }
           }).then(res => {
             this.util.afterRequest(res)
+            this.$store.commit('logout')
           })
         } else {
           console.log('error submit!!')

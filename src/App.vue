@@ -78,7 +78,7 @@ export default {
     }
     this.systemname = this.$('systemname')
     window.document.title = this.systemname
-    this.username = this.$('username')
+    // this.username = this.$('username')
     let routes = this.$router.options.routes
     for (let i in routes) {
       let item = routes[i]
@@ -124,8 +124,9 @@ export default {
         window.document.title = "(●´ω｀●)ゞ"
       }
     },
-    loginSuccess () {
+    loginSuccess (name) {
       this.$store.commit('login')
+      this.username = name
     },
     fullScreen () {
       this.launchFullScreen(document.documentElement)

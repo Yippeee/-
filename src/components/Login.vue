@@ -59,7 +59,7 @@ export default {
         .then((res) => {
           if (res.code === 0) {
             this.util.setCookie('accesstoken', res.data.token)
-            this.$emit('loginSuccess')
+            this.$emit('loginSuccess', res.data.userName)
             this.$store.commit('indexDialogShow')
           } else {
             this.$message(res.msg || '登录失败')
