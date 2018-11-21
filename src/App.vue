@@ -14,7 +14,16 @@
       <!-- 头部信息 -->
       <div class="user">
         <i class="icon icon-single" @dblclick="fullScreen"></i>
-        <span class="user-name">{{username}}</span>
+        <el-dropdown @command="handleCommand">
+          <span class="el-dropdown-link">
+            {{username}}
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <!-- <el-dropdown-item command='a'>个人中心</el-dropdown-item> -->
+            <el-dropdown-item command='b'>修改密码</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
       <div class="line"></div>
       <div class="logout" @click="logOut">
@@ -134,6 +143,14 @@ export default {
     },
     logOut () {
       this.$store.commit('logout')
+    },
+    handleCommand (command) {
+      if (command === 'a') {
+        console.log(command)
+      } else if (command === 'b') { // 修改密码
+        console.log(command)
+        this.$router.push({path: '/changePassword'})
+      }
     }
   },
   watch: {

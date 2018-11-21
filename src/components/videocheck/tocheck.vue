@@ -91,7 +91,7 @@
           <!-- 视频检查 -->
           <el-collapse-item title="视频检查" name="2" v-show="selectType === 'video'">
             <video width="320" height="240" controls>
-              <source src="../../assets/demo.mp4" type="video/mp4">
+              <source src="http://192.168.21.29:80/uploads/WPS常用功能分享.mp4" type="video/mp4">
               您的浏览器不支持 HTML5 video 标签。
             </video>
             <div class="checksuggest">
@@ -471,5 +471,8 @@ export default {
     opacity: 0;
     transform: translateY(180px);
   }
+}
+/deep/.el-collapse-item__header {
+    background-color: #eef1f6;
 }
 </style>

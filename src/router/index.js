@@ -12,6 +12,7 @@ import systemManager from '@/components/systemManager/systemManager'
 import userManager from '@/components/userManager/userManager'
 import posterEditor from '@/components/videocheck/posterEditor'
 import tocheck from '@/components/videocheck/tocheck'
+import changePassword from '@/page/changePassword'
 import notFind from '@/page/404'
 /**
  * indexPage 首页
@@ -91,6 +92,11 @@ export default new Router({
       path: "/posterEditor",
       name: "内容商管理2",
       component: posterEditor
+    },
+    {
+      path: "/changePassword",
+      name: "修改密码",
+      component: changePassword
     },
     {
       path: "/tocheck",

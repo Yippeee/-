@@ -108,7 +108,10 @@ const API = {
   'statusGetPlayForm': ipanelAddr + '/operators/list/status',
 
   // 修改状态内容运营商/上线地列表/发布平台
-  'statusPlayForm': ipanelAddr + '/operators/status'
+  'statusPlayForm': ipanelAddr + '/operators/status',
+
+  // 修改密码
+  'chPsw': ipanelAddr + '/user/user/password'
 
 }
 
