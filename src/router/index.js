@@ -14,6 +14,10 @@ import posterEditor from '@/components/videocheck/posterEditor'
 import tocheck from '@/components/videocheck/tocheck'
 import changePassword from '@/page/changePassword'
 import notFind from '@/page/404'
+import statistics from '@/components/statistics/statistics'
+import orderStatistics from '@/components/statistics/OrderStatistics'
+import ratingStatistics from '@/components/statistics/RatingStatistics'
+import resourceStatistics from '@/components/statistics/ResourceStatistics'
 /**
  * indexPage 首页
  * contenterManager 内容商管理
@@ -46,6 +50,29 @@ export default new Router({
       path: "/contenterManager",
       name: "内容商管理",
       component: contenterManager
+    },
+    {
+      path: '/statistics',
+      name: '报表统计',
+      component: statistics,
+      redirect: {name: '订购统计'},
+      children: [
+        {
+          path: "orderStatistics",
+          name: '订购统计',
+          component: orderStatistics
+        },
+        {
+          path: "ratingStatistics",
+          name: '收视统计',
+          component: ratingStatistics
+        },
+        {
+          path: "resourceStatistics",
+          name: '媒资统计',
+          component: resourceStatistics
+        }
+      ]
     },
     {
       path: '/userManager',

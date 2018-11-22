@@ -1,4 +1,5 @@
 // 封装全局方法
+import Qs from "qs"
 import Axios from "axios"
 import { API, CONFIG } from "./config"
 import Vue from "vue"
@@ -46,10 +47,17 @@ const util = {
     Object.assign(axiosSettings, {
       method: type
     })
-
+    if (options.responseType) {
+      Object.assign({
+        responseType: options.responseType
+      })
+    }
     if (type === 'get') {
       Object.assign(axiosSettings, {
         params: options.data,
+        paramsSerializer: function (params) {
+          return Qs.stringify(params)
+        },
         headers: {
           "Accept": "*/*",
           "Authorization": util.getCookies('accesstoken')

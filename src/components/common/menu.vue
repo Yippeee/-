@@ -10,17 +10,23 @@
         <i class="menu-contenter menu-icon"></i>
         <span>内容商管理</span>
     </router-link>
-    <!-- <el-submenu index="2">
+    <el-submenu index="2">
       <template slot="title">
           <i class="menu-report menu-icon"></i>
           <span>统计报表</span>
         </template>
           <div class="child_el">
-            <el-menu-item index="2-1"><span>订购统计</span></el-menu-item>
-            <el-menu-item index="2-2"><span>收视统计</span></el-menu-item>
-            <el-menu-item index="2-3"><span>资源统计</span></el-menu-item>
+            <router-link class="el-menu-item" index="2-1" tag="li" to="/statistics/orderStatistics">
+             <span>订购统计</span>
+            </router-link>
+            <router-link class="el-menu-item" index="2-2" tag="li" to="/statistics/ratingStatistics">
+             <span>收视统计</span>
+            </router-link>
+            <router-link class="el-menu-item" index="2-3" tag="li" to="/statistics/resourceStatistics">
+             <span>媒资统计</span>
+            </router-link>
           </div>
-    </el-submenu> -->
+    </el-submenu>
     <el-submenu index="3">
       <template slot="title">
           <i class="menu-backend menu-icon"></i>

@@ -109,6 +109,46 @@ const API = {
 
   // 修改状态内容运营商/上线地列表/发布平台
   'statusPlayForm': ipanelAddr + '/operators/status',
+  /* eslint-disable */
+  // 订购统计——排名表
+  "order_rank_list"               : ipanelAddr + "/report/order/rank/list",
+  // 订购统计——表格数据统计
+  "get_order_statistics"          : ipanelAddr + "/report/order/total",
+  // 订购统计——折线图数据
+  "get_order_trend"               : ipanelAddr + "/report/order/trend/list",
+  // 订购统计——详情表格数据         
+  "get_order_detail"              : ipanelAddr + "/report/order/detail/page/list",
+  // 订购统计——所有上线地
+  "get_order_district"            : ipanelAddr + "/report/order/names/list",
+  // 订购统计——详情表下载
+  "order_excel_download"          : ipanelAddr + "/report/order/detail/excel",
+
+  // 收视统计——排名表
+  "rate_rank_list"                : ipanelAddr + "/report/video/rank/list",
+  // 收视统计——表格数据统计
+  "get_rate_statistics"           : ipanelAddr + "/report/video/total/list",
+  // 收视统计——折线图数据
+  "get_rate_trend"                : ipanelAddr + "/report/video/trend/list",
+  // 收视统计——详情表格数据
+  "get_rate_detail"               : ipanelAddr + "/report/video/detail/page/list",
+  // 收视统计——所有上线地
+  "get_rate_district"             : ipanelAddr + "/report/video/names/list",
+  // 收视统计——详情表下载
+  "rate_excel_download"           : ipanelAddr + "/report/video/detail/export",
+
+  // 媒资统计——排名表
+  "resource_rank_list"            : ipanelAddr + "/report/media/rank",
+  // 媒资统计——表格数据统计
+  "get_resource_statistics"       : ipanelAddr + "/report/media/total",
+  // 媒资统计——折线图数据         
+  "get_resource_trend"            : ipanelAddr + "/report/media/trend",
+  // 媒资统计——详情表格数据
+  "get_resource_detail"           : ipanelAddr + "/report/media/order",
+  // 媒资统计——详情表下载        
+  "resource_excel_download"       : ipanelAddr + "/report/media/export",
+
+  // 获取内容商
+  "get_all_platforms"             : ipanelAddr + "/provider/list",
 
   // 修改密码
   'chPsw': ipanelAddr + '/user/user/password'
